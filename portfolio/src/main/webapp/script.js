@@ -26,3 +26,32 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function getBooks(){
+    //retrieves books from datastore for homepage
+   fetch('/datastore-books').then(response => response.json()).then((books) => {
+    const displayBoard = document.getElementById('display-container');
+    books.forEach((book) => {
+      displayBoard.appendChild(createBookEl(book));
+    })   
+  });
+}
+
+function createBookEl(book) {
+  const bookElm = document.createElement('li');
+  bookElm.className = 'book';
+
+  const titleElem = document.createElement('span');
+  titleElem.innerText = book.title;
+
+  const authElem = document.createElement('span');
+  authElem.innerText = book.author;
+
+  const genreElem = document.createElement('span');
+  genreElem.innerText = book.genre;
+
+  bookElm.appendChild(titleElem);
+  bookElm.appendChild(authElem);
+  bookElm.appendChild(genreElem);
+  return bookElm;
+}

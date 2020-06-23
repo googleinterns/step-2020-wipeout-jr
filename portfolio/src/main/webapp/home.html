@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Wipeout Team Jr.'s Book Webapp</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+  <body onload="getBooks()">
+    <div id="content">
+      <h1>Book Webapp</h1>
+      <p>This is our webapp.</p>
+      <form action="/datastore-books" method="POST">
+        <p>Title</p>
+        <input name="title-input" />
+        <p>Author</p>
+        <textarea name="author-input">Comment</textarea>
+        <p>Genre</p>
+        <textarea name="genre-input">Comment</textarea>
+        <br/><br/>
+        <input type="submit" />  
+        </form>
+      <dic id="display-container" />
+    </div>
+  </body>
+</html>
