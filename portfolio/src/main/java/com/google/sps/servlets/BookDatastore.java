@@ -21,8 +21,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
-import java.io.IOException;
 import com.google.sps.data.Book;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -76,7 +76,7 @@ public class BookDatastore extends HttpServlet {
     response.getWriter().println(gson.toJson(intermLibrary));
   }
 
-   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String title = request.getParameter(TITLE_PARAM);
     String author = request.getParameter(AUTH_PARAM);
     String genre = request.getParameter(GENRE_PARAM);
@@ -95,5 +95,5 @@ public class BookDatastore extends HttpServlet {
     response.setContentType("text/html;");
     response.sendRedirect("/home.html");
   }
-
 }
+
