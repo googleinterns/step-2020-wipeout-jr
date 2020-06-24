@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/book-data")
 public class BookServlet extends HttpServlet {
   private Collection<Book> books;
-  private Collection<String> test;
 
   @Override
   public void init() throws ServletException {
