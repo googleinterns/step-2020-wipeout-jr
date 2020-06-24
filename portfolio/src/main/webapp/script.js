@@ -49,10 +49,10 @@ function searchBooks(book, url)
         var title = book.title;
         var reviews = book.reviews;
         var genre = book.genre; // List of genres from GoodReads
-        var description = info.description; // List of genres from Books API
+        var categories = info.categories; // List of genres from Books API
         var author = info.authors;
         var language = info.language;
-        var categories = info.categories;
+        var description = info.description; 
         var infoLink = info.infoLink;
         var pageCount = info.pageCount;
         var publishedDate = info.publishedDate;

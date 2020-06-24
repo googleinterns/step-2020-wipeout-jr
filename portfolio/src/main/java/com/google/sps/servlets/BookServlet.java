@@ -25,7 +25,6 @@ public class BookServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     books = new ArrayList<>();
-    test = new ArrayList<>();
     readBooks();
   }
 
