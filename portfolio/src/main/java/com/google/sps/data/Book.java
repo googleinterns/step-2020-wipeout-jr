@@ -11,34 +11,18 @@ public abstract class Book {
   }
 
   public abstract Builder toBuilder();
-
   public abstract String title();
-
   public abstract ImmutableList<String> reviews();
 
   @AutoValue.Builder
   public static abstract class Builder {
-
     public abstract Builder title(String title);
-
     protected abstract ImmutableList.Builder<String> reviewsBuilder();
 
-    public Builder addReview(String card) {
-      reviewsBuilder().add(card);
+    public Builder addReview(String review) {
+      reviewsBuilder().add(review);
       return this;
     }
-
     public abstract Book build();
   }
 }
-
-
-// @AutoValue
-// public abstract class Book {
-//   public static Book create(String title, ArrayList<String> reviews) {
-//     return new AutoValue_Book(title, reviews);
-//   }
-
-//   abstract String title();
-//   abstract ArrayList<String> reviews();
-// }

@@ -40,10 +40,6 @@ function getBookInfo() {
     });
 }
 
-
-
-
-
 function searchBooks(book, url)
 {
    
@@ -63,7 +59,6 @@ function searchBooks(book, url)
         var maturityRating = info.maturityRating;
 
         var booksHTML= title + " by " + author + " has maturity rating = " + maturityRating + ". Reviews: " + reviews;
-
         console.log(booksHTML);
 
    })
