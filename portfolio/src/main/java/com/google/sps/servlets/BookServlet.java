@@ -44,6 +44,7 @@ public class BookServlet extends HttpServlet {
     for (int i = 1; i < lines.length; i++) {
       String[] cells = lines[i].split(",");
       String title = cells[0];
+      String genre = cells[8];
       String review = cells[13];
       if (current_title.equals(title)) {
         // add review:
@@ -55,7 +56,7 @@ public class BookServlet extends HttpServlet {
           books.add(book);
         }
         // start building new book
-        current_builder = Book.builder().title(title).addReview(review);
+        current_builder = Book.builder().title(title).genre(genre).addReview(review);
         current_title = title;
       }
     }
