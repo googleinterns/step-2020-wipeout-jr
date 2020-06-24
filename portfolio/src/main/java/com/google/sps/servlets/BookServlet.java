@@ -67,7 +67,7 @@ public class BookServlet extends HttpServlet {
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response){
     response.setContentType("application/json");
     Gson gson = new Gson();
     String json = gson.toJson(books);
