@@ -1,1 +1,3 @@
 /home/mitraan/step-2020-wipeout-jr/portfolio/src/main/java/com/google/sps/servlets/DataServlet.java
+/home/mitraan/step-2020-wipeout-jr/portfolio/src/main/java/com/google/sps/data/Book.java
+/home/mitraan/step-2020-wipeout-jr/portfolio/src/main/java/com/google/sps/servlets/BookServlet.java

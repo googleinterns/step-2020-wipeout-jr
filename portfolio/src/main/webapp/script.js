@@ -26,3 +26,49 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function getBookInfo() {
+
+    const urlHead = "https://www.googleapis.com/books/v1/volumes?q=";
+
+    fetch('/book-data').then(response => response.json()).then((bookInfo) => {
+        for (i = 0; i < bookInfo.length; i++) {
+            var query = bookInfo[i].title.replace(/ /g, "+");
+            var url = urlHead + query;
+            searchBooks(bookInfo[i], url);
+        }
+    });
+}
+
+
+
+
+
+function searchBooks(book, url)
+{
+   
+   $.getJSON(url, function (json)
+   {
+        var info = json.items[0].volumeInfo;
+        var title = book.title;
+        var reviews = book.reviews;
+        var author = info.authors;
+        var language = info.language;
+        var categories = info.categories;
+        var description = info.description;
+        var infoLink = info.infoLink;
+        var pageCount = info.pageCount;
+        var publishedDate = info.publishedDate;
+        var publisher = info.publisher;
+        var maturityRating = info.maturityRating;
+
+        var booksHTML= title + " by " + author + " has maturity rating = " + maturityRating + ". Reviews: " + reviews;
+
+        console.log(booksHTML);
+
+   })
+   .fail(function (jqxhr, status, errorMessage)
+   {
+       $("#bookresult").html("Status Code: " + status+"<br>Error Message: "+errorMessage);
+   }); 
+}

@@ -1,1 +1,7 @@
+com/google/sps/data/AutoValue_Book.class
+com/google/sps/data/Book.class
+com/google/sps/servlets/BookServlet.class
+com/google/sps/data/Book$Builder.class
+com/google/sps/data/AutoValue_Book$1.class
+com/google/sps/data/AutoValue_Book$Builder.class
 com/google/sps/servlets/DataServlet.class
