@@ -11,6 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// AngularJS App Configuration
+var betterReadsApp = angular.module('betterReadsApp', ['ngRoute', 'bookList']);
  
 /**
  * Adds a random greeting to the page.
