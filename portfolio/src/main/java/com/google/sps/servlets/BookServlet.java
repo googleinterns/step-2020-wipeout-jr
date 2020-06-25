@@ -23,11 +23,11 @@ public class BookServlet extends HttpServlet {
 
   @Override
   public void init() throws ServletException {
-    books = new ArrayList<>();
-    readBooks();
+    books = readBooks();
   }
 
-  private void readBooks() throws ServletException {
+  private ArrayList<Book> readBooks() throws ServletException {
+    ArrayList<Book> listOfBooks = new ArrayList<Book>();
     String path = "/WEB-INF/"
         + "20_books.csv";
     try (Scanner scanner =
@@ -50,7 +50,7 @@ public class BookServlet extends HttpServlet {
           // close old book:
           if (i != 1) {
             Book book = current_builder.build();
-            books.add(book);
+            listOfBooks.add(book);
           }
           // start building new book
           current_builder = Book.builder().title(title).genre(genre).addReview(review);
@@ -58,14 +58,15 @@ public class BookServlet extends HttpServlet {
         }
       }
       Book book = current_builder.build();
-      books.add(book);
+      listOfBooks.add(book);
     } catch (Exception e) {
       throw new ServletException("Error reading CSV file", e);
     }
+    return listOfBooks;
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response){
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
     response.setContentType("application/json");
     Gson gson = new Gson();
     String json = gson.toJson(books);
