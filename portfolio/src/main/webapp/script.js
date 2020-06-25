@@ -59,9 +59,6 @@ function searchBooks(book, url)
         var publisher = info.publisher;
         var maturityRating = info.maturityRating;
  
-        var booksHTML= title + " by " + author + " has maturity rating = " + maturityRating + ". Reviews: " + reviews;
-        console.log(booksHTML);
- 
    })
    .fail(function (jqxhr, status, errorMessage)
    {
