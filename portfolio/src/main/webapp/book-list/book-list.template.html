@@ -1,6 +1,13 @@
 <ul>
+<<<<<<< HEAD
     <li ng-repeat="phone in $ctrl.phones">
         <span>{{phone.name}}</span>
         <p>{{phone.snippet}}</p>
+=======
+    <li ng-repeat="book in bookList">
+        <!-- $index tells the page to route to the id of the book -->
+        <a ng-href="#!/book-detail/{{$index}}">{{book.title}}</a> 
+        <p>{{book.genre}}</p>
+>>>>>>> d1dc0b7... route to individual book pages with AngularJS, modify BookServlet.java to return a HashMap with book IDs
     </li>
 </ul>

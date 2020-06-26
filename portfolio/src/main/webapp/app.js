@@ -45,7 +45,7 @@ function getBookInfo() {
  
 function searchBooks(book, url)
 {
-   
+
    $.getJSON(url, function (json)
    {
         var info = json.items[0].volumeInfo;
