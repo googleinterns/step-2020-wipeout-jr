@@ -14,12 +14,12 @@
 
 package com.google.sps.servlets;
 
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Arrays;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,21 +28,29 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  static final String ENTITY_KIND = "Book";
+  private static final String ENTITY_KIND = "Book";
+  private static final String[] NAME_OF_FIELDS = {"title", "genre", "categories", "author",
+      "language", "description", "infoLink", "pageCount", "publishedDate", "publisher",
+      "maturityRating"};
+  private static final String PAGE_REDIRECT = "/index.html";
+  private static final String TIMESTAMP_PROP = "timeStamp";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //InputStream is = request.getInputStream();
-    String booksHTML = request.getParameter("booksHTML");
     long timeStamp = System.currentTimeMillis();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Entity bookEntity = new Entity(ENTITY_KIND);
-    System.out.println(booksHTML);
-    bookEntity.setProperty("Mini Desc.", booksHTML);
-    bookEntity.setProperty("timestamp", timeStamp);
+    for (String field : NAME_OF_FIELDS) {
+      bookEntity.setProperty(field, request.getParameter(field));
+    }
+    bookEntity.setProperty(TIMESTAMP_PROP, timeStamp);
 
     datastore.put(bookEntity);
+
+    response.setContentType("text/html;");
+    response.sendRedirect(PAGE_REDIRECT);
   }
 }
+
