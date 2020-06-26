@@ -4,14 +4,29 @@
     <meta charset="UTF-8">
     <title>Better Reads</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- External Library Dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.js"></script>
+
+    <!-- AngularJS Components -->
     <script src="book-list/book-list.module.js"></script>
     <script src="book-list/book-list.component.js"></script>
+    <script src="book-detail/book-detail.module.js"></script>
+    <script src="book-detail/book-detail.component.js"></script>
+
     <script src="app.js"></script>
+    <script src="app.config.js"></script>
   </head>
   <body onload = "getBookInfo();" ng-app = "betterReadsApp">
+    <div>
+      <p> You could put something like a toolbar here that would be on every single page! </p>
+      <p> Whichever AngularJS component is 'active' will show up in the div below this one annotated with 'ng-view'. </p>
+    </div>
+    <!-- Whichever component is active will have it's HTML injected into this view! -->
+    <!-- See app.config.js for the views / components that various URLs are associated with. -->
+    <div ng-view></div>
     <div id="content">
       <h1>My Portfolio</h1>
       <p>This is my portfolio.</p>
@@ -19,6 +34,5 @@
       <button onclick="addRandomGreeting()">Hello</button>
       <div id="greeting-container"></div>
     </div>
-    <book-list></book-list> <!-- AngularJS component declared in /book-list/book-list.component.js -->
   </body>
 </html>

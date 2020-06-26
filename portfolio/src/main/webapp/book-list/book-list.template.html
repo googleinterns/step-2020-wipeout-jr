@@ -1,6 +1,6 @@
 <ul>
     <li ng-repeat="phone in $ctrl.phones">
-        <span>{{phone.name}}</span>
+        <a ng-href="#!/book-detail/{{phone.id}}">{{phone.name}}</a>
         <p>{{phone.snippet}}</p>
     </li>
 </ul>
