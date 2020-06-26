@@ -1,6 +1,15 @@
+<div>
+    <p> Notice when you click the links on this page what happens to the URLs at the top of the page. </p>
+    <p> Hopefully you see that the only stuff changing comes after what's known as the hash bang (#!). </p>
+    <p> Parameters after the hash bang are used by AngularJS to route you to certain views (like the book list or book detail). </p>
+    <p> You can look at app.config.js to see where we tell AngularJS which URL corresponds to which view. </p>
+</div>
+
+<br/><br/>
+
 <ul>
     <li ng-repeat="phone in $ctrl.phones">
-        <span>{{phone.name}}</span>
+        <a ng-href="#!/book-detail/{{phone.id}}">{{phone.name}}</a>
         <p>{{phone.snippet}}</p>
     </li>
 </ul>
