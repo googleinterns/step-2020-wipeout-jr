@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // AngularJS App Configuration
-var betterReadsApp = angular.module('betterReadsApp', 
+angular.module('betterReadsApp', 
   ['ngRoute',
   'bookList',
   'bookDetail']);
