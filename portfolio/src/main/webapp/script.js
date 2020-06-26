@@ -29,8 +29,7 @@ function addRandomGreeting() {
  
 function getBookInfo() {
  
-    const urlHead = "https://www.googleapis.com/books/v1/volumes?q=";
- 
+    const urlHead = "https://www.googleapis.com/books/v1/volumes?q="; 
     fetch('/book-data').then(response => response.json()).then((bookInfo) => {
         for (i = 0; i < bookInfo.length; i++) {
             var query = bookInfo[i].title.replace(/ /g, "+");
@@ -38,10 +37,12 @@ function getBookInfo() {
             searchBooks(bookInfo[i], url);
         }
     });
+    alert("success");
 }
  
-function searchBooks(book, url)
+function searchBooks(book, url, cb)
 {
+    var booksHTML;
    
    $.getJSON(url, function (json)
    {
@@ -58,10 +59,24 @@ function searchBooks(book, url)
         var publishedDate = info.publishedDate;
         var publisher = info.publisher;
         var maturityRating = info.maturityRating;
+        booksHTML= title + " by " + author + " has maturity rating = " + maturityRating + ". Reviews: " + "good book";//only first review
+        //console.log(booksHTML);
  
+   })
+   .done(function (data){
+       putBooksInDS(booksHTML);
    })
    .fail(function (jqxhr, status, errorMessage)
    {
        $("#bookresult").html("Status Code: " + status+"<br>Error Message: "+errorMessage);
    }); 
+}
+
+function putBooksInDS(booksHTML){
+    console.log(booksHTML);
+    //$.post("/data", booksHTML);
+    fetch('/data?booksHTML='+booksHTML, {method: 'POST'});
+//     fetch('/data?booksHTML='+booksHTML, {method: 'POST'}).then(response => response.json()).then((bookInfo) => {
+//         console.log("Put in datastore: "+bookInfo);
+//     });
 }
