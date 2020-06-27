@@ -2,12 +2,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
- 
+
   <groupId>com.google.sps</groupId>
   <artifactId>portfolio</artifactId>
   <version>1</version>
   <packaging>war</packaging>
- 
+
   <properties>
     <!-- This project uses Java 8 -->
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -15,7 +15,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <failOnMissingWebXml>false</failOnMissingWebXml>
   </properties>
- 
+
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -44,8 +44,14 @@
       <artifactId>guava</artifactId>
       <version>r05</version>
     </dependency>
+    <!-- Datastore dependency-->
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-1.0-sdk</artifactId>
+      <version>1.9.59</version>
+    </dependency>
   </dependencies>
- 
+
   <build>
     <plugins>
       <!-- Provides `mvn package appengine:run` for local testing

@@ -14,7 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import java.io.IOException;
+import java.util.Arrays;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +28,29 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  private static final String ENTITY_KIND = "Book";
+  private static final String[] NAME_OF_FIELDS = {"title", "genre", "categories", "author",
+      "language", "description", "infoLink", "pageCount", "publishedDate", "publisher",
+      "maturityRating"};
+  private static final String PAGE_REDIRECT = "/index.html";
+  private static final String TIMESTAMP_PROP = "timeStamp";
+
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    long timeStamp = System.currentTimeMillis();
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    Entity bookEntity = new Entity(ENTITY_KIND);
+    for (String field : NAME_OF_FIELDS) {
+      bookEntity.setProperty(field, request.getParameter(field));
+    }
+    bookEntity.setProperty(TIMESTAMP_PROP, timeStamp);
+
+    datastore.put(bookEntity);
+
     response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
+    response.sendRedirect(PAGE_REDIRECT);
   }
 }
+

@@ -19,7 +19,7 @@
     <script src="app.js"></script>
     <script src="app.config.js"></script>
   </head>
-  <body onload = "getBookInfo();" ng-app = "betterReadsApp">
+  <body ng-app = "betterReadsApp">
 
     <a href="#!/book-list"> Home </a>
     <p> You could put something like a toolbar here that would be on every single page! </p>    
@@ -44,5 +44,7 @@
       <button onclick="addRandomGreeting()">Hello</button>
       <div id="greeting-container"></div>
     </div>
+    <button onclick="getBookInfo();">Click to run getBookInfo()</button>
   </body>
 </html>
+

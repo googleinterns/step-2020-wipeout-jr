@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // AngularJS App Configuration
-angular.module('betterReadsApp', 
+var betterReadsApp = angular.module('betterReadsApp', 
   ['ngRoute',
   'bookList',
   'bookDetail']);
@@ -43,6 +43,7 @@ function getBookInfo() {
             var url = urlHead + query;
             searchBooks(bookInfo[i], url);
         }
+        alert("done loading books in DS");
     });
 }
  
@@ -64,10 +65,25 @@ function searchBooks(book, url)
         var publishedDate = info.publishedDate;
         var publisher = info.publisher;
         var maturityRating = info.maturityRating;
+
+        var fieldNameArray = ["title", "genre", "categories", "author", "language", "description", "infoLink", "pageCount", "publishedDate", "publisher", "maturityRating"];
+        var fieldContentArray = [title, genre, categories, author, language, description, infoLink, pageCount, publishedDate, publisher, maturityRating];
+        var fieldsString;
+
+        //passing values through as URL parameters
+        fieldNameArray.forEach(function(field,index){
+           if(index == 0){
+             fieldsString = "?"+field+"="+fieldContentArray[index];
+           }else if(index<fieldNameArray.length-1){
+             fieldsString += "&"+field+"="+fieldContentArray[index]
+           }
+        })
+        fetch("/data"+fieldsString,{method:"POST"});
  
-   })
+   }).done( function() {console.log("success");})
    .fail(function (jqxhr, status, errorMessage)
    {
        $("#bookresult").html("Status Code: " + status+"<br>Error Message: "+errorMessage);
    }); 
 }
+
