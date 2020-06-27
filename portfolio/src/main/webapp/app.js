@@ -43,7 +43,6 @@ function getBookInfo() {
             var url = urlHead + query;
             searchBooks(bookInfo[i], url);
         }
-        alert("done loading books in DS");
     });
 }
  
@@ -80,7 +79,7 @@ function searchBooks(book, url)
         })
         fetch("/data"+fieldsString,{method:"POST"});
  
-   }).done( function() {console.log("success");})
+   })
    .fail(function (jqxhr, status, errorMessage)
    {
        $("#bookresult").html("Status Code: " + status+"<br>Error Message: "+errorMessage);
