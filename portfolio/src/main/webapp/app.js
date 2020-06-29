@@ -13,8 +13,10 @@
 // limitations under the License.
 
 // AngularJS App Configuration
-var betterReadsApp =
-    angular.module('betterReadsApp', ['ngRoute', 'bookList', 'bookDetail']);
+angular.module('betterReadsApp', 
+  ['ngRoute',
+  'bookList',
+  'bookDetail']);
 
 /**
  * Adds a random greeting to the page.
