@@ -2,6 +2,7 @@ package com.google.sps.servlets;
 
 import com.google.gson.Gson;
 import com.google.sps.data.Book;
+import com.google.sps.data.BookReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,46 +24,8 @@ public class BookServlet extends HttpServlet {
 
   @Override
   public void init() throws ServletException {
-    books = readBooks();
-  }
-
-  private ArrayList<Book> readBooks() throws ServletException {
-    ArrayList<Book> listOfBooks = new ArrayList<Book>();
-    String path = "/WEB-INF/"
-        + "20_books.csv";
-    try (Scanner scanner =
-             new Scanner(getServletContext().getResourceAsStream(path)).useDelimiter("\\Z")) {
-      String content = scanner.next().replaceAll("[\\r\\n]+", "");
-      String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
-
-      String current_title = "";
-      Book.Builder current_builder = Book.builder().title("null");
-
-      for (int i = 1; i < lines.length; i++) {
-        String[] cells = lines[i].split(",");
-        String title = cells[0];
-        String genre = cells[8];
-        String review = cells[13];
-        if (current_title.equals(title)) {
-          // add review:
-          current_builder.addReview(review);
-        } else {
-          // close old book:
-          if (i != 1) {
-            Book book = current_builder.build();
-            listOfBooks.add(book);
-          }
-          // start building new book
-          current_builder = Book.builder().title(title).genre(genre).addReview(review);
-          current_title = title;
-        }
-      }
-      Book book = current_builder.build();
-      listOfBooks.add(book);
-    } catch (Exception e) {
-      throw new ServletException("Error reading CSV file", e);
-    }
-    return listOfBooks;
+    BookReader reader = new BookReader("/home/mitraan/step-2020-wipeout-jr/portfolio/src/main/webapp/WEB-INF/20_books.csv");
+    books = reader.makeBookList();
   }
 
   @Override
