@@ -1,9 +1,9 @@
 package com.google.sps.data;
 import com.google.sps.data.Book;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.servlet.ServletException;
 
 /**
  * Class that takes in a CSV FileName as the constructor parameter
@@ -15,7 +15,7 @@ public class BookReader {
     this.path = path;
   }
 
-  public ArrayList<Book> makeBookList() {
+  public ArrayList<Book> makeBookList() throws ServletException{
     ArrayList<Book> listOfBooks = new ArrayList<Book>();
     try (Scanner scanner = new Scanner(new File(path)).useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
@@ -45,9 +45,8 @@ public class BookReader {
       }
       Book book = current_builder.build();
       listOfBooks.add(book);
-    } catch (IOException ex) {
-      System.out.println(ex.toString());
-      System.out.println("Could not find file " + path);
+    } catch (Exception ex) {
+      throw new ServletException("Error reading CSV file", ex);
     }
     return listOfBooks;
   }
