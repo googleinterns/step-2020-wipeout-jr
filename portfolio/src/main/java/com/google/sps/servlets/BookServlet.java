@@ -24,7 +24,7 @@ public class BookServlet extends HttpServlet {
 
   @Override
   public void init() throws ServletException {
-    BookReader reader = new BookReader("/home/mitraan/step-2020-wipeout-jr/portfolio/src/main/webapp/WEB-INF/20_books.csv");
+    BookReader reader = new BookReader(System.getProperty("user.home") + "/step-2020-wipeout-jr/portfolio/src/main/webapp/WEB-INF/20_books.csv");
     books = reader.makeBookList();
   }
 

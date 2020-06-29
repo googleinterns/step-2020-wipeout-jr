@@ -1,8 +1,8 @@
 package com.google.sps.data;
 import com.google.sps.data.Book;
-import java.util.ArrayList;
+import java.io.File;
 import java.io.IOException;
-import java.io.File; 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -15,12 +15,9 @@ public class BookReader {
     this.path = path;
   }
 
-
-
-
-  public ArrayList<Book> makeBookList(){
+  public ArrayList<Book> makeBookList() {
     ArrayList<Book> listOfBooks = new ArrayList<Book>();
-      try (Scanner scanner = new Scanner(new File(path)).useDelimiter("\\Z")){
+    try (Scanner scanner = new Scanner(new File(path)).useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
       String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
 
@@ -48,9 +45,9 @@ public class BookReader {
       }
       Book book = current_builder.build();
       listOfBooks.add(book);
-    } catch(IOException ex){
-        System.out.println (ex.toString());
-        System.out.println("Could not find file " + path);
+    } catch (IOException ex) {
+      System.out.println(ex.toString());
+      System.out.println("Could not find file " + path);
     }
     return listOfBooks;
   }
