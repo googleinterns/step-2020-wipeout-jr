@@ -61,7 +61,6 @@ public class UploadToDatastore extends HttpServlet {
     bookEntity.setProperty(TIMESTAMP_PROP, timeStamp);
 
     datastore.put(bookEntity);
-    System.out.println("Book added");
 
     response.setContentType("text/html;");
     response.sendRedirect(PAGE_REDIRECT);
