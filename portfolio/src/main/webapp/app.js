@@ -77,7 +77,8 @@ function searchBooks(book, url)
              fieldsString += "&"+field+"="+fieldContentArray[index]
            }
         })
-        fetch("/data"+fieldsString,{method:"POST"});
+        fetch("/data-upload"+fieldsString,{method:"POST"});
+        console.log("uploaded book");
  
    })
    .fail(function (jqxhr, status, errorMessage)

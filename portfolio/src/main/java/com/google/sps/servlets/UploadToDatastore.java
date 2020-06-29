@@ -25,9 +25,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
-public class DataServlet extends HttpServlet {
+/** This servlet takes fields (specified in @Code{NAME_OF_FIELDS}) from the jQuery,
+using the Fetch API, where they are uploaded to Google Cloud Datastore.*/
+@WebServlet("/data-upload")
+public class UploadToDatastore extends HttpServlet {
   private static final String ENTITY_KIND = "Book";
   private static final String[] NAME_OF_FIELDS = {"title", "genre", "categories", "author",
       "language", "description", "infoLink", "pageCount", "publishedDate", "publisher",
@@ -48,6 +49,7 @@ public class DataServlet extends HttpServlet {
     bookEntity.setProperty(TIMESTAMP_PROP, timeStamp);
 
     datastore.put(bookEntity);
+    System.out.println("Book added");
 
     response.setContentType("text/html;");
     response.sendRedirect(PAGE_REDIRECT);
