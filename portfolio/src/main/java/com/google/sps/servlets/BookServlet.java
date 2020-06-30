@@ -3,6 +3,7 @@ package com.google.sps.servlets;
 import com.google.gson.Gson;
 import com.google.sps.data.Book;
 import com.google.sps.data.BookReader;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +27,7 @@ public class BookServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
 
-    BookReader reader = new BookReader(System.getProperty("user.home") + "/step-2020-wipeout-jr/portfolio/src/main/webapp/WEB-INF/20_books.csv");
+    BookReader reader = new BookReader(getServletContext().getResourceAsStream("/WEB-INF/20_books.csv"));
     books = reader.makeBookList();
   }
 
