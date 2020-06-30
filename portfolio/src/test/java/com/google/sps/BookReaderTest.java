@@ -22,7 +22,7 @@ public final class BookReaderTest {
   private Map<Integer, Book> bookList;
 
   @Test
-  public void BasicSanityTests() {
+  public void basicSanityTests() {
     try{
         File csv = new File("src/test/java/com/google/sps/testFile.csv");
         BookReader reader = new BookReader(new FileInputStream(csv));
