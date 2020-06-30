@@ -11,7 +11,7 @@ import java.util.Scanner;
  * and populates a list of Books with title, genre, and reviews.
  */
 public class BookReader {
-  InputStream path;
+  private final InputStream path;
   public BookReader(InputStream path) {
     this.path = path;
   }

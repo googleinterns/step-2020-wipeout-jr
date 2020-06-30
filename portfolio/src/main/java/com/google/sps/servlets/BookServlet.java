@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
 
 /**
  * Returns book titles and reviews as a JSON hashmap, with IDs, e.g. {4:[{"title": Othello,
@@ -21,13 +22,13 @@ public class BookServlet extends HttpServlet {
   private Map<Integer, Book> books;
 
   @Override
-  public void init() {
+  public void init() throws ServletException {
 
     try{
         BookReader reader = new BookReader(getServletContext().getResourceAsStream("/WEB-INF/20_books.csv"));
         books = reader.makeBookList();
     } catch(Exception ex) {
-        System.out.println("Something went wrong while reading the file: " + ex);
+        throw new ServletException("Error reading CSV file", ex);
     }
   }
 

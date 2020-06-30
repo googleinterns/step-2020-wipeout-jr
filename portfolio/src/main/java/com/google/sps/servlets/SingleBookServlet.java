@@ -10,17 +10,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
 
 @WebServlet("/singleBookById")
 public class SingleBookServlet extends HttpServlet {
   Map<Integer, Book> bookList;
   @Override
-  public void init() {
+  public void init() throws ServletException{
     try{
         BookReader reader = new BookReader(getServletContext().getResourceAsStream("/WEB-INF/20_books.csv"));
         bookList = reader.makeBookList();
     } catch(Exception ex) {
-        System.out.println("Something went wrong while reading the file: " + ex);
+        throw new ServletException("Error reading CSV file", ex);
     }
   }
   private static String toJSON(Book book) {
