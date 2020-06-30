@@ -6,7 +6,6 @@ import com.google.sps.data.BookReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 public class SingleBookServlet extends HttpServlet {
   Map<Integer, Book> bookList;
   @Override
-  public void init() throws ServletException {
-    BookReader reader = new BookReader(getServletContext().getResourceAsStream("/WEB-INF/20_books.csv"));
-    bookList = reader.makeBookList();
+  public void init() {
+    try{
+        BookReader reader = new BookReader(getServletContext().getResourceAsStream("/WEB-INF/20_books.csv"));
+        bookList = reader.makeBookList();
+    } catch(Exception ex) {
+        System.out.println("Something went wrong while reading the file: " + ex);
+    }
   }
   private static String toJSON(Book book) {
     Gson gson = new Gson();

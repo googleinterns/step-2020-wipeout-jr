@@ -2,13 +2,9 @@ package com.google.sps.data;
 import com.google.common.collect.ImmutableMap; 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.sps.data.Book;
-import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Scanner;
-import javax.servlet.ServletException;
 
 /**
  * Class that takes in an InputStream as the constructor parameter
@@ -20,7 +16,7 @@ public class BookReader {
     this.path = path;
   }
 
-  public ImmutableMap<Integer, Book> makeBookList() throws ServletException{
+  public ImmutableMap<Integer, Book> makeBookList() throws IOException{
     Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
     try (Scanner scanner = new Scanner(path).useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
@@ -52,7 +48,7 @@ public class BookReader {
       Book book = current_builder.build();
       allBooks.put(currentId, book);
     } catch (Exception ex) {
-      throw new ServletException("Error reading CSV file", ex);
+      throw new IOException("Error reading CSV file", ex);
     }
     return allBooks.build();
   }
