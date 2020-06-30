@@ -2,6 +2,8 @@ package com.google.sps.data;
 import com.google.sps.data.Book;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Scanner;
 import javax.servlet.ServletException;
 
@@ -15,14 +17,15 @@ public class BookReader {
     this.path = path;
   }
 
-  public ArrayList<Book> makeBookList() throws ServletException{
-    ArrayList<Book> listOfBooks = new ArrayList<Book>();
+  public HashMap<Integer, Book> makeBookList() throws ServletException{
+    HashMap<Integer, Book> allBooks = new HashMap<Integer, Book>();
     try (Scanner scanner = new Scanner(new File(path)).useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
       String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
 
       String current_title = "";
       Book.Builder current_builder = Book.builder().title("null");
+      int currentId = 0;
 
       for (int i = 1; i < lines.length; i++) {
         String[] cells = lines[i].split(",");
@@ -36,7 +39,7 @@ public class BookReader {
           // close old book:
           if (i != 1) {
             Book book = current_builder.build();
-            listOfBooks.add(book);
+            allBooks.put(currentId++, book);
           }
           // start building new book
           current_builder = Book.builder().title(title).genre(genre).addReview(review);
@@ -44,10 +47,10 @@ public class BookReader {
         }
       }
       Book book = current_builder.build();
-      listOfBooks.add(book);
+      allBooks.put(currentId, book);
     } catch (Exception ex) {
       throw new ServletException("Error reading CSV file", ex);
     }
-    return listOfBooks;
+    return allBooks;
   }
 }
