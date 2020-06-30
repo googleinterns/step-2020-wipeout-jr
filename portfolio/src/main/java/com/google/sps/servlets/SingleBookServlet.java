@@ -5,6 +5,7 @@ import com.google.sps.data.Book;
 import com.google.sps.data.BookReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/singleBookById")
 public class SingleBookServlet extends HttpServlet {
-  HashMap<Integer, Book> bookList;
+  Map<Integer, Book> bookList;
   @Override
   public void init() throws ServletException {
     BookReader reader = new BookReader(System.getProperty("user.home")
