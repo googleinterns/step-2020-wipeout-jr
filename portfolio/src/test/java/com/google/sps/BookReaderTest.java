@@ -24,8 +24,7 @@ public final class BookReaderTest {
   @Test
   public void basicSanityTests() {
     try{
-        File csv = new File("src/test/java/com/google/sps/testFile.csv");
-        BookReader reader = new BookReader(new FileInputStream(csv));
+        BookReader reader = new BookReader("src/test/java/com/google/sps/testFile.csv");
         bookList = reader.makeBookList();
     } catch(Exception ex) {
         Assert.fail("Could not open file. " + ex);

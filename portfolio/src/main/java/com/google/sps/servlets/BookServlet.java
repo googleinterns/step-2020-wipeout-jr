@@ -25,7 +25,7 @@ public class BookServlet extends HttpServlet {
   public void init() throws ServletException {
 
     try{
-        BookReader reader = new BookReader(getServletContext().getResourceAsStream("/WEB-INF/20_books.csv"));
+        BookReader reader = new BookReader(getServletContext().getRealPath("/WEB-INF/20_books.csv"));
         books = reader.makeBookList();
     } catch(Exception ex) {
         throw new ServletException("Error reading CSV file", ex);

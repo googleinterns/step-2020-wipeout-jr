@@ -2,6 +2,7 @@ package com.google.sps.data;
 import com.google.common.collect.ImmutableMap; 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.sps.data.Book;
+import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Scanner;
@@ -11,14 +12,14 @@ import java.util.Scanner;
  * and populates a list of Books with title, genre, and reviews.
  */
 public class BookReader {
-  private final InputStream path;
-  public BookReader(InputStream path) {
-    this.path = path;
+  private final File file;
+  public BookReader(String path) {
+    this.file = new File(path);
   }
 
   public ImmutableMap<Integer, Book> makeBookList() throws IOException{
     Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
-    try (Scanner scanner = new Scanner(path).useDelimiter("\\Z")) {
+    try (Scanner scanner = new Scanner(file).useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
       String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
 
