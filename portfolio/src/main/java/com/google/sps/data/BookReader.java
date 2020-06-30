@@ -1,5 +1,6 @@
 package com.google.sps.data;
 import com.google.common.collect.ImmutableMap; 
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.sps.data.Book;
 import java.io.File;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class BookReader {
   }
 
   public ImmutableMap<Integer, Book> makeBookList() throws ServletException{
-    HashMap<Integer, Book> allBooks = new HashMap<Integer, Book>();
+    Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
     try (Scanner scanner = new Scanner(new File(path)).useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
       String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
@@ -52,6 +53,6 @@ public class BookReader {
     } catch (Exception ex) {
       throw new ServletException("Error reading CSV file", ex);
     }
-    return ImmutableMap.copyOf(allBooks);
+    return allBooks.build();
   }
 }
