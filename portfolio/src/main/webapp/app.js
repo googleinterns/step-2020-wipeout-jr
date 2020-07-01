@@ -13,7 +13,7 @@
 // limitations under the License.
  
 // AngularJS App Configuration
-var betterReadsApp = angular.module('betterReadsApp', 
+angular.module('betterReadsApp', 
   ['ngRoute',
   'bookList',
   'bookDetail']);
@@ -81,14 +81,16 @@ function searchBooks(book, url)
  
         var fieldContentArray = [title, genre, categories, author, language, description, infoLink, pageCount, publishedDate, publisher, maturityRating];
         var fieldsString;
+        var index = 0;
  
         //passing values through as URL parameters
         for (var field in bookFields){
            if(index == 0){
              fieldsString = "?"+field+"="+fieldContentArray[index];
-           }else if(index<fieldNameArray.length-1){
+           }else if(index<bookFields.length-1){
              fieldsString += "&"+field+"="+fieldContentArray[index]
            }
+           index ++;
         }
         
         fetch("/data-upload"+fieldsString,{method:"POST"});
