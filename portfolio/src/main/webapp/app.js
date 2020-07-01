@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+ 
 // AngularJS App Configuration
 var betterReadsApp = angular.module('betterReadsApp', 
   ['ngRoute',
@@ -46,6 +46,20 @@ function getBookInfo() {
     });
 }
  
+const bookFields = {
+  TITLE: "title",
+  GENRE: "genre",
+  CATEGORIES: "categories",
+  AUTHOR: "author",
+  LANGUAGE: "language",
+  DESCRIPTION: "description",
+  INFO_LINK: "infoLink",
+  PAGE_COUNT: "pageCount",
+  PUBLISH_DATE: "publishedDate",
+  PUBLISHER: "publisher",
+  MATURITY_RATING: "maturityRating"
+}
+ 
 function searchBooks(book, url)
 {
    
@@ -64,19 +78,19 @@ function searchBooks(book, url)
         var publishedDate = info.publishedDate;
         var publisher = info.publisher;
         var maturityRating = info.maturityRating;
-
-        var fieldNameArray = ["title", "genre", "categories", "author", "language", "description", "infoLink", "pageCount", "publishedDate", "publisher", "maturityRating"];
+ 
         var fieldContentArray = [title, genre, categories, author, language, description, infoLink, pageCount, publishedDate, publisher, maturityRating];
         var fieldsString;
-
+ 
         //passing values through as URL parameters
-        fieldNameArray.forEach(function(field,index){
+        for (var field in bookFields){
            if(index == 0){
              fieldsString = "?"+field+"="+fieldContentArray[index];
            }else if(index<fieldNameArray.length-1){
              fieldsString += "&"+field+"="+fieldContentArray[index]
            }
-        })
+        }
+        
         fetch("/data-upload"+fieldsString,{method:"POST"});
  
    })

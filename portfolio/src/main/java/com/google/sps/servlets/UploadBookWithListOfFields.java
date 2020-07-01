@@ -11,13 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+ 
 package com.google.sps.servlets;
-
+ 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Text;
+import com.google.sps.data.BookFieldsEnum;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.ServletException;
@@ -25,45 +26,45 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+ 
 /**
 This servlet takes fields (specified in @Code{NAME_OF_FIELDS}) from the jQuery,
 using the Fetch API, where they are uploaded to Google Cloud Datastore.
 */
 @WebServlet("/data-upload")
-public class UploadToDatastore extends HttpServlet {
+public class UploadBookWithListOfFields extends HttpServlet {
   private static final String ENTITY_KIND = "Book";
-  private static final String[] NAME_OF_FIELDS = {"title", "genre", "categories", "author",
-      "language", "description", "infoLink", "pageCount", "publishedDate", "publisher",
-      "maturityRating"};
   private static final String PAGE_REDIRECT = "/index.html";
   private static final String TIMESTAMP_PROP = "timeStamp";
-
+ 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long timeStamp = System.currentTimeMillis();
-
+ 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
+ 
     Entity bookEntity = new Entity(ENTITY_KIND);
-    for (String field : NAME_OF_FIELDS) {
-      String newProperty = request.getParameter(field);
+    for (BookFieldsEnum field : BookFieldsEnum.values()) {
+      String jsProperty = field.getJSProperty();
+      String newProperty = request.getParameter(jsProperty);
       /*if null we still want the property to exist even if empty because it will make retrieving
-        * properties easier */
-      if(newProperty == null){
-        bookEntity.setProperty(field, "Undefined");
-      }else if(newProperty.getBytes().length >= 1500){
-        bookEntity.setProperty(field, new Text(newProperty));
-      }else{
-        bookEntity.setProperty(field, newProperty);
+       * properties easier */
+      if (newProperty == null) {
+        bookEntity.setProperty(jsProperty, "Undefined");
+      } else if (newProperty.getBytes().length >= 1500) {
+        bookEntity.setProperty(jsProperty, new Text(newProperty));
+      } else {
+        bookEntity.setProperty(jsProperty, newProperty);
       }
     }
     bookEntity.setProperty(TIMESTAMP_PROP, timeStamp);
-
+ 
     datastore.put(bookEntity);
-
+ 
     response.setContentType("text/html;");
     response.sendRedirect(PAGE_REDIRECT);
   }
 }
+ 
+ 
 
