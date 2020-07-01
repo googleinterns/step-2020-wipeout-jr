@@ -17,33 +17,32 @@ angular.module('betterReadsApp',
   ['ngRoute',
   'bookList',
   'bookDetail']);
- 
+
 /**
  * Adds a random greeting to the page.
  */
 function addRandomGreeting() {
   const greetings =
       ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
- 
+
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
- 
+
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
- 
+
 function getBookInfo() {
- 
-    const urlHead = "https://www.googleapis.com/books/v1/volumes?q=";
- 
-    fetch('/book-data').then(response => response.json()).then((bookInfo) => {
-        for (i = 0; i < bookInfo.length; i++) {
-            var query = bookInfo[i].title.replace(/ /g, "+");
-            var url = urlHead + query;
-            searchBooks(bookInfo[i], url);
-        }
-    });
+  const urlHead = 'https://www.googleapis.com/books/v1/volumes?q=';
+
+  fetch('/book-data').then(response => response.json()).then((bookInfo) => {
+    for (i = 0; i < bookInfo.length; i++) {
+      var query = bookInfo[i].title.replace(/ /g, '+');
+      var url = urlHead + query;
+      searchBooks(bookInfo[i], url);
+    }
+  });
 }
  
 const bookFields = {
