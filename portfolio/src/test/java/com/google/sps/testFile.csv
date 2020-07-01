@@ -1,0 +1,7 @@
+book_title,Book_series,book_series_url,book_image,book_image_url,book_rating,book_author,author_url,genre,reviewer_name,reviewer_url,reviewer_image,reviewer_image_url,review,ID,NEXTBOOK
+The Great Gatsby,,https://www.google.com/books/edition/The_Great_Gatsby/HestSXO362YC,,,4.5,
+Scott Fitzgerald,,Fiction;Tragedy,Ankita,,,,Nice book,1,NEXTBOOK
+The Great Gatsby,,https://www.google.com/books/edition/The_Great_Gatsby/HestSXO362YC,,,3.5,
+Scott Fitzgerald,,Fiction;Tragedy,Nick Jonas,,,,Okayish book,2,NEXTBOOK
+Harry Potter and the Philosopher's Stone,Harry Potter,https://www.google.com/books/edition/Harry_Potter_and_the_Sorcerer_s_Stone/5MQFrgEACAAJ?hl=en,
+,,5.0,J.K. Rowling,,fantasy,niall horan,,,,Jolly Good Book!,3,NEXTBOOK
