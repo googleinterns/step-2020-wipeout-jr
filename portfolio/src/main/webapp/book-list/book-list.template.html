@@ -7,9 +7,8 @@
 
 <br/><br/>
 
-<ul>
-
-    <li ng-repeat="book in bookList">
+<ul >
+    <li ng-repeat="book in bookListCtrl.bookList">
         <!-- $index tells the page to route to the id of the book -->
         <a ng-href="#!/book-detail/{{$index}}">{{book.title}}</a> 
         <p>{{book.genre}}</p>

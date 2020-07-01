@@ -1,10 +1,10 @@
 package com.google.sps.data;
-import com.google.common.collect.ImmutableMap; 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.sps.data.Book;
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 /**
@@ -17,7 +17,7 @@ public class BookReader {
     this.file = new File(path);
   }
 
-  public ImmutableMap<Integer, Book> makeBookList() throws IOException{
+  public ImmutableMap<Integer, Book> makeBookList() throws IOException {
     Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
     try (Scanner scanner = new Scanner(file).useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
