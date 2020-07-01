@@ -1,11 +1,10 @@
-angular.
-  module('bookDetail').
-  component('bookDetail', {
-    templateUrl: 'book-detail/book-detail.template.html',
-    controller: ['$routeParams',
-      function BookDetailController($routeParams) {
-          // This gets the ID from the URL. For example ...#!/book-detail/2  ->  2
-          this.bookId = $routeParams.bookId;
-      }
-    ]
-  });
+angular.module('bookDetail').component('bookDetail', {
+  templateUrl: 'book-detail/book-detail.template.html',
+  controller: function BookDetailController($http, $routeParams) {
+    var vm = this;
+    vm.bookId = $routeParams.bookId;
+    $http.get('singleBookById', {params: this.bookId}).then(function(response) {
+      vm.book = response.data;
+    })
+  }
+});

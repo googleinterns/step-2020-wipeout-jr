@@ -8,8 +8,9 @@
 <br/><br/>
 
 <ul>
-    <li ng-repeat="phone in $ctrl.phones">
-        <a ng-href="#!/book-detail/{{phone.id}}">{{phone.name}}</a>
-        <p>{{phone.snippet}}</p>
+    <li ng-repeat="book in bookList">
+        <!-- $index tells the page to route to the id of the book -->
+        <a ng-href="#!/book-detail/{{$index}}">{{book.title}}</a>
+        <p>{{book.genre}}</p>
     </li>
 </ul>
