@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
 This servlet gets Book entities from Google Cloud Datastore.
 */
-@WebServlet("/get-from-DS")
+@WebServlet("/get-single-book-by-id")
 public class DatastoreServlet extends HttpServlet {
   private static final String ENTITY_KIND = "Book";
   private static final Gson gson = new Gson();
