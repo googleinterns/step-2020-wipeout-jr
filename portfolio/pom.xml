@@ -14,6 +14,9 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <failOnMissingWebXml>false</failOnMissingWebXml>
+
+    <js-tests.skip>false</js-tests.skip>
+    <bower-components>${basedir}/src/main/resources/static/bower_components</bower-components>
   </properties>
  
   <dependencies>
@@ -72,6 +75,52 @@
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
+      <!-- <plugin>
+        <groupId>com.github.klieber</groupId>
+        <artifactId>phantomjs-maven-plugin</artifactId>
+        <version>0.4</version>
+        <executions>
+            <execution>
+            <goals>
+                <goal>install</goal>
+            </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <version>1.9.8</version>
+            <skip>${js-tests.skip}</skip>
+        </configuration>
+        </plugin>
+   <plugin>
+        <groupId>com.github.searls</groupId>
+        <artifactId>jasmine-maven-plugin</artifactId>
+        <version>1.3.1.5</version>
+        <executions>
+            <execution>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <skipJasmineTests>${js-tests.skip}</skipJasmineTests>
+            <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+            <webDriverCapabilities>
+            <capability>
+                <name>phantomjs.binary.path</name>
+                <value>${phantomjs.binary}</value>
+            </capability>
+            </webDriverCapabilities>
+            <jsSrcDir>${basedir}/src/main/resources/static/app</jsSrcDir>
+            <jsTestSrcDir>${basedir}/src/test/javascript</jsTestSrcDir>
+            <preloadSources>
+            <source>${bower-components}/angular/angular.js</source>
+            <source>${bower-components}/angular-resource/angular-resource.js</source>
+            <source>${bower-components}/angular-mocks/angular-mocks.js</source>
+            <source>${basedir}/src/main/resources/static/app/app.js</source>
+            </preloadSources>
+        </configuration> -->
+    <!-- </plugin> -->
     </plugins>
   </build>
 </project>
