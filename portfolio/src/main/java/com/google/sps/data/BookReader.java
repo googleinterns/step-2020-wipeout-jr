@@ -19,7 +19,7 @@ public class BookReader {
 
   public ImmutableMap<Integer, Book> makeBookList() throws IOException {
     Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
-    try (Scanner scanner = new Scanner(file).useDelimiter("\\Z")) {
+    try (Scanner scanner = new Scanner(file, "utf-8").useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
       String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
 
