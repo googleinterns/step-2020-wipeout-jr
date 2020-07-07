@@ -8,11 +8,12 @@ angular.module('bookDetail').component('bookDetail', {
           vm.book = response.data;
     })
 
+    getBookInfo();
+
     function getBookInfo() {
       const urlHead = 'https://www.googleapis.com/books/v1/volumes?q=';
       fetch('/book-data').then(response => response.json()).then((bookInfo) => {
         for (key in Object.keys(bookInfo)) {
-            console.log("key: " + key);
             var query = bookInfo[key].title.replace(/ /g, '+');
             var url = urlHead + query;
             searchBooks(bookInfo[key], url);
@@ -54,7 +55,12 @@ angular.module('bookDetail').component('bookDetail', {
         var fieldsString;
         var index = 0;
 
-        console.log("testing file");
+        console.log("testing file name:");
+        if (new String(title).toLowerCase().valueOf() != new String(info.title).toLowerCase().valueOf()) {
+            console.log("fail!");
+            console.log(title);
+            console.log(info.title);
+        }
  
         //passing values through as URL parameters
         for (var field in bookFields){
