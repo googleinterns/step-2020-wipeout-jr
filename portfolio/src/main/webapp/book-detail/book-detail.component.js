@@ -68,7 +68,6 @@ angular.module('bookDetail').component('bookDetail', {
         $("#bookresult").html("Status Code: " + status+"<br>Error Message: "+errorMessage);
       }); 
     }
-  }
   },
   controllerAs: 'bookDetailCtrl'
 });
