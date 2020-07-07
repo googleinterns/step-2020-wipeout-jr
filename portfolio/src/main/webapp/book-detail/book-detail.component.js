@@ -69,5 +69,7 @@ angular.module('bookDetail').component('bookDetail', {
       }); 
     }
   }
+  },
+  controllerAs: 'bookDetailCtrl'
 });
 
