@@ -54,7 +54,7 @@ angular.module('bookDetail').component('bookDetail', {
         var fieldsString;
         var index = 0;
 
-        console.log("testing");
+        console.log("testing file");
  
         //passing values through as URL parameters
         for (var field in bookFields){
