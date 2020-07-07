@@ -10,10 +10,11 @@ angular.module('bookDetail').component('bookDetail', {
     function getBookInfo() {
       const urlHead = 'https://www.googleapis.com/books/v1/volumes?q=';
       fetch('/book-data').then(response => response.json()).then((bookInfo) => {
-        for (i = 0; i < bookInfo.length; i++) {
-        var query = bookInfo[i].title.replace(/ /g, '+');
-        var url = urlHead + query;
-        searchBooks(bookInfo[i], url);
+        for (key in Object.keys(bookInfo)) {
+            console.log("key: " + key);
+            var query = bookInfo[key].title.replace(/ /g, '+');
+            var url = urlHead + query;
+            searchBooks(bookInfo[key], url);
         }
       });
     }
