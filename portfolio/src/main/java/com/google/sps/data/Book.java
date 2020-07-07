@@ -3,7 +3,6 @@ package com.google.sps.data;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
-import java.nio.charset.Charset;
 
 @AutoValue
 public abstract class Book {
