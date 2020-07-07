@@ -28,17 +28,15 @@ public abstract class Book {
       return this;
     }
 
-    /** In this function, we use replaceAll along with enconding/decoding
-      * methods because some of the bad characters do not come in during our encoding, 
+    /** In this function, we use replaceAll instead of enconding/decoding
+      * methods because the bad characters do not come in during our encoding, 
       * but rather, already exist in the file that we're reading from. 
-      * The first and last regex that we replace are in fact, different
+      * The two replacements in the first line are in fact, different
       * If anyone knows why or how to fix this in a cleaner way, please let ankita know!
      **/
     private String cleanReview(String original) {
-        String newString = original.replaceAll("â€", "'").replaceAll("™", "").replaceAll("œ", "").replaceAll("â€", "'");
-        Charset charset = Charset.forName("UTF-8");
-        newString = charset.decode(charset.encode(newString)).toString();
-        
+        String newString = original.replaceAll("â€", "'").replaceAll("â€", "'");
+        newString = newString.replaceAll("[^a-zA-Z0-9, .:*?!'#<>(){}/-]", "");
         return newString;
     }
     public abstract Book build();
