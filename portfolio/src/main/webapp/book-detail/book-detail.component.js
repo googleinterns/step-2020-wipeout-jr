@@ -53,6 +53,8 @@ angular.module('bookDetail').component('bookDetail', {
         var fieldContentArray = [title, genre, categories, author, language, description, infoLink, pageCount, publishedDate, publisher, maturityRating];
         var fieldsString;
         var index = 0;
+
+        console.log("testing");
  
         //passing values through as URL parameters
         for (var field in bookFields){
