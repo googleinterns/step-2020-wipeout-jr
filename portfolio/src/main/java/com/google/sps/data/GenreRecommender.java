@@ -28,7 +28,7 @@ public class GenreRecommender {
     bookToGenres = new HashMap<Book, Set<String>>();
     genreToBooks = new HashMap<String, Set<Book>>();
     for (Book book : books) {
-      Set<String> genres = getGenreSet(book.genre());
+      Set<String> genres = book.genre();
       bookToGenres.put(book, genres);
       for (String genre : genres) {
         if (genreToBooks.containsKey(genre)) {
@@ -38,21 +38,6 @@ public class GenreRecommender {
         }
       }
     }
-  }
- 
-  /**
-  * Helper method that takes in the list of genres as a ";"-separated string
-  * and returns a set of genres 
-  * 
-  * @param genreString: ";"-separated string of genres
-  * @return ImmutableSet of genres
-  */
-  private ImmutableSet<String> getGenreSet(String genreString) {
-    Set<String> genres = new HashSet<String>();
-    for (String genre : genreString.toLowerCase().split(";")) {
-      genres.add(genre);
-    }
-    return ImmutableSet.copyOf(genres);
   }
 
   /**

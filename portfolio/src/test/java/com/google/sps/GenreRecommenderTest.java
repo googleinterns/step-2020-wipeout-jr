@@ -38,7 +38,7 @@ public final class GenreRecommenderTest {
     Book gatsby = bookList.get(0);
     Book harryPotter = bookList.get(1);
     Book harryPotter2 = bookList.get(2);
-    Book emptyBook = Book.builder().title("blank book").genre("noGenre").addReview("no review").build();
+    Book emptyBook = Book.builder().title("blank book").genre(new HashSet<>()).addReview("no review").build();
 
     // Check getGenres with valid and invalid inputs:
     Assert.assertEquals(rec.getGenres(gatsby), 
