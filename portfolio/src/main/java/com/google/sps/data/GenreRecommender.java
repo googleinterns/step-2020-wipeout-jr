@@ -63,15 +63,16 @@ public class GenreRecommender {
   * @return ImmutableSet of books that have exactly these genres
   */
   public ImmutableSet<Book> getBooksWithExactGenres(Set<String> genres) {
-    Set<Book> matchingBooks = new HashSet<Book>();
+    ImmutableSet.Builder<Book> matchingBooks = new ImmutableSet.Builder<Book>();
     for (Book book : bookToGenres.keySet()) {
       if (bookToGenres.get(book).equals(genres)) {
         matchingBooks.add(book);
       }
     }
-    if (matchingBooks.isEmpty()) {
+    ImmutableSet<Book> matches = matchingBooks.build();
+    if (matches.isEmpty()) {
       return ImmutableSet.of();
     }
-    return ImmutableSet.copyOf(matchingBooks);
+    return matches;
   }
 }
