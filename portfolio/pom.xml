@@ -47,7 +47,7 @@
       <artifactId>guava</artifactId>
       <version>r05</version>
     </dependency>
-    <!-- Datastore dependency-->
+    <!-- Datastore & Users API dependency-->
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-1.0-sdk</artifactId>
