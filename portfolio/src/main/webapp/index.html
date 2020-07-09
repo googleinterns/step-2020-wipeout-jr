@@ -21,9 +21,10 @@
     <script src="app.js"></script>
     <script src="app.config.js"></script>
   </head>
-  <body ng-app = "betterReadsApp">
+  <body ng-app = "betterReadsApp" onload = "getUserStatus();">
 
     <a href="#!/book-list"> BetterReads </a>
+    <a href="auth" id = 'userStatus'></a>
     <!-- <p> You could put something like a toolbar here that would be on every single page! </p>     -->
     <!-- TODO: someone should totally add a toolbar (with links between pages) here :P -->
     <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->

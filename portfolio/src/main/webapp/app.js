@@ -98,3 +98,14 @@ function searchBooks(book, url)
    }); 
 }
 
+function getUserStatus() {
+    fetch('/user-status').then(response => response.json()).then((userStatus) => {
+    if (userStatus == "Logged In") {
+        document.getElementById("userStatus").innerText = "Log Out";
+    } else {
+        document.getElementById("userStatus").innerText = "Log In";
+    }
+    
+  });
+}
+
