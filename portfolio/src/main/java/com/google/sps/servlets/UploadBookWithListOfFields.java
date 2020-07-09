@@ -11,9 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
- 
+
 package com.google.sps.servlets;
- 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -26,7 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
+
 /**
 This servlet takes fields (specified in @Code{NAME_OF_FIELDS}) from the jQuery,
 using the Fetch API, where they are uploaded to Google Cloud Datastore.
@@ -36,13 +36,13 @@ public class UploadBookWithListOfFields extends HttpServlet {
   private static final String ENTITY_KIND = "Book";
   private static final String PAGE_REDIRECT = "/index.html";
   private static final String TIMESTAMP_PROP = "timeStamp";
- 
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long timeStamp = System.currentTimeMillis();
- 
+
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
- 
+
     Entity bookEntity = new Entity(ENTITY_KIND);
     for (BookFieldsEnum field : BookFieldsEnum.values()) {
       String jsProperty = field.getJSProperty();
@@ -58,13 +58,10 @@ public class UploadBookWithListOfFields extends HttpServlet {
       }
     }
     bookEntity.setProperty(TIMESTAMP_PROP, timeStamp);
- 
+
     datastore.put(bookEntity);
- 
+
     response.setContentType("text/html;");
     response.sendRedirect(PAGE_REDIRECT);
   }
 }
- 
- 
-

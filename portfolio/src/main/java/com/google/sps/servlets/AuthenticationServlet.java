@@ -1,6 +1,5 @@
 package com.google.sps.servlets;
 
-import com.google.gson.Gson;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/auth")
 public class AuthenticationServlet extends HttpServlet {
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
