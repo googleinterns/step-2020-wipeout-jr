@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-*AuthenticationServlet allows users to log in and out using their email, and saves the current status of the user
-*/
+ * AuthenticationServlet allows users to log in and out using their email, and saves the current
+ * status of the user
+ */
 @WebServlet("/auth")
 public class AuthenticationServlet extends HttpServlet {
   @Override

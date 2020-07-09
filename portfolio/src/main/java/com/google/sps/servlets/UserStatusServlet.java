@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * UserStatusServlet gets the current logged in/logged out status of the user
+ */
 @WebServlet("/user-status")
 public class UserStatusServlet extends HttpServlet {
   private String toJson(String status) {
