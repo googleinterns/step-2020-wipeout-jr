@@ -21,7 +21,15 @@ import com.google.appengine.api.datastore.Text;
 import com.google.sps.data.Book;
 import com.google.sps.data.BookFieldsEnum;
 import com.google.sps.data.BookReader;
+import com.google.sps.data.GsonBook;
+import com.google.sps.data.JsonReader;
+import java.lang.reflect.Field;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -52,28 +60,75 @@ public class UploadBookWithListOfFields extends HttpServlet {
     }
   }
 
-  @Override
+   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String urlBase = "https://www.googleapis.com/books/v1/volumes?q=";
-
+ 
     for (Map.Entry<Integer, Book> bookEntry : bookList.entrySet()) {
-        System.out.println(bookEntry.getKey());
-        System.out.println(bookEntry.getValue().title());
         
         String googleBooksUrl = urlBase + bookEntry.getValue().title().replace(" ", "+");
-        System.out.println(googleBooksUrl);
-
+ 
         // TODO(adrian): Figure out how to make an HTTP GET request in Java.
-
-        // TODO(adrian): get the fields we care about from the GET response.
-        // (same fields as in the JavaScript 'searchBooks' method)
-
+        URL url = new URL(googleBooksUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        StringBuffer content = new StringBuffer();
+        
+        try{
+            // TODO(adrian): get the fields we care about from the GET response.
+            // (same fields as in the JavaScript 'searchBooks' method)
+            int status = con.getResponseCode();
+            try(BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()))){
+                
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+            in.close();
+            }
+        }
+        finally{
+            con.disconnect();
+        }
+ 
         // TODO(adrian): copy-paste the Datastore upload code from the doPost() method below.
+        long timeStamp = System.currentTimeMillis();
+ 
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    
+        Entity bookEntity = new Entity(ENTITY_KIND);
+        String jsonString = content.toString();
+        try {
+            JsonReader convert = new JsonReader();
+            GsonBook gsonBook = convert.toGsonBook(jsonString);
+            String newProperty;
+            for (Field f : gsonBook.getClass().getDeclaredFields()) {
+                String field = f.getName();
+                newProperty = (String) f.get(gsonBook);
+                if (newProperty == null) {
+                    bookEntity.setProperty(field, "Undefined");
+                } else if (newProperty.getBytes().length >= 1500) {
+                    bookEntity.setProperty(field, new Text(newProperty));
+                } else {
+                    bookEntity.setProperty(field, newProperty);
+                }
+            }
+        }
+        catch (ParseException e) {
+            System.out.println("Could not parse.");
+        }
+        catch (IllegalAccessException e) {
+            System.out.println("Cannot access");
+        }
+        
+        datastore.put(bookEntity);
     }
-
+ 
     response.setContentType("application/json");
     response.getWriter().println("Data Uploaded!");
   }
+
  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

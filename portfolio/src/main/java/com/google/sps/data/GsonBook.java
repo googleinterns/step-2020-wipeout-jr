@@ -30,5 +30,20 @@ public class GsonBook {
     this.publisher = publisher;
     this.maturityRating = maturityRating;
   }
+
+  public String printObject(){
+    String formatter = ""
+    + this.title + ", "
+    + this.genre + ", "
+    + this.author + ", "
+    + this.language + ", "
+    + this.description + ", "
+    + this.infoLink + ", "
+    + this.pageCount + ", "
+    + this.publishDate + ", "
+    + this.publisher + ", "
+    + this.maturityRating + ".";
+    return formatter;
+  }
 }
 
