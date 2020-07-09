@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-// TODO: MAKE LISTS IMMUTABLE
-
 public class GenreRecommender {
   private List<Book> books;
   private Map<Book, Set<String>> bookToGenres;
@@ -27,11 +25,9 @@ public class GenreRecommender {
       Set<String> genres = getGenreSet(book.genre());
       bookToGenres.put(book, genres);
       for (String genre : genres) {
-        if (genreToBooks.containsKey(genre)) { // genre already in map
-          // add book to value list
+        if (genreToBooks.containsKey(genre)) {
           genreToBooks.get(genre).add(book);
         } else {
-          // make new list
           genreToBooks.put(genre, Sets.newHashSet(book));
         }
       }
