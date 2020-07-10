@@ -25,8 +25,7 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public final class GenreRecommenderTest {
-  private List<Book> bookList;
-
+  
   // ONE GENRE BOOKS:
   private static final Book AUTOBIOGRAPHY_BOOK =
       Book.builder()
@@ -90,7 +89,7 @@ public final class GenreRecommenderTest {
 
   @Test
   public void getGenresTests() {
-    bookList = new ArrayList<Book>();
+    List<Book> bookList = new ArrayList<Book>();
     Collections.addAll(
         bookList, AUTOBIOGRAPHY_BOOK, BIOGRAPHY_BOOK, CRIME_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK);
     GenreRecommender rec = new GenreRecommender(bookList);
@@ -110,7 +109,7 @@ public final class GenreRecommenderTest {
 
   @Test
   public void getBooksWithExactGenresTests() {
-    bookList = new ArrayList<Book>();
+    List<Book> bookList = new ArrayList<Book>();
     Collections.addAll(bookList, CRIME_BOOK, HORROR_BOOK, CRIME_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK,
         HORROR_CRIME_BOOK, BIOGRAPHY_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK_2, EPIC_MYTHOLOGY_BOOK_3);
     GenreRecommender rec = new GenreRecommender(bookList);
