@@ -17,12 +17,12 @@ public class GenreRecommender {
   private Map<Book, Set<String>> bookToGenres;
   private Map<String, Set<Book>> genreToBooks;
 
-  /** 
-   * Constructor that takes in a list of books 
+  /**
+   * Constructor that takes in a list of books
    * and populates class variables appropriately.
    *
    * @param books: List of Book objects for the recommendation algorithm
-   */ 
+   */
   public GenreRecommender(List<Book> books) {
     this.books = books;
     bookToGenres = new HashMap<Book, Set<String>>();
@@ -41,12 +41,12 @@ public class GenreRecommender {
   }
 
   /**
-  * Takes in a Book object and returns a set of genres 
-  * of that book
-  * 
-  * @param book: Book object
-  * @return ImmutableSet of genres of that book
-  */
+   * Takes in a Book object and returns a set of genres
+   * of that book
+   *
+   * @param book: Book object
+   * @return ImmutableSet of genres of that book
+   */
   public ImmutableSet<String> getGenres(Book book) {
     Set<String> genres = bookToGenres.get(book);
     if (genres == null) {
@@ -56,12 +56,12 @@ public class GenreRecommender {
   }
 
   /**
-  * Takes in a set of genres and returns a set of Book objects
-  * that have exactly the genres from the set. 
-  * 
-  * @param genres: Set of genres (as Strings)
-  * @return ImmutableSet of books that have exactly these genres
-  */
+   * Takes in a set of genres and returns a set of Book objects
+   * that have exactly the genres from the set.
+   *
+   * @param genres: Set of genres (as Strings)
+   * @return ImmutableSet of books that have exactly these genres
+   */
   public ImmutableSet<Book> getBooksWithExactGenres(Set<String> genres) {
     ImmutableSet.Builder<Book> matchingBooks = new ImmutableSet.Builder<Book>();
     for (Book book : bookToGenres.keySet()) {

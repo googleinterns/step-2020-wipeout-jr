@@ -57,12 +57,12 @@ public class BookReader {
   }
 
   /**
-  * Helper method that takes in the list of genres as a ";"-separated string
-  * and returns a set of genres 
-  * 
-  * @param genreString: ";"-separated string of genres
-  * @return ImmutableSet of genres
-  */
+   * Helper method that takes in the list of genres as a ";"-separated string
+   * and returns a set of genres
+   *
+   * @param genreString: ";"-separated string of genres
+   * @return ImmutableSet of genres
+   */
   private ImmutableSet<String> getGenreSet(String genreString) {
     ImmutableSet.Builder<String> genres = new ImmutableSet.Builder<String>();
     for (String genre : genreString.toLowerCase().split(";")) {
