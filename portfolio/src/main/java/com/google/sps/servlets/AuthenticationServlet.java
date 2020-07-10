@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * AuthenticationServlet allows users to log in and out using their email, and saves the current
- * status of the user
+ * AuthenticationServlet allows users to log in and out using their email
  */
 @WebServlet("/auth")
 public class AuthenticationServlet extends HttpServlet {
@@ -20,6 +19,7 @@ public class AuthenticationServlet extends HttpServlet {
     String urlToRedirectTo = "/";
 
     UserService userService = UserServiceFactory.getUserService();
+
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
       String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
@@ -33,4 +33,5 @@ public class AuthenticationServlet extends HttpServlet {
       response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
     }
   }
+
 }

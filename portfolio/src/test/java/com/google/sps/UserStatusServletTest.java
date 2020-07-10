@@ -1,6 +1,6 @@
 package com.google.sps;
 
-import com.google.sps.servlets.AuthenticationServlet;
+import com.google.sps.servlets.UserStatusServlet;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.servlet.http.HttpServlet;
@@ -22,10 +22,10 @@ import org.junit.Test;
 
 
 /**
- * Test class for AuthenticationServlet
+ * Test class for UserStatusServlet
  */
 @RunWith(JUnit4.class)
-public final class AuthenticationServletTest extends Mockito{
+public final class UserStatusServletTest extends Mockito{
 
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalUserServiceTestConfig())
@@ -49,9 +49,8 @@ public final class AuthenticationServletTest extends Mockito{
         PrintWriter printWriter = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(printWriter);
 
-        new AuthenticationServlet().doGet(request, response);
+        new UserStatusServlet().doGet(request, response);
 
-        verify(response).setContentType("text/html");
+        verify(response).setContentType("application/json");
   }
-
 }

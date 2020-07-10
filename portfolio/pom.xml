@@ -64,6 +64,18 @@
       <artifactId>mockito-all</artifactId>
       <version>1.10.19</version>
     </dependency>
+    <dependency>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-testing</artifactId>
+        <version>1.9.64</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-api-stubs</artifactId>
+        <version>1.9.64</version>
+        <scope>test</scope>
+    </dependency>
   </dependencies>
  
   <build>
@@ -80,52 +92,6 @@
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
-      <!-- <plugin>
-        <groupId>com.github.klieber</groupId>
-        <artifactId>phantomjs-maven-plugin</artifactId>
-        <version>0.4</version>
-        <executions>
-            <execution>
-            <goals>
-                <goal>install</goal>
-            </goals>
-            </execution>
-        </executions>
-        <configuration>
-            <version>1.9.8</version>
-            <skip>${js-tests.skip}</skip>
-        </configuration>
-        </plugin>
-   <plugin>
-        <groupId>com.github.searls</groupId>
-        <artifactId>jasmine-maven-plugin</artifactId>
-        <version>1.3.1.5</version>
-        <executions>
-            <execution>
-            <goals>
-                <goal>test</goal>
-            </goals>
-            </execution>
-        </executions>
-        <configuration>
-            <skipJasmineTests>${js-tests.skip}</skipJasmineTests>
-            <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
-            <webDriverCapabilities>
-            <capability>
-                <name>phantomjs.binary.path</name>
-                <value>${phantomjs.binary}</value>
-            </capability>
-            </webDriverCapabilities>
-            <jsSrcDir>${basedir}/src/main/resources/static/app</jsSrcDir>
-            <jsTestSrcDir>${basedir}/src/test/javascript</jsTestSrcDir>
-            <preloadSources>
-            <source>${bower-components}/angular/angular.js</source>
-            <source>${bower-components}/angular-resource/angular-resource.js</source>
-            <source>${bower-components}/angular-mocks/angular-mocks.js</source>
-            <source>${basedir}/src/main/resources/static/app/app.js</source>
-            </preloadSources>
-        </configuration> -->
-    <!-- </plugin> -->
     </plugins>
   </build>
 </project>
