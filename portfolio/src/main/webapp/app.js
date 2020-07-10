@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // AngularJS App Configuration
-angular.module('betterReadsApp', ['ngRoute', 'bookList', 'bookDetail']);
+angular.module('betterReadsApp', ['ngRoute', 'bookList', 'bookDetail','userStatus']);
 
 /**
  * Adds a random greeting to the page.
@@ -94,16 +94,5 @@ function searchBooks(book, url) {
    }).fail(function(jqxhr, status, errorMessage) {
     $('#bookresult')
         .html('Status Code: ' + status + '<br>Error Message: ' + errorMessage);
-  });
-}
-
-function
-getUserStatus() {
-  fetch('/user-status').then(response => response.json()).then((userStatus) => {
-    if (userStatus == 'Logged In') {
-      document.getElementById('userStatus').innerText = 'Log Out';
-    } else {
-      document.getElementById('userStatus').innerText = 'Log In';
-    }
   });
 }
