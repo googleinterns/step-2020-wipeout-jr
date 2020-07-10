@@ -7,8 +7,10 @@ import java.util.Map;
 
 public class FullBook {
 
-    private String title, description;
-    private ArrayList<String> authors = new ArrayList<String>();
+    //private String title, description;
+    public String title, genre, language, description, infoLink, pageCount, publishedDate, publisher, maturityRating;
+    public ArrayList<String> authors = new ArrayList<String>();
+    public ArrayList<String> categories = new ArrayList<String>();
     private int id;
     //private Image icon_de_la_book;
     private String datePublished;

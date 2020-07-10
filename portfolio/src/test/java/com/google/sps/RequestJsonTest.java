@@ -39,6 +39,7 @@ public final class RequestJsonTest {
         + "\"maturityRating\": \"maturityRating\"}";
  
     String title = "A Court of Wings and Ruin";
+    BookAPI BookAPI = new BookAPI();
     BookAPI.search(title);
   }
 }

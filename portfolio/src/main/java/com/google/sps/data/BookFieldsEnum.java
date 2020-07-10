@@ -8,7 +8,7 @@ public enum BookFieldsEnum {
   TITLE("title"),
   GENRE("genre"),
   CATEGORIES("categories"),
-  AUTHOR("author"),
+  AUTHORS("authors"),
   LANGUAGE("language"),
   DESCRIPTION("description"),
   INFO_LINK("infoLink"),

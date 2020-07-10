@@ -17,23 +17,25 @@ import java.util.ArrayList;
 public class BookAPI {
 
 
-    public static ArrayList<FullBook> search(String query) {
-        System.out.println("Query string:"+query +" --BookAPI");
+    public ArrayList<FullBook> search(String query) {
+        System.out.println("Query string:"+query +" --BookAPI");//REMOVE
 
         if (query.equals(""))
             return null;
         String encodedUrl = null;
         try {
             encodedUrl = URLEncoder.encode(query, "UTF-8");
-            System.out.println(encodedUrl);
+            System.out.println("encodedUrl:"+encodedUrl +" --BookAPI");//REMOVE
         } catch (UnsupportedEncodingException ignored) {
 
         }
 
         try {
+            RequestJson RequestJson = new RequestJson();
             return RequestJson.call_me(encodedUrl);
 
         } catch (Exception e) {
+            System.out.println("Stacktrace error!");
             e.printStackTrace();
         }
         return null;
