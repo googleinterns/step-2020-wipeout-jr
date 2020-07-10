@@ -13,7 +13,8 @@
 // limitations under the License.
 
 // AngularJS App Configuration
-angular.module('betterReadsApp', ['ngRoute', 'bookList', 'bookDetail','userStatus']);
+angular.module(
+    'betterReadsApp', ['ngRoute', 'bookList', 'bookDetail', 'userStatus']);
 
 /**
  * Adds a random greeting to the page.
@@ -42,20 +43,19 @@ function getBookInfo() {
   });
 }
 
-const bookFields =
-    {
-      TITLE: 'title',
-      GENRE: 'genre',
-      CATEGORIES: 'categories',
-      AUTHOR: 'author',
-      LANGUAGE: 'language',
-      DESCRIPTION: 'description',
-      INFO_LINK: 'infoLink',
-      PAGE_COUNT: 'pageCount',
-      PUBLISH_DATE: 'publishedDate',
-      PUBLISHER: 'publisher',
-      MATURITY_RATING: 'maturityRating'
-    }
+const bookFields = {
+  TITLE: 'title',
+  GENRE: 'genre',
+  CATEGORIES: 'categories',
+  AUTHOR: 'author',
+  LANGUAGE: 'language',
+  DESCRIPTION: 'description',
+  INFO_LINK: 'infoLink',
+  PAGE_COUNT: 'pageCount',
+  PUBLISH_DATE: 'publishedDate',
+  PUBLISHER: 'publisher',
+  MATURITY_RATING: 'maturityRating'
+}
 
 function searchBooks(book, url) {
   $.getJSON(url, function(json) {

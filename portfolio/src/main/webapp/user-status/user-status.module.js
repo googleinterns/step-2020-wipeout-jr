@@ -1,1 +1,1 @@
-angular.module('userStatus',[]);
+angular.module('userStatus', []);

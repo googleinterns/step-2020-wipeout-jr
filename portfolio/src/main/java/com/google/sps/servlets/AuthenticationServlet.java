@@ -33,5 +33,4 @@ public class AuthenticationServlet extends HttpServlet {
       response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
     }
   }
-
 }
