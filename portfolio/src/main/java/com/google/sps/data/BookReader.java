@@ -1,81 +1,73 @@
 package com.google.sps.data;
-
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-// import com.google.common.collect.ImmutableMultimap.Builder;
-import com.google.common.collect.ImmutableMultimap;
-import java. util. Collection;
-import com.google.common.collect.ImmutableSetMultimap.Builder;
-import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Multimap;
 import com.google.sps.data.Book;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
 import java.util.Set;
 
-public class GenreRecommender {
-  private List<Book> books;
-  private ImmutableSetMultimap<Book, String> bookToGenres;
-  private ImmutableSetMultimap<String, Book> genreToBooks;
+/**
+ * Class that takes in an InputStream as the constructor parameter
+ * and populates a list of Books with title, genre, and reviews.
+ */
+public class BookReader {
+  private final File file;
+  public BookReader(String path) {
+    this.file = new File(path);
+  }
 
-  /**
-   * Constructor that takes in a list of books
-   * and populates class variables appropriately.
-   *
-   * @param books: List of Book objects for the recommendation algorithm
-   */
-  public GenreRecommender(List<Book> books) {
-    this.books = books;
-    ImmutableSetMultimap.Builder<Book, String> bookToGenresBuilder = new ImmutableSetMultimap.Builder<Book, String>();
-    ImmutableSetMultimap.Builder<String, Book> genreToBooksBuilder = new ImmutableSetMultimap.Builder<String, Book>();
-    for (Book book : books) {
-      for (String genre: book.genre()) {
-          bookToGenresBuilder.put(book, genre);
-          genreToBooksBuilder.put(genre, book);
+  public ImmutableMap<Integer, Book> makeBookList() throws IOException {
+    ImmutableMap.Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
+    try (Scanner scanner = new Scanner(file, "utf-8").useDelimiter("\\Z")) {
+      String content = scanner.next().replaceAll("[\\r\\n]+", "");
+      String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
+
+      String current_title = "";
+      Book.Builder current_builder = Book.builder().title("null");
+      int currentId = 0;
+
+      for (int i = 1; i < lines.length; i++) {
+        String[] cells = lines[i].split(",");
+        String title = cells[0];
+        Set<String> genre = getGenreSet(cells[8]);
+        String review = cells[13];
+        if (current_title.equals(title)) {
+          // add review:
+          current_builder.addReview(review);
+        } else {
+          // close old book:
+          if (i != 1) {
+            Book book = current_builder.build();
+            allBooks.put(currentId++, book);
+          }
+          // start building new book
+          current_builder = Book.builder().title(title).genre(genre).addReview(review);
+          current_title = title;
+        }
       }
+      Book book = current_builder.build();
+      allBooks.put(currentId, book);
+    } catch (Exception ex) {
+      throw new IOException("Error reading CSV file", ex);
     }
-    bookToGenres = bookToGenresBuilder.build();
-    genreToBooks = genreToBooksBuilder.build();
+    return allBooks.build();
   }
 
   /**
-   * Takes in a Book object and returns a set of genres
-   * of that book
+   * Helper method that takes in the list of genres as a ";"-separated string
+   * and returns a set of genres
    *
-   * @param book: Book object
-   * @return ImmutableSet of genres of that book
+   * @param genreString: ";"-separated string of genres
+   * @return ImmutableSet of genres
    */
-  public ImmutableSet<String> getGenres(Book book) {
-    ImmutableSet<String> genres = bookToGenres.get(book);
-    if (genres == null) {
-      return ImmutableSet.of();
+  private ImmutableSet<String> getGenreSet(String genreString) {
+    ImmutableSet.Builder<String> genres = new ImmutableSet.Builder<String>();
+    for (String genre : genreString.toLowerCase().split(";")) {
+      genres.add(genre);
     }
-    return genres;
-  }
-
-  /**
-   * Takes in a set of genres and returns a set of Book objects
-   * that have exactly the genres from the set.
-   *
-   * @param genres: Set of genres (as Strings)
-   * @return ImmutableSet of books that have exactly these genres
-   */
-  public ImmutableSet<Book> getBooksWithExactGenres(Set<String> genres) {
-    ImmutableSet.Builder<Book> matchingBooks = new ImmutableSet.Builder<Book>();
-    for (Book book : bookToGenres.keySet()) {
-      if (bookToGenres.get(book).equals(genres)) {
-        matchingBooks.add(book);
-      }
-    }
-    ImmutableSet<Book> matches = matchingBooks.build();
-    if (matches.isEmpty()) {
-      return ImmutableSet.of();
-    }
-    return matches;
+    return genres.build();
   }
 }

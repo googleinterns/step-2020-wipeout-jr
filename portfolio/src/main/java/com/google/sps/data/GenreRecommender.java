@@ -1,21 +1,10 @@
 package com.google.sps.data;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-// import com.google.common.collect.ImmutableMultimap.Builder;
-import com.google.common.collect.ImmutableMultimap;
-import java. util. Collection;
-import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.sps.data.Book;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class GenreRecommender {
@@ -31,12 +20,14 @@ public class GenreRecommender {
    */
   public GenreRecommender(List<Book> books) {
     this.books = books;
-    ImmutableSetMultimap.Builder<Book, String> bookToGenresBuilder = new ImmutableSetMultimap.Builder<Book, String>();
-    ImmutableSetMultimap.Builder<String, Book> genreToBooksBuilder = new ImmutableSetMultimap.Builder<String, Book>();
+    ImmutableSetMultimap.Builder<Book, String> bookToGenresBuilder =
+        new ImmutableSetMultimap.Builder<Book, String>();
+    ImmutableSetMultimap.Builder<String, Book> genreToBooksBuilder =
+        new ImmutableSetMultimap.Builder<String, Book>();
     for (Book book : books) {
-      for (String genre: book.genre()) {
-          bookToGenresBuilder.put(book, genre);
-          genreToBooksBuilder.put(genre, book);
+      for (String genre : book.genre()) {
+        bookToGenresBuilder.put(book, genre);
+        genreToBooksBuilder.put(genre, book);
       }
     }
     bookToGenres = bookToGenresBuilder.build();
