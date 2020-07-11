@@ -15,7 +15,9 @@ public enum BookFieldsEnum {
   PAGE_COUNT("pageCount"),
   PUBLISH_DATE("publishedDate"),
   PUBLISHER("publisher"),
-  MATURITY_RATING("maturityRating");
+  MATURITY_RATING("maturityRating"),
+  THUMBNAIL("thumbnail");
+  //maybe add the ISBN as the book's ID
  
   private final String javaScriptProperty;
  

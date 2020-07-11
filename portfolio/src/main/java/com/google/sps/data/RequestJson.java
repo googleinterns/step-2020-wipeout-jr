@@ -7,14 +7,10 @@
 
 package com.google.sps.data;
 
-//import Models.FullBook;
 import com.google.sps.data.BookFieldsEnum;
 import com.google.sps.data.FullBook;
-import com.google.sps.data.Publisher;
-//import Models.Publisher;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-//import javafx.scene.image.Image;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,33 +25,27 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RequestJson {
-    static int count2 = 0;
 
     public RequestJson(){}
 
     public JSONObject requestQuery(String query) throws Exception {
         //This method calls the actual Book API from the URL and returns a JSON Object from the response 
-        System.out.println("Query string:"+query +" --Request Json - rq");//REMOVE
-        //Gson gson = new Gson();
         //convert space to url format
 
         String url = String.format("https://www.googleapis.com/books/v1/volumes?q=%s", query);
         //this link contains different data than the book's selfLink
-        System.out.println("Formatted url: "+url +" --Request Json - rq");//REMOVE
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
         int responseCode = con.getResponseCode();
-
-        System.out.println("\nSending 'GET' request to URL : " + url+" --Request Json - rq");//REMOVE
-        System.out.println("Response Code : " + responseCode+" --Request Json - rq");//REMOVE
-        System.out.print("Response went through: ");//REMOVE
-        System.out.println(responseCode == 200);//REMOVE
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -65,17 +55,15 @@ public class RequestJson {
             response.append(inputLine);
         }
         in.close();
-        //System.out.println("Response string: "+response.toString()+" --Request Json - rq");
-        JSONObject myResponse = new JSONObject(response.toString());
-        //System.out.println("JSON Object: "+myResponse+" --Request Json - rq");
 
+        JSONObject myResponse = new JSONObject(response.toString());
         return myResponse;
 
 
     }
 
 
-    public ArrayList<FullBook> call_me(String query) throws Exception {
+    public ArrayList<FullBook> call_me(String query, int numberResults) throws Exception {
 
         File index = new File("output");
 
@@ -92,148 +80,71 @@ public class RequestJson {
         ArrayList<FullBook> returnedList = new ArrayList<FullBook>();
 
         JSONObject myResponse = new JSONObject(requestQuery(query).toString());//request Query returns a JSON object of the JSON string with all the data
-        //System.out.println("my response: "+myResponse+" --Request Json - cm");//all the data
         JSONArray allItems = myResponse.getJSONArray("items");
-        //System.out.println("all items: "+allItems+" --Request Json - cm");//all the data
 
-        //allItems.length()
-        for (int i = 0; i < 3; i++) {
-            System.out.println("\ngetJSONObject "+i+": "+allItems.getJSONObject(i)+" --Request Json - cm");
-
+        for (int i = 0; i < numberResults; i++) {
             returnedList.add(jsonToFullBook(allItems.getJSONObject(i)));//jsonToFullBook
-            //Image tempImage = getSmallImage(allItems.getJSONObject(i));
-
-            //returnedList.get(i).setIcon(tempImage);
-            //returnedList.get(i).getPublisherInstance().setID(i);
-            returnedList.get(i).setId(i + 1);
-
-
-        }
-        System.out.println("Printing returnedList: "+" --Request Json - cm");
-        for(FullBook each: returnedList){
-            System.out.println("\t"+each);
         }
         return returnedList;
     }
 
 
     public FullBook jsonToFullBook(JSONObject jsonObject) throws JSONException {
-        //changed to non-static method
-        //Gson gson = new Gson();
-        /*String tempPubTitle = "", publishedDate = "", tempDesc = "", tempTitle = "";
-        Map<String, String> tempISBN = new HashMap<String, String>();
-        List<String> tempAuthors = new ArrayList<String>();
-
-
-        tempTitle = jsonObject.getJSONObject("volumeInfo").get("title").toString();
-        try {
-            if(jsonObject.getJSONObject("volumeInfo").has("authors"))
-            tempAuthors = jsonArrayToStringArray(jsonObject.getJSONObject("volumeInfo").
-                    getJSONArray("authors"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        tempISBN = getIsbn(jsonObject);
-
-//            Publisher
-        try {
-            if (jsonObject.getJSONObject("volumeInfo").has("publisher"))
-                tempPubTitle = jsonObject.getJSONObject("volumeInfo").get("publisher").toString();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (jsonObject.getJSONObject("volumeInfo").has("publishedDate"))
-            publishedDate = jsonObject.getJSONObject("volumeInfo").get("publishedDate").toString();
-        if (jsonObject.has("description"))//not working
-            tempDesc = jsonObject.getJSONObject("description").toString();
-
-        String tempCategories = "";//mine
-        if (jsonObject.getJSONObject("volumeInfo").has("categories"))
-            tempCategories = jsonObject.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);*/
-
         ArrayList<String> fields = new ArrayList<String>();
         FullBook newBook = new FullBook();
+        Map<String, String> tempISBN = new HashMap<String, String>();
+
+        tempISBN = getIsbn(jsonObject);
+        newBook.setIsbn(tempISBN);
+
         for (BookFieldsEnum field : BookFieldsEnum.values()) {
-            String jsProperty = field.getJSProperty();
+            String jsProperty = field.getJSProperty();//the string value in the enum
             String tempProperty = "Undefined";
             List<String> tempPropertyArray = new ArrayList<String>();
             boolean isArray = false;
+
             if(!jsProperty.equals("genre")){
-            try{
-                if(jsProperty.equals("categories") || jsProperty.equals("authors")){
-                    //seperate because they exists as arrays in the JSON object and genre has a different name ("categories")
-                    isArray = true;
-                    if (jsonObject.getJSONObject("volumeInfo").has(jsProperty)){
-                        tempPropertyArray = jsonArrayToStringArray(jsonObject.getJSONObject("volumeInfo").getJSONArray(jsProperty));
+                try{
+                    if(jsProperty.equals("categories") || jsProperty.equals("authors")){
+                        //seperate because they exists as arrays in the JSON object and genre has a different name ("categories")
+                        isArray = true;
+                        if (jsonObject.getJSONObject("volumeInfo").has(jsProperty)){
+                            tempPropertyArray = jsonArrayToStringArray(jsonObject.getJSONObject("volumeInfo").getJSONArray(jsProperty));
+                        }else{
+                            tempPropertyArray = null;
+                        }
+                    }else if(jsProperty.equals("thumbnail")){
+                        //seperate because it is nested in another object
+                        if (jsonObject.getJSONObject("volumeInfo").has("imageLinks") && jsonObject.getJSONObject("volumeInfo").getJSONObject("imageLinks").has(jsProperty)){
+                            tempProperty = jsonObject.getJSONObject("volumeInfo").getJSONObject("imageLinks").get(jsProperty).toString();
+                        }
                     }else{
-                        tempPropertyArray = null;
-                    }
-                }else{
-                    System.out.println(jsonObject.getJSONObject("volumeInfo").has(jsProperty) == true);
-                    if (jsonObject.getJSONObject("volumeInfo").has(jsProperty)){
-                        tempProperty = jsonObject.getJSONObject("volumeInfo").get(jsProperty).toString();
+                        if (jsonObject.getJSONObject("volumeInfo").has(jsProperty)){
+                            tempProperty = jsonObject.getJSONObject("volumeInfo").get(jsProperty).toString();
+                        }
                     }
                 }
-            }
-            catch (JSONException e) {
+                catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                try{
+                    Field fieldInBook = newBook.getClass().getDeclaredField(jsProperty);
+                    if(isArray){
+                        fieldInBook.set(newBook,tempPropertyArray);
+                    }else{
+                        fieldInBook.set(newBook,tempProperty);
+                    }
+                }
+                catch(NoSuchFieldException e){
                     e.printStackTrace();
                 }
-            //Field.set(FullBook.getClass().getDeclaredField(jsProperty),tempProperty);
-            System.out.println("Field: "+jsProperty);
-            System.out.println("Array Property: "+tempPropertyArray);
-            System.out.println("Property: "+tempProperty);
-            try{
-                Field fieldInBook = newBook.getClass().getDeclaredField(jsProperty);
-                if(isArray){
-                    fieldInBook.set(newBook,tempPropertyArray);
-                }else{
-                    fieldInBook.set(newBook,tempProperty);
+                catch(IllegalAccessException e){
+                    e.printStackTrace();
                 }
             }
-            catch(NoSuchFieldException e){
-                e.printStackTrace();
-            }
-            catch(IllegalAccessException e){
-                e.printStackTrace();
-            }
-            }
         }
-
-        /*FullBook returnedFullBook = new FullBook(tempTitle, (ArrayList<String>) tempAuthors, tempISBN, tempDesc, 0);
-        returnedFullBook.setCategories(tempCategories);
-        Publisher tempPublisher = new Publisher();
-        tempPublisher.setName(tempPubTitle);
-        returnedFullBook.setPublisherInstance(tempPublisher);
-        returnedFullBook.setDatePublished(publishedDate);
-        */
         return newBook;
-        //return returnedFullBook;
     }
-
-    /*public static Image getSmallImage(JSONObject jsonObject) {
-        Image tempImage = null;
-        count2++;
-
-        try {
-
-            if (jsonObject.getJSONObject("volumeInfo").has("imageLinks"))
-                if (jsonObject.getJSONObject("volumeInfo").getJSONObject("imageLinks").has("smallThumbnail")) {
-
-                    try {
-                        URL url = new URL(jsonObject.getJSONObject("volumeInfo").getJSONObject("imageLinks").get("smallThumbnail").toString());
-                        tempImage = new Image(url.toString());
-
-                    } catch (IOException e) {
-                    }
-                    return tempImage;
-                }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
 
     public Map<String, String> getIsbn(JSONObject item) throws JSONException {
         Gson gson = new Gson();
