@@ -106,7 +106,13 @@ public class GenreRecommender {
       return bookToScore.build();
   }
 
-  
+  /**
+    * Returns the top N matches of a book by Genres
+    * 
+    * @param book: Book object for recommendations
+    * @param n: Number of books to be returned
+    * @return ImmutableList of n books sorted most-> least recommended
+    */
   public ImmutableList<Book> getTopNMatches(Book book, int n) {
       relevanceScoreMap = getBooksWithScores(book.genre());
       ArrayList<Book> allBooks = new ArrayList<Book>();
@@ -125,7 +131,11 @@ public class GenreRecommender {
       return topNBooks.build();
 
   }
-
+  
+  /**
+    * Sorting class that implements Comparator and compares
+    * books by relevance in descending order.
+    */
   class SortByRelevance implements Comparator<Book>{
     
     public int compare(Book a, Book b) 
