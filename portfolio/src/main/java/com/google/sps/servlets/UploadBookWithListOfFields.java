@@ -60,45 +60,56 @@ public class UploadBookWithListOfFields extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    String printStatement = "";
     for (Map.Entry<Integer, Book> bookEntry : bookList.entrySet()) {
       BookAPI BookAPI = new BookAPI();
+      printStatement += "\nThe book we want is " + bookEntry.getValue().title();
       ArrayList<FullBook> bookResultList =
           BookAPI.search(bookEntry.getValue().title(), 1); // how many results you want
-      FullBook topResult = bookResultList.get(0);
-      //results are soley from the Book API, need to integrate with the Bookreader!!!
-
-      long timeStamp = System.currentTimeMillis();
-
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-      Entity bookEntity = new Entity(ENTITY_KIND);
-      for (Field f : topResult.getClass().getDeclaredFields()) {
-        String field = f.getName();
-        try {
-          String fieldType = f.getType().getTypeName();
-          if (fieldType.equals("java.lang.String")) {
-            String tempValue = topResult.getStringField(field);
-            if (tempValue.getBytes().length >= 1500) {
-              bookEntity.setProperty(field, new Text(tempValue));
-            } else {
-              bookEntity.setProperty(field, tempValue);
-            }
-          } else if (fieldType.equals("java.util.ArrayList")) {
-            bookEntity.setProperty(field, topResult.getArrayField(field));
-          } else {
-            bookEntity.setProperty(field, "Undefined");
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+      if(bookResultList == null){
+          printStatement += "\n result list is null";
+      }else{
+          printStatement += bookResultList.toString();
       }
+      try{
+        FullBook topResult = bookResultList.get(0);
+              //results are soley from the Book API, need to integrate with the Bookreader!!!
 
-      datastore.put(bookEntity);
+        long timeStamp = System.currentTimeMillis();
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+        Entity bookEntity = new Entity(ENTITY_KIND);
+        for (Field f : topResult.getClass().getDeclaredFields()) {
+            String field = f.getName();
+            try {
+            String fieldType = f.getType().getTypeName();
+            if (fieldType.equals("java.lang.String")) {
+                String tempValue = topResult.getStringField(field);
+                if (tempValue.getBytes().length >= 1500) {
+                bookEntity.setProperty(field, new Text(tempValue));
+                } else {
+                bookEntity.setProperty(field, tempValue);
+                }
+            } else if (fieldType.equals("java.util.ArrayList")) {
+                bookEntity.setProperty(field, topResult.getArrayField(field));
+            } else {
+                bookEntity.setProperty(field, "Undefined");
+            }
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
+        }
+
+        datastore.put(bookEntity);
+      }
+      catch(NullPointerException e){
+          printStatement += "\ntopResult returned null";
+      }
     }
 
     response.setContentType("application/json");
-    response.getWriter().println("Data Uploaded!");
+    response.getWriter().println(printStatement);
   }
 
   @Override
