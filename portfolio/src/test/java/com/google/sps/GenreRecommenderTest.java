@@ -1,5 +1,6 @@
 package com.google.sps;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.sps.data.Book;
 import com.google.sps.data.BookReader;
@@ -90,6 +91,44 @@ public final class GenreRecommenderTest {
 
     Assert.assertEquals(ImmutableSet.of(),
         rec.getBooksWithExactGenres(new HashSet<>(Arrays.asList("epic", "crime"))));
+  }
+
+  @Test
+  public void getTopNMatchesTest() {
+    List<Book> bookList = new ArrayList<Book>();
+    Collections.addAll(bookList, AUTOBIOGRAPHY_BOOK, BIOGRAPHY_BOOK, CRIME_BOOK, HORROR_BOOK, 
+        CRIME_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK,
+        HORROR_CRIME_BOOK, BIOGRAPHY_HUMOR_BOOK, 
+        EPIC_MYTHOLOGY_BOOK_2, EPIC_MYTHOLOGY_BOOK_3);
+    GenreRecommender rec = new GenreRecommender(bookList);
+
+    // regular case:
+    Assert.assertEquals((Arrays.asList(BIOGRAPHY_HUMOR_BOOK)),
+        rec.getTopNMatches(BIOGRAPHY_BOOK, 1));
+    Assert.assertEquals((Arrays.asList(CRIME_BOOK, HORROR_BOOK, CRIME_HUMOR_BOOK)),
+        rec.getTopNMatches(HORROR_CRIME_BOOK, 3));
+    Assert.assertEquals((Arrays.asList(CRIME_HUMOR_BOOK, HORROR_CRIME_BOOK)),
+        rec.getTopNMatches(CRIME_BOOK, 2));
+    Assert.assertEquals((Arrays.asList(EPIC_MYTHOLOGY_BOOK_2, EPIC_MYTHOLOGY_BOOK_3)),
+        rec.getTopNMatches(EPIC_MYTHOLOGY_BOOK, 2));
+
+    Assert.assertEquals(BIOGRAPHY_HUMOR_BOOK,
+        rec.getTopNMatches(BIOGRAPHY_BOOK, 3).get(0));
+    Assert.assertEquals(CRIME_BOOK,
+        rec.getTopNMatches(HORROR_CRIME_BOOK, 7).get(0));
+
+    // N >= # of books
+    Assert.assertEquals(9,
+        rec.getTopNMatches(BIOGRAPHY_BOOK, 15).size());
+    Assert.assertEquals(9,
+        rec.getTopNMatches(BIOGRAPHY_BOOK, 9).size());
+    
+    // N <= 0
+    Assert.assertEquals(ImmutableList.of(),
+        rec.getTopNMatches(BIOGRAPHY_BOOK, 0));
+    Assert.assertEquals(ImmutableList.of(),
+        rec.getTopNMatches(BIOGRAPHY_BOOK, -78));
+
   }
 
   private static Book createBook(String title, String[] genres) {

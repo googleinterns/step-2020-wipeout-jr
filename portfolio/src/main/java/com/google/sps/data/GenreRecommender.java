@@ -6,13 +6,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.sps.data.Book;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator; 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class GenreRecommender {
@@ -112,8 +111,14 @@ public class GenreRecommender {
       relevanceScoreMap = getBooksWithScores(book.genre());
       ArrayList<Book> allBooks = new ArrayList<Book>();
       allBooks.addAll(relevanceScoreMap.keySet());
+      allBooks.remove(book);
       Collections.sort(allBooks, new SortByRelevance()); 
       ImmutableList.Builder<Book> topNBooks = new ImmutableList.Builder<Book>();
+      if (n < 1){
+          return ImmutableList.of();
+      } else if (n > allBooks.size()) {
+          n = allBooks.size();
+      }
       for (int i = 0; i < n; i++){
           topNBooks.add(allBooks.get(i));
       }
