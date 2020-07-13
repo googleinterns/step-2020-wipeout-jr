@@ -25,72 +25,31 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public final class GenreRecommenderTest {
-  private List<Book> bookList;
-
   // ONE GENRE BOOKS:
   private static final Book AUTOBIOGRAPHY_BOOK =
-      Book.builder()
-          .title("book about me")
-          .genre(new HashSet<>(Arrays.asList("autobiography")))
-          .addReview("N/A")
-          .build();
-  private static final Book BIOGRAPHY_BOOK = Book.builder()
-                                                 .title("book about him")
-                                                 .genre(new HashSet<>(Arrays.asList("biography")))
-                                                 .addReview("N/A")
-                                                 .build();
-  private static final Book CRIME_BOOK = Book.builder()
-                                             .title("book about death")
-                                             .genre(new HashSet<>(Arrays.asList("crime")))
-                                             .addReview("N/A")
-                                             .build();
-  private static final Book HORROR_BOOK = Book.builder()
-                                              .title("book about ghosts")
-                                              .genre(new HashSet<>(Arrays.asList("horror")))
-                                              .addReview("N/A")
-                                              .build();
+      createBook("book about me", new String[] {"autobiography"});
+  private static final Book BIOGRAPHY_BOOK =
+      createBook("book about him", new String[] {"biography"});
+  private static final Book CRIME_BOOK = createBook("book about death", new String[] {"crime"});
+  private static final Book HORROR_BOOK = createBook("book about ghosts", new String[] {"horror"});
 
   // TWO GENRE BOOKS:
   private static final Book HORROR_CRIME_BOOK =
-      Book.builder()
-          .title("ghost murder book")
-          .genre(new HashSet<>(Arrays.asList("horror", "crime")))
-          .addReview("N/A")
-          .build();
+      createBook("ghost murder book", new String[] {"horror", "crime"});
   private static final Book BIOGRAPHY_HUMOR_BOOK =
-      Book.builder()
-          .title("funny guy I knew")
-          .genre(new HashSet<>(Arrays.asList("biography", "humor")))
-          .addReview("N/A")
-          .build();
+      createBook("funny guy I knew", new String[] {"biography", "humor"});
   private static final Book CRIME_HUMOR_BOOK =
-      Book.builder()
-          .title("dark death")
-          .genre(new HashSet<>(Arrays.asList("crime", "humor")))
-          .addReview("N/A")
-          .build();
+      createBook("dark death", new String[] {"crime", "humor"});
   private static final Book EPIC_MYTHOLOGY_BOOK =
-      Book.builder()
-          .title("gods and legends")
-          .genre(new HashSet<>(Arrays.asList("epic", "mythology")))
-          .addReview("N/A")
-          .build();
+      createBook("gods and legends", new String[] {"epic", "mythology"});
   private static final Book EPIC_MYTHOLOGY_BOOK_2 =
-      Book.builder()
-          .title("gods vs legends")
-          .genre(new HashSet<>(Arrays.asList("epic", "mythology")))
-          .addReview("N/A")
-          .build();
+      createBook("gods vs legends", new String[] {"epic", "mythology"});
   private static final Book EPIC_MYTHOLOGY_BOOK_3 =
-      Book.builder()
-          .title("gods become legends")
-          .genre(new HashSet<>(Arrays.asList("epic", "mythology")))
-          .addReview("N/A")
-          .build();
+      createBook("gods become legends", new String[] {"epic", "mythology"});
 
   @Test
   public void getGenresTests() {
-    bookList = new ArrayList<Book>();
+    List<Book> bookList = new ArrayList<Book>();
     Collections.addAll(
         bookList, AUTOBIOGRAPHY_BOOK, BIOGRAPHY_BOOK, CRIME_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK);
     GenreRecommender rec = new GenreRecommender(bookList);
@@ -110,7 +69,7 @@ public final class GenreRecommenderTest {
 
   @Test
   public void getBooksWithExactGenresTests() {
-    bookList = new ArrayList<Book>();
+    List<Book> bookList = new ArrayList<Book>();
     Collections.addAll(bookList, CRIME_BOOK, HORROR_BOOK, CRIME_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK,
         HORROR_CRIME_BOOK, BIOGRAPHY_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK_2, EPIC_MYTHOLOGY_BOOK_3);
     GenreRecommender rec = new GenreRecommender(bookList);
@@ -131,5 +90,13 @@ public final class GenreRecommenderTest {
 
     Assert.assertEquals(ImmutableSet.of(),
         rec.getBooksWithExactGenres(new HashSet<>(Arrays.asList("epic", "crime"))));
+  }
+
+  private static Book createBook(String title, String[] genres) {
+    return Book.builder()
+        .title(title)
+        .genre(new HashSet<>(Arrays.asList(genres)))
+        .addReview("N/A")
+        .build();
   }
 }
