@@ -64,7 +64,7 @@ public class UploadBookWithListOfFields extends HttpServlet {
       BookAPI BookAPI = new BookAPI();
       ArrayList<FullBook> bookResultList =
           BookAPI.search(bookEntry.getValue().title(), 1); // how many results you want
-      try{
+      //try{
         FullBook topResult = bookResultList.get(0);
               //results are soley from the Book API, need to integrate with the Bookreader!!!
 
@@ -95,10 +95,10 @@ public class UploadBookWithListOfFields extends HttpServlet {
         }
 
         datastore.put(bookEntity);
-      }
-      catch(NullPointerException e){
-          e.printStackTrace();
-      }
+      //}
+    //   catch(NullPointerException e){
+    //       e.printStackTrace();
+    //   }
     }
 
     response.setContentType("application/json");
