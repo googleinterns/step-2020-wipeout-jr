@@ -60,17 +60,10 @@ public class UploadBookWithListOfFields extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String printStatement = "";
     for (Map.Entry<Integer, Book> bookEntry : bookList.entrySet()) {
       BookAPI BookAPI = new BookAPI();
-      printStatement += "\nThe book we want is " + bookEntry.getValue().title();
       ArrayList<FullBook> bookResultList =
           BookAPI.search(bookEntry.getValue().title(), 1); // how many results you want
-      if(bookResultList == null){
-          printStatement += "\n result list is null";
-      }else{
-          printStatement += bookResultList.toString();
-      }
       try{
         FullBook topResult = bookResultList.get(0);
               //results are soley from the Book API, need to integrate with the Bookreader!!!
@@ -97,19 +90,19 @@ public class UploadBookWithListOfFields extends HttpServlet {
                 bookEntity.setProperty(field, "Undefined");
             }
             } catch (Exception e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         }
 
         datastore.put(bookEntity);
       }
       catch(NullPointerException e){
-          printStatement += "\ntopResult returned null";
+          e.printStackTrace();
       }
     }
 
     response.setContentType("application/json");
-    response.getWriter().println(printStatement);
+    response.getWriter().println("Data uploaded!");
   }
 
   @Override
