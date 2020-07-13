@@ -5,24 +5,29 @@
     <title>Better Reads</title>
     <link rel="stylesheet" href="style.css">
 
+
     <!-- External Library Dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-mocks.js"></script>
 
     <!-- AngularJS Components -->
     <script src="book-list/book-list.module.js"></script>
     <script src="book-list/book-list.component.js"></script>
     <script src="book-detail/book-detail.module.js"></script>
     <script src="book-detail/book-detail.component.js"></script>
+    <script src="user-status/user-status.module.js"></script>
+    <script src="user-status/user-status.component.js"></script>
 
     <script src="app.js"></script>
     <script src="app.config.js"></script>
   </head>
   <body ng-app = "betterReadsApp">
 
-    <a href="#!/book-list"> Home </a>
-    <p> You could put something like a toolbar here that would be on every single page! </p>    
+    <a href="#!/book-list"> BetterReads </a>
+    <user-status></user-status>
+    <!-- <p> You could put something like a toolbar here that would be on every single page! </p>     -->
     <!-- TODO: someone should totally add a toolbar (with links between pages) here :P -->
     <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
     <!-- But for now, I put a link to the book-list which is currently our 'homepage'. -->
@@ -38,11 +43,8 @@
     <!-- So, generally things like toolbars, footers, etc. that are always at
         the top / bottom of websites are perfect for putting above/below the ng-view div. -->
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
+      <p>2020 Team Wipeout Jr.</p>
       <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
     </div>
   </body>
 </html>
