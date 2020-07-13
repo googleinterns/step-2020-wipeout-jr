@@ -1,14 +1,25 @@
 package com.google.sps.data;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.sps.data.Book;
+import java.util.Collections;
+import java.util.Comparator; 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class GenreRecommender {
   private List<Book> books;
+  private Map<Book, Integer> relevanceScoreMap;
+  private static final int MATCH_SCORE = 5;
+  private static final int NO_MATCH_SCORE = -2;
   private ImmutableSetMultimap<Book, String> bookToGenres;
   private ImmutableSetMultimap<String, Book> genreToBooks;
 
@@ -68,5 +79,53 @@ public class GenreRecommender {
       return ImmutableSet.of();
     }
     return matches;
+  }
+
+  /**
+   * Takes in a set of genres and returns an ImmutableMap
+   * with books and their relevance score
+   *
+   * @param genres: Set of genres (as Strings)
+   * @return ImmutableMap with {Book:relevanceScore}
+   */
+  private ImmutableMap<Book, Integer> getBooksWithScores(Set<String> genres) {
+      ImmutableMap.Builder<Book, Integer> bookToScore = new ImmutableMap.Builder<Book, Integer>();
+
+      for (Book book: books) {
+          // assign score based on relevance:
+          int score = 0;
+          for (String genre: getGenres(book)) {
+              if (genres.contains(genre)) {
+                  score += MATCH_SCORE;
+              } else {
+                  score += NO_MATCH_SCORE;
+              }
+          }
+          bookToScore.put(book, score);
+
+      }
+      return bookToScore.build();
+  }
+
+  
+  public ImmutableList<Book> getTopNMatches(Book book, int n) {
+      relevanceScoreMap = getBooksWithScores(book.genre());
+      ArrayList<Book> allBooks = new ArrayList<Book>();
+      allBooks.addAll(relevanceScoreMap.keySet());
+      Collections.sort(allBooks, new SortByRelevance()); 
+      ImmutableList.Builder<Book> topNBooks = new ImmutableList.Builder<Book>();
+      for (int i = 0; i < n; i++){
+          topNBooks.add(allBooks.get(i));
+      }
+      return topNBooks.build();
+
+  }
+
+  class SortByRelevance implements Comparator<Book>{
+    
+    public int compare(Book a, Book b) 
+    {
+        return relevanceScoreMap.get(b).compareTo(relevanceScoreMap.get(a));
+    } 
   }
 }
