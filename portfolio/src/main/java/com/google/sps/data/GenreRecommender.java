@@ -18,7 +18,6 @@ public class GenreRecommender {
   private List<Book> books;
   private Map<Book, Integer> relevanceScoreMap;
   private static final int MATCH_SCORE = 5;
-  private static final int NO_MATCH_SCORE = -2;
   private ImmutableSetMultimap<Book, String> bookToGenres;
   private ImmutableSetMultimap<String, Book> genreToBooks;
 
@@ -96,8 +95,6 @@ public class GenreRecommender {
           for (String genre: getGenres(book)) {
               if (genres.contains(genre)) {
                   score += MATCH_SCORE;
-              } else {
-                  score += NO_MATCH_SCORE;
               }
           }
           bookToScore.put(book, score);
