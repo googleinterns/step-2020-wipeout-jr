@@ -6,6 +6,8 @@
 
 package com.google.sps.data;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.sps.data.BookFieldsEnum;
@@ -30,6 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RequestJson {
+  private static final String VOLUME_INFO = "volumeInfo";
+  private static final String IMG_LINKS = "imageLinks";
+
   public RequestJson() {}
 
   public JSONObject requestQuery(String query) throws Exception {
@@ -45,6 +50,7 @@ public class RequestJson {
     int responseCode = con.getResponseCode();
 
     BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    System.out.println("Created Buffered Reader: "+in);
     String inputLine;
     StringBuffer response = new StringBuffer(); // will contain the large string of information
     while ((inputLine = in.readLine()) != null) {
@@ -56,7 +62,7 @@ public class RequestJson {
     return myResponse;
   }
 
-  public ArrayList<FullBook> call_me(String query, int numberResults) throws Exception {
+  public ImmutableList<FullBook> getBookList(String query, int numberResults) throws Exception {
     File index = new File("output");
 
     if (!index.exists()) {
@@ -79,7 +85,9 @@ public class RequestJson {
     for (int i = 0; i < numberResults; i++) {
       returnedList.add(jsonToFullBook(allItems.getJSONObject(i))); // jsonToFullBook
     }
-    return returnedList;
+    ImmutableList<FullBook> immutableBookList = 
+                         ImmutableList.copyOf(bookList); 
+    return immutableBookList;
   }
 
   public FullBook jsonToFullBook(JSONObject jsonObject) throws JSONException {
@@ -106,27 +114,20 @@ public class RequestJson {
             // seperate because they exists as arrays in the JSON object [] and genre has a
             // different name ("categories")
             isArray = true;
-            if (jsonObject.getJSONObject("volumeInfo").has(jsProperty)) {
-              tempPropertyArray = jsonArrayToStringArray(
-                  jsonObject.getJSONObject("volumeInfo").getJSONArray(jsProperty));
-            } else {
-              tempPropertyArray = null;
-            }
+            tempArrayProperty = getArrayInObj(jsProperty,jsonObject);
           } else if (jsProperty.equals("thumbnail")) {
             // seperate because it is nested in another object {}
-            if (jsonObject.getJSONObject("volumeInfo").has("imageLinks")
-                && jsonObject.getJSONObject("volumeInfo")
-                       .getJSONObject("imageLinks")
+            if (jsonObject.getJSONObject(VOLUME_INFO).has(IMG_LINKS)
+                && jsonObject.getJSONObject(VOLUME_INFO)
+                       .getJSONObject(IMG_LINKS)
                        .has(jsProperty)) {
-              tempProperty = jsonObject.getJSONObject("volumeInfo")
-                                 .getJSONObject("imageLinks")
+              tempProperty = jsonObject.getJSONObject(VOLUME_INFO)
+                                 .getJSONObject(IMG_LINKS)
                                  .get(jsProperty)
                                  .toString();
             }
           } else {
-            if (jsonObject.getJSONObject("volumeInfo").has(jsProperty)) {
-              tempProperty = jsonObject.getJSONObject("volumeInfo").get(jsProperty).toString();
-            }
+            tempProperty = getStringInObj(jsProperty,jsonObject);
           }
         } catch (JSONException e) {
           e.printStackTrace();
@@ -145,14 +146,35 @@ public class RequestJson {
     return newBook;
   }
 
-  public Map<String, String> getIsbn(JSONObject item) throws JSONException {
+  private String getStringInObj(String jsProperty, JSONObject jsonObject){
+      //gets the value assigned in the json object to this key
+      String tempProperty = "";
+      if (jsonObject.getJSONObject(VOLUME_INFO).has(jsProperty)) {
+              tempProperty = jsonObject.getJSONObject(VOLUME_INFO).get(jsProperty).toString();
+            }
+      return tempProperty;
+  }
+
+  private ArrayList<String> getArrayInObj(String jsProperty, JSONObject jsonObject){
+      //gets the value assigned in the json object to this key
+      List<String> tempPropertyArray = new ArrayList<String>;
+      if (jsonObject.getJSONObject(VOLUME_INFO).has(jsProperty)) {
+              tempPropertyArray = jsonArrayToStringArray(
+                  jsonObject.getJSONObject(VOLUME_INFO).getJSONArray(jsProperty));
+            } else {
+              tempPropertyArray = null;
+            }
+      return tempPropertyArray;
+  }
+
+  public ImmutableMap<String,String> getIsbn(JSONObject item) throws JSONException {
     Gson gson = new Gson();
 
     String tempType = "", tempISBN = "";
     Map<String, String> isbnMap = new HashMap<String, String>();
     int counter = 0;
-    if (item.getJSONObject("volumeInfo").has("industryIdentifiers")) {
-      JSONArray tempArr = item.getJSONObject("volumeInfo").getJSONArray("industryIdentifiers");
+    if (item.getJSONObject(VOLUME_INFO).has("industryIdentifiers")) {
+      JSONArray tempArr = item.getJSONObject(VOLUME_INFO).getJSONArray("industryIdentifiers");
       Type listType = new TypeToken<List<HashMap<String, String>>>() {}.getType();
       List<HashMap<String, String>> isbns = gson.fromJson(tempArr.toString(), listType);
 
@@ -168,10 +190,13 @@ public class RequestJson {
           }
           counter++;
         }
-        if (tempType != null || tempISBN != null)
+        if (tempType != null || tempISBN != null){
           isbnMap.put(tempType, tempISBN);
+        }
       }
-      return isbnMap;
+      ImmutableMap<String,String> immutableIsbnMap = 
+                         ImmutableMap.copyOf(isbnMap); 
+      return immutableIsbnMap;
     }
     return null;
   }
