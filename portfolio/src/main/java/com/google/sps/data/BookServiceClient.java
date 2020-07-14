@@ -29,7 +29,6 @@ public class BookServiceClient {
     try {
       String allResults = queryBooksAPI(encodedBookName);
       return getTopResult(allResults);
- 
     }
     catch (Exception e) {
       e.printStackTrace();
