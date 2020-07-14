@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator; 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -88,8 +89,12 @@ public class GenreRecommender {
    */
   private ImmutableMap<Book, Integer> getBooksWithScores(Set<String> genres) {
       ImmutableMap.Builder<Book, Integer> bookToScore = new ImmutableMap.Builder<Book, Integer>();
+      Set<Book> booksToConsider = new HashSet<Book>();
+      for (String genre: genres) {
+          booksToConsider.addAll(genreToBooks.get(genre));
+      }
 
-      for (Book book: books) {
+      for (Book book: booksToConsider) {
           // assign score based on relevance:
           int score = 0;
           for (String genre: getGenres(book)) {

@@ -109,7 +109,7 @@ public final class GenreRecommenderTest {
         rec.getTopNMatches(HORROR_CRIME_BOOK, 3));
     Assert.assertEquals((Arrays.asList(CRIME_HUMOR_BOOK, HORROR_CRIME_BOOK)),
         rec.getTopNMatches(CRIME_BOOK, 2));
-    Assert.assertEquals((Arrays.asList(EPIC_MYTHOLOGY_BOOK_2, EPIC_MYTHOLOGY_BOOK_3)),
+    Assert.assertEquals((Arrays.asList(EPIC_MYTHOLOGY_BOOK_3, EPIC_MYTHOLOGY_BOOK_2)),
         rec.getTopNMatches(EPIC_MYTHOLOGY_BOOK, 2));
 
     Assert.assertEquals(BIOGRAPHY_HUMOR_BOOK,
@@ -118,10 +118,10 @@ public final class GenreRecommenderTest {
         rec.getTopNMatches(HORROR_CRIME_BOOK, 7).get(0));
 
     // N >= # of books
-    Assert.assertEquals(9,
+    Assert.assertEquals(1,
         rec.getTopNMatches(BIOGRAPHY_BOOK, 15).size());
-    Assert.assertEquals(9,
-        rec.getTopNMatches(BIOGRAPHY_BOOK, 9).size());
+    Assert.assertEquals(2,
+        rec.getTopNMatches(EPIC_MYTHOLOGY_BOOK, 9).size());
     
     // N <= 0
     Assert.assertEquals(ImmutableList.of(),
