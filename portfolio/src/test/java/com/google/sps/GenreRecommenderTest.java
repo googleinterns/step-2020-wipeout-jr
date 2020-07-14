@@ -102,7 +102,6 @@ public final class GenreRecommenderTest {
         EPIC_MYTHOLOGY_BOOK_2, EPIC_MYTHOLOGY_BOOK_3);
     GenreRecommender rec = new GenreRecommender(bookList);
 
-    // regular case:
     Assert.assertEquals((Arrays.asList(BIOGRAPHY_HUMOR_BOOK)),
         rec.getTopNMatches(BIOGRAPHY_BOOK, 1));
     Assert.assertEquals((Arrays.asList(CRIME_BOOK, HORROR_BOOK, CRIME_HUMOR_BOOK)),
@@ -117,18 +116,29 @@ public final class GenreRecommenderTest {
     Assert.assertEquals(CRIME_BOOK,
         rec.getTopNMatches(HORROR_CRIME_BOOK, 7).get(0));
 
-    // // N >= # of books
+  }
+
+  @Test
+  public void getTopNMatchesEdges() {
+    
+    List<Book> bookList = new ArrayList<Book>();
+    Collections.addAll(bookList, AUTOBIOGRAPHY_BOOK, BIOGRAPHY_BOOK, CRIME_BOOK, HORROR_BOOK, 
+        CRIME_HUMOR_BOOK, EPIC_MYTHOLOGY_BOOK,
+        HORROR_CRIME_BOOK, BIOGRAPHY_HUMOR_BOOK, 
+        EPIC_MYTHOLOGY_BOOK_2, EPIC_MYTHOLOGY_BOOK_3);
+    GenreRecommender rec = new GenreRecommender(bookList);
+
+    // N >= # of books
     Assert.assertEquals(1,
         rec.getTopNMatches(BIOGRAPHY_BOOK, 15).size());
     Assert.assertEquals(2,
         rec.getTopNMatches(EPIC_MYTHOLOGY_BOOK, 9).size());
     
-    // // N <= 0
+    // N <= 0
     Assert.assertEquals(Arrays.asList(),
         rec.getTopNMatches(BIOGRAPHY_BOOK, 0));
     Assert.assertEquals(Arrays.asList(),
         rec.getTopNMatches(BIOGRAPHY_BOOK, -78));
-
   }
 
   private static Book createBook(String title, String[] genres) {
