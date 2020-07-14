@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.sps.data.Book;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator; 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -88,68 +88,64 @@ public class GenreRecommender {
    * @return ImmutableMap with {Book:relevanceScore}
    */
   private ImmutableMap<Book, Integer> getBooksWithScores(Set<String> genres) {
-      ImmutableMap.Builder<Book, Integer> bookToScore = new ImmutableMap.Builder<Book, Integer>();
-      Set<Book> booksToConsider = new HashSet<Book>();
-      for (String genre: genres) {
-          booksToConsider.addAll(genreToBooks.get(genre));
-      }
+    ImmutableMap.Builder<Book, Integer> bookToScore = new ImmutableMap.Builder<Book, Integer>();
+    Set<Book> booksToConsider = new HashSet<Book>();
+    for (String genre : genres) {
+      booksToConsider.addAll(genreToBooks.get(genre));
+    }
 
-      for (Book book: booksToConsider) {
-          // assign score based on relevance:
-          int score = 0;
-          for (String genre: getGenres(book)) {
-              if (genres.contains(genre)) {
-                  score += MATCH_SCORE;
-              }
-          }
-          bookToScore.put(book, score);
-          System.out.println(book.genre() + " has score: " + score);
-
+    for (Book book : booksToConsider) {
+      // assign score based on relevance:
+      int score = 0;
+      for (String genre : getGenres(book)) {
+        if (genres.contains(genre)) {
+          score += MATCH_SCORE;
+        }
       }
-      return bookToScore.build();
+      bookToScore.put(book, score);
+    }
+    return bookToScore.build();
   }
 
   /**
-    * Returns the top N matches of a book by Genres
-    * 
-    * @param book: Book object for recommendations
-    * @param n: Number of books to be returned
-    * @return List of n books sorted most-> least recommended
-    */
+   * Returns the top N matches of a book by Genres
+   *
+   * @param book: Book object for recommendations
+   * @param n: Number of books to be returned
+   * @return List of n books sorted most-> least recommended
+   */
   public List<Book> getTopNMatches(Book originalBook, int n) {
-      relevanceScoreMap = getBooksWithScores(originalBook.genre());
-      List<Book> topNBooks = new ArrayList<Book>(); // sorted list of top n books in descending order
+    relevanceScoreMap = getBooksWithScores(originalBook.genre());
+    List<Book> topNBooks = new ArrayList<Book>();
 
-      if (n < 1){
-          return topNBooks;
-      }
-      
-      for (Book book: relevanceScoreMap.keySet()) {
-          if (book.equals(originalBook)) {
-              continue;
-          }
-          if (topNBooks.size() < n) {
-              addInPosition(topNBooks, book); // add it in the right place
-          } else if (relevanceScoreMap.get(book) > relevanceScoreMap.get(topNBooks.get(n-1))){
-              addInPosition(topNBooks.subList(0, n-1), book);
-          }
-      }
+    if (n < 1) {
       return topNBooks;
+    }
+    for (Book book : relevanceScoreMap.keySet()) {
+      if (book.equals(originalBook)) {
+        continue;
+      }
+      if (topNBooks.size() < n) {
+        addInPosition(topNBooks, book); // add it in the right place
+      } else if (relevanceScoreMap.get(book) > relevanceScoreMap.get(topNBooks.get(n - 1))) {
+        addInPosition(topNBooks.subList(0, n - 1), book);
+      }
+    }
+    return topNBooks;
   }
 
   private void addInPosition(List<Book> list, Book book) {
-      if (list.size() == 0) {
-          list.add(book);
-          return;
-      } else {
-          for (int i = 0; i < list.size(); i++) {
-              if (relevanceScoreMap.get(book) < relevanceScoreMap.get(list.get(i))) {
-                  list.add(i, book);
-                  return;
-              }
-          }
-      }
+    if (list.size() == 0) {
       list.add(book);
+      return;
+    } else {
+      for (int i = 0; i < list.size(); i++) {
+        if (relevanceScoreMap.get(book) < relevanceScoreMap.get(list.get(i))) {
+          list.add(i, book);
+          return;
+        }
+      }
+    }
+    list.add(book);
   }
-
 }
