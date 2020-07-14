@@ -3,6 +3,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.data.UserDaoDatastore;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,10 +23,13 @@ public class UserStatusServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-
     UserService userService = UserServiceFactory.getUserService();
+
     if (userService.isUserLoggedIn()) {
+        UserDaoDatastore storage = new UserDaoDatastore();
+        storage.upload(); //uploads the user's info to the datastore
       response.getWriter().println(toJson("Logged In"));
+
     } else {
       response.getWriter().println(toJson("Logged Out"));
     }
