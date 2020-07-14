@@ -128,15 +128,15 @@ public class GenreRecommender {
       if (topNBooks.size() < n) {
         topNBooks.add(book);
       } else if (relevanceScoreMap.get(book) > relevanceScoreMap.get(topNBooks.get(n - 1))) {
-        topNBooks = topNBooks.subList(0, n-1);
+        topNBooks = topNBooks.subList(0, n - 1);
         topNBooks.add(book);
       }
       Collections.sort(topNBooks, new Comparator<Book>() {
-			@Override
-			public int compare(Book a, Book b) {
-				return relevanceScoreMap.get(b).compareTo(relevanceScoreMap.get(a));
-			}
-	  });
+        @Override
+        public int compare(Book a, Book b) {
+          return relevanceScoreMap.get(b).compareTo(relevanceScoreMap.get(a));
+        }
+      });
     }
     return topNBooks;
   }
