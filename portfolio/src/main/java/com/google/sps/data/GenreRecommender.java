@@ -103,6 +103,7 @@ public class GenreRecommender {
               }
           }
           bookToScore.put(book, score);
+          System.out.println(book.genre() + " has score: " + score);
 
       }
       return bookToScore.build();
@@ -113,36 +114,42 @@ public class GenreRecommender {
     * 
     * @param book: Book object for recommendations
     * @param n: Number of books to be returned
-    * @return ImmutableList of n books sorted most-> least recommended
+    * @return List of n books sorted most-> least recommended
     */
-  public ImmutableList<Book> getTopNMatches(Book book, int n) {
-      relevanceScoreMap = getBooksWithScores(book.genre());
-      ArrayList<Book> allBooks = new ArrayList<Book>();
-      allBooks.addAll(relevanceScoreMap.keySet());
-      allBooks.remove(book);
-      Collections.sort(allBooks, new SortByRelevance()); 
-      ImmutableList.Builder<Book> topNBooks = new ImmutableList.Builder<Book>();
-      if (n < 1){
-          return ImmutableList.of();
-      } else if (n > allBooks.size()) {
-          n = allBooks.size();
-      }
-      for (int i = 0; i < n; i++){
-          topNBooks.add(allBooks.get(i));
-      }
-      return topNBooks.build();
+  public List<Book> getTopNMatches(Book originalBook, int n) {
+      relevanceScoreMap = getBooksWithScores(originalBook.genre());
+      List<Book> topNBooks = new ArrayList<Book>(); // sorted list of top n books in descending order
 
+      if (n < 1){
+          return topNBooks;
+      }
+      
+      for (Book book: relevanceScoreMap.keySet()) {
+          if (book.equals(originalBook)) {
+              continue;
+          }
+          if (topNBooks.size() < n) {
+              addInPosition(topNBooks, book); // add it in the right place
+          } else if (relevanceScoreMap.get(book) > relevanceScoreMap.get(topNBooks.get(n-1))){
+              addInPosition(topNBooks.subList(0, n-1), book);
+          }
+      }
+      return topNBooks;
   }
-  
-  /**
-    * Sorting class that implements Comparator and compares
-    * books by relevance in descending order.
-    */
-  class SortByRelevance implements Comparator<Book>{
-    
-    public int compare(Book a, Book b) 
-    {
-        return relevanceScoreMap.get(b).compareTo(relevanceScoreMap.get(a));
-    } 
+
+  private void addInPosition(List<Book> list, Book book) {
+      if (list.size() == 0) {
+          list.add(book);
+          return;
+      } else {
+          for (int i = 0; i < list.size(); i++) {
+              if (relevanceScoreMap.get(book) < relevanceScoreMap.get(list.get(i))) {
+                  list.add(i, book);
+                  return;
+              }
+          }
+      }
+      list.add(book);
   }
+
 }
