@@ -1,15 +1,17 @@
 package com.google.sps.data;
-//BOOK VERSION 2
+// BOOK VERSION 2
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @AutoValue
 public abstract class Book {
   public static Builder builder() {
     return new AutoValue_Book.Builder()
+        .genre(new HashSet<String>())
         .categories(new ArrayList<String>())
         .authors(new ArrayList<String>())
         .language("N/A")
