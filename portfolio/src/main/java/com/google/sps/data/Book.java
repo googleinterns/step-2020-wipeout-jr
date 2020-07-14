@@ -27,8 +27,8 @@ public abstract class Book {
   public abstract String title();
   public abstract Set<String> genre();
   public abstract ImmutableList<String> reviews();
-  public abstract ArrayList<String> categories();
-  public abstract ArrayList<String> authors();
+  public abstract ImmutableList<String> categories();
+  public abstract ImmutableList<String> authors();
   public abstract String language();
   public abstract String description();
   public abstract String infoLink();
