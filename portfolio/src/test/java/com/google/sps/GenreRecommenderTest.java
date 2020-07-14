@@ -97,6 +97,17 @@ public final class GenreRecommenderTest {
         .title(title)
         .genre(new HashSet<>(Arrays.asList(genres)))
         .addReview("N/A")
+        .categories(new ArrayList<String>())
+        .authors(new ArrayList<String>())
+        .language("N/A")
+        .description("N/A")
+        .infoLink("N/A")
+        .pageCount("N/A")
+        .publishedDate("N/A")
+        .publisher("N/A")
+        .maturityRating("N/A")
+        .thumbnail("N/A")
+        .isbn("N/A")
         .build();
   }
 }

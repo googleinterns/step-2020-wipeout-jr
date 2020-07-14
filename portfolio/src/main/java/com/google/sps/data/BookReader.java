@@ -6,6 +6,7 @@ import com.google.sps.data.Book;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -20,13 +21,26 @@ public class BookReader {
   }
 
   public ImmutableMap<Integer, Book> makeBookList() throws IOException {
+          System.out.println("makeBookList");
     ImmutableMap.Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
     try (Scanner scanner = new Scanner(file, "utf-8").useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
       String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
 
+          System.out.println("Lines: "+lines);
       String current_title = "";
-      Book.Builder current_builder = Book.builder().title("null");
+      Book.Builder current_builder = Book.builder().title("null")
+            .categories(new ArrayList<String>())
+            .authors(new ArrayList<String>())
+            .language("N/A")
+            .description("N/A")
+            .infoLink("N/A")
+            .pageCount("N/A")
+            .publishedDate("N/A")
+            .publisher("N/A")
+            .maturityRating("N/A")
+            .thumbnail("N/A")
+            .isbn("N/A");
       int currentId = 0;
 
       for (int i = 1; i < lines.length; i++) {
@@ -44,10 +58,22 @@ public class BookReader {
             allBooks.put(currentId++, book);
           }
           // start building new book
-          current_builder = Book.builder().title(title).genre(genre).addReview(review);
+          current_builder = Book.builder().title(title).genre(genre).addReview(review)
+                .categories(new ArrayList<String>())
+                .authors(new ArrayList<String>())
+                .language("N/A")
+                .description("N/A")
+                .infoLink("N/A")
+                .pageCount("N/A")
+                .publishedDate("N/A")
+                .publisher("N/A")
+                .maturityRating("N/A")
+                .thumbnail("N/A")
+                .isbn("N/A");
           current_title = title;
         }
       }
+        
       Book book = current_builder.build();
       allBooks.put(currentId, book);
     } catch (Exception ex) {
