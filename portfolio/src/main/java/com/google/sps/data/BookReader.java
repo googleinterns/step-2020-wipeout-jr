@@ -29,18 +29,7 @@ public class BookReader {
  
           System.out.println("Lines: "+lines);
       String current_title = "";
-      Book.Builder current_builder = Book.builder().title("null")
-            .categories(new ArrayList<String>())
-            .authors(new ArrayList<String>())
-            .language("N/A")
-            .description("N/A")
-            .infoLink("N/A")
-            .pageCount("N/A")
-            .publishedDate("N/A")
-            .publisher("N/A")
-            .maturityRating("N/A")
-            .thumbnail("N/A")
-            .isbn("N/A");
+      Book.Builder current_builder = Book.builder().title("null");
       int currentId = 0;
  
       for (int i = 1; i < lines.length; i++) {
@@ -58,18 +47,7 @@ public class BookReader {
             allBooks.put(currentId++, book);
           }
           // start building new book
-          current_builder = Book.builder().title(title).genre(genre).addReview(review)
-                .categories(new ArrayList<String>())
-                .authors(new ArrayList<String>())
-                .language("N/A")
-                .description("N/A")
-                .infoLink("N/A")
-                .pageCount("N/A")
-                .publishedDate("N/A")
-                .publisher("N/A")
-                .maturityRating("N/A")
-                .thumbnail("N/A")
-                .isbn("N/A");
+          current_builder = Book.builder().title(title).genre(genre).addReview(review);
           current_title = title;
         }
       }
