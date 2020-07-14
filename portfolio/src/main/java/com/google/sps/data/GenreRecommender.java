@@ -126,26 +126,18 @@ public class GenreRecommender {
         continue;
       }
       if (topNBooks.size() < n) {
-        addInPosition(topNBooks, book); // add it in the right place
+        topNBooks.add(book);
       } else if (relevanceScoreMap.get(book) > relevanceScoreMap.get(topNBooks.get(n - 1))) {
-        addInPosition(topNBooks.subList(0, n - 1), book);
+        topNBooks = topNBooks.subList(0, n-1);
+        topNBooks.add(book);
       }
+      Collections.sort(topNBooks, new Comparator<Book>() {
+			@Override
+			public int compare(Book a, Book b) {
+				return relevanceScoreMap.get(b).compareTo(relevanceScoreMap.get(a));
+			}
+	  });
     }
     return topNBooks;
-  }
-
-  private void addInPosition(List<Book> list, Book book) {
-    if (list.size() == 0) {
-      list.add(book);
-      return;
-    } else {
-      for (int i = 0; i < list.size(); i++) {
-        if (relevanceScoreMap.get(book) < relevanceScoreMap.get(list.get(i))) {
-          list.add(i, book);
-          return;
-        }
-      }
-    }
-    list.add(book);
   }
 }
