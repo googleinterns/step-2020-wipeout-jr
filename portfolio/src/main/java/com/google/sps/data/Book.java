@@ -1,4 +1,5 @@
 package com.google.sps.data;
+//BOOK VERSION 2
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -15,11 +16,33 @@ public abstract class Book {
   public abstract String title();
   public abstract Set<String> genre();
   public abstract ImmutableList<String> reviews();
+  public abstract ArrayList<String> categories();
+  public abstract ArrayList<String> authors();
+  public abstract String language();
+  public abstract String description();
+  public abstract String infoLink();
+  public abstract String pageCount();
+  public abstract String publishedDate();
+  public abstract String publisher();
+  public abstract String maturityRating();
+  public abstract String thumbnail();
+  public abstract String isbn();
 
   @AutoValue.Builder
   public static abstract class Builder {
     public abstract Builder title(String title);
     public abstract Builder genre(Set<String> genre);
+    public abstract Builder categories(ArrayList<String> categories);
+    public abstract Builder authors(ArrayList<String> author);
+    public abstract Builder language(String language);
+    public abstract Builder description(String description);
+    public abstract Builder infoLink(String infoLink);
+    public abstract Builder pageCount(String pageCount);
+    public abstract Builder publishedDate(String publishedDate);
+    public abstract Builder publisher(String publisher);
+    public abstract Builder maturityRating(String maturityRating);
+    public abstract Builder thumbnail(String thumbnail);
+    public abstract Builder isbn(String isbn);
     protected abstract ImmutableList.Builder<String> reviewsBuilder();
 
     public Builder addReview(String review) {
@@ -43,3 +66,4 @@ public abstract class Book {
     public abstract Book build();
   }
 }
+
