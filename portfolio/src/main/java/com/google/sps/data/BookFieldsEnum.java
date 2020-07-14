@@ -29,4 +29,3 @@ public enum BookFieldsEnum {
     return this.javaScriptProperty;
   }
 }
-

@@ -133,4 +133,3 @@ public class UploadBookWithListOfFields extends HttpServlet {
     response.sendRedirect(PAGE_REDIRECT);
   }
 }
-

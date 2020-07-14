@@ -11,9 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
- 
+
 // AngularJS App Configuration
-angular.module('betterReadsApp', ['ngRoute', 'bookList', 'bookDetail']);
+angular.module(
+    'betterReadsApp', ['ngRoute', 'bookList', 'bookDetail', 'userStatus']);
 
 /**
  * Adds a random greeting to the page.
@@ -29,4 +30,3 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
-

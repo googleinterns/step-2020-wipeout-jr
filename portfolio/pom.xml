@@ -14,6 +14,9 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <failOnMissingWebXml>false</failOnMissingWebXml>
+
+    <js-tests.skip>false</js-tests.skip>
+    <bower-components>${basedir}/src/main/resources/static/bower_components</bower-components>
   </properties>
  
   <dependencies>
@@ -44,7 +47,7 @@
       <artifactId>guava</artifactId>
       <version>r05</version>
     </dependency>
-    <!-- Datastore dependency-->
+    <!-- Datastore & Users API dependency-->
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-1.0-sdk</artifactId>
@@ -60,6 +63,22 @@
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20180130</version>
+   <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.10.19</version>
+    </dependency>
+    <dependency>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-testing</artifactId>
+        <version>1.9.64</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-api-stubs</artifactId>
+        <version>1.9.64</version>
+        <scope>test</scope>
     </dependency>
   </dependencies>
  
