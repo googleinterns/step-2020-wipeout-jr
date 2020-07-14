@@ -15,7 +15,7 @@ public abstract class Book {
         .language("N/A")
         .description("N/A")
         .infoLink("N/A")
-        .pageCount("N/A")
+        .pageCount(0)
         .publishedDate("N/A")
         .publisher("N/A")
         .maturityRating("N/A")
@@ -32,7 +32,7 @@ public abstract class Book {
   public abstract String language();
   public abstract String description();
   public abstract String infoLink();
-  public abstract String pageCount();
+  public abstract int pageCount();
   public abstract String publishedDate();
   public abstract String publisher();
   public abstract String maturityRating();
@@ -48,7 +48,7 @@ public abstract class Book {
     public abstract Builder language(String language);
     public abstract Builder description(String description);
     public abstract Builder infoLink(String infoLink);
-    public abstract Builder pageCount(String pageCount);
+    public abstract Builder pageCount(int pageCount);
     public abstract Builder publishedDate(String publishedDate);
     public abstract Builder publisher(String publisher);
     public abstract Builder maturityRating(String maturityRating);
