@@ -135,34 +135,35 @@ class BookResponseParser {
   }
 
     public Map<String, String> getIsbn(JSONObject item) throws JSONException {
-    Gson gson = new Gson();
+        Gson gson = new Gson();
 
-    String tempType = "", tempISBN = "";
-    Map<String, String> isbnMap = new HashMap<String, String>();
-    int counter = 0;
-    if (item.getJSONObject(VOLUME_INFO).has("industryIdentifiers")) {
-      JSONArray tempArr = item.getJSONObject(VOLUME_INFO).getJSONArray("industryIdentifiers");
-      Type listType = new TypeToken<List<HashMap<String, String>>>() {}.getType();
-      List<HashMap<String, String>> isbns = gson.fromJson(tempArr.toString(), listType);
+        String tempType = "", tempISBN = "";
+        Map<String, String> isbnMap = new HashMap<String, String>();
+        int counter = 0;
+        if (item.getJSONObject(VOLUME_INFO).has("industryIdentifiers")) {
+            JSONArray tempArr = item.getJSONObject(VOLUME_INFO).getJSONArray("industryIdentifiers");
+            Type listType = new TypeToken<List<HashMap<String, String>>>() {}.getType();
+            List<HashMap<String, String>> isbns = gson.fromJson(tempArr.toString(), listType);
 
-      for (HashMap<String, String> map : isbns) {
-        counter = 0;
-        for (HashMap.Entry<String, String> entry : map.entrySet()) {
-          if (counter == 0) {
-            tempISBN = entry.getValue(); // Key is identifier
-          }
-          if (counter == 1) {
-            tempType = entry.getValue();
-            // Key is type
-          }
-          counter++;
+            for (HashMap<String, String> map : isbns) {
+                counter = 0;
+                for (HashMap.Entry<String, String> entry : map.entrySet()) {
+                    if (counter == 0) {
+                        tempISBN = entry.getValue(); // Key is identifier
+                    }
+                    if (counter == 1) {
+                        tempType = entry.getValue();
+                        // Key is type
+                    }
+                    counter++;
+                }
+                if (tempType != null || tempISBN != null){
+                    isbnMap.put(tempType, tempISBN);
+                }
+            }
+            return isbnMap;
         }
-        if (tempType != null || tempISBN != null)
-          isbnMap.put(tempType, tempISBN);
-      }
-      return isbnMap;
+        return null;
     }
-    return null;
-  }
 
 }
