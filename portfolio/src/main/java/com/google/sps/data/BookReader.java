@@ -21,7 +21,6 @@ public class BookReader {
   }
  
   public ImmutableMap<Integer, Book> makeBookList() throws IOException {
-          System.out.println("makeBookList");
     ImmutableMap.Builder<Integer, Book> allBooks = new Builder<Integer, Book>();
     try (Scanner scanner = new Scanner(file, "utf-8").useDelimiter("\\Z")) {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
