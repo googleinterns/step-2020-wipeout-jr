@@ -32,7 +32,7 @@ class BookResponseParser {
     private static final String ISBN = "ISBN_13";
 
   public Book parseBook(String jsonResponse){
-    JSONObject myResponse = new JSONObject(jsonResponse.toString());
+    JSONObject myResponse = new JSONObject(jsonResponse);
     return jsonToBook(myResponse);
   }
 
