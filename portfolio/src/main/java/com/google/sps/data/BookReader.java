@@ -26,7 +26,7 @@ public class BookReader {
       String content = scanner.next().replaceAll("[\\r\\n]+", "");
       String[] lines = content.split("NEXTBOOK"); // lines[i] represents one row of the file
       
-     String current_title = "";
+      String current_title = "";
       Book.Builder current_builder = Book.builder().title("null");
       int currentId = 0;
  
