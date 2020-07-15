@@ -1,5 +1,5 @@
 package com.google.sps.data;
- 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -9,43 +9,81 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.users.User;
+// import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import java.util.Optional;
 
-/** 
-* Access Datastore to manage Users
-*/
+/**
+ * Access Datastore to manage Users
+ */
 public class UserDaoDatastore implements UserDao {
-    
-    private DatastoreService datastore;
-    UserService userService;
+  private DatastoreService datastore;
+  UserService userService;
 
-    public UserDaoDatastore() {
-        datastore = DatastoreServiceFactory.getDatastoreService();
-        userService = UserServiceFactory.getUserService();
+  public UserDaoDatastore() {
+    datastore = DatastoreServiceFactory.getDatastoreService();
+    userService = UserServiceFactory.getUserService();
+  }
 
+  /**
+   * Get a user entity from Datastore
+   * @param String email: email used as an id for the user
+   * @return Optional: returns the entity if it exists, else return an empty
+   * Optional instance
+   */
+  @Override
+  public Optional<User> get(String email) {
+    Key userKey = KeyFactory.stringToKey(email);
+    Entity userEntity;
+    try {
+      userEntity = datastore.get(userKey);
+    } catch (EntityNotFoundException ex) {
+      return Optional.empty();
     }
-    
-    @Override
-    public Entity get(String id) {
-        Entity userEntity = new Entity("new");
-        try{
-            Key userKey = KeyFactory.stringToKey(id);
-            userEntity = datastore.get(userKey);
-        } catch(EntityNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            return userEntity;
-        }
-    }
+    return Optional.of(entityToUser(userEntity));
+  }
 
-    @Override
-    public void upload() {
-        UserService userService = UserServiceFactory.getUserService();
-        String userEmail = userService.getCurrentUser().getEmail();
-        Entity userEntity = new Entity("User", userEmail);
-        userEntity.setProperty("email",userEmail);
-        datastore.put(userEntity);
-    }
+  /**
+   * Upload a user entity to Datastore
+   * @param User user: The User to be uploaded
+   */
+  @Override
+  public void upload(User user) {
+    datastore.put(userToEntity(user));
+  }
+
+  /**
+   * Update a user entity in Datastore
+   * @param User user: The User to be updated
+   */
+  @Override
+  public void update(User user) {
+    datastore.put(userToEntity(user));
+  };
+
+  /**
+   * Creates a User object from an entity
+   * @param Entity entity: the entity representing the user to be created
+   * @return User user: the user that is created
+   */
+  private static User entityToUser(Entity userEntity) {
+    return User.create(
+        (String) userEntity.getProperty("email"), (String) userEntity.getProperty("firstName"));
+  }
+
+  /**
+   * Creates a datastore entity from a user object
+   * @param User user: The user object that the entity will be created of
+   * @return User user: the entity that is created
+   */
+  private Entity userToEntity(User user) {
+    String userEmail = userService.getCurrentUser().getEmail();
+    Entity userEntity = new Entity("User", userEmail);
+
+    userEntity.setProperty("email", userEmail);
+    userEntity.setProperty("nickname", user.nickname());
+
+    return userEntity;
+  }
 }

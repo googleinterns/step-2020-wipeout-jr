@@ -26,8 +26,6 @@ public class UserStatusServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
 
     if (userService.isUserLoggedIn()) {
-        UserDaoDatastore storage = new UserDaoDatastore();
-        storage.upload(); //uploads the user's info to the datastore
       response.getWriter().println(toJson("Logged In"));
 
     } else {

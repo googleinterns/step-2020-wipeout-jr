@@ -1,8 +1,11 @@
 package com.google.sps.data;
 
-import com.google.appengine.api.datastore.Entity;
+import java.util.Optional;
 
 public interface UserDao {
-    Entity get(String id);
-    void upload();
+  public Optional<User> get(String email);
+
+  public void upload(User user);
+
+  public void update(User user);
 }
