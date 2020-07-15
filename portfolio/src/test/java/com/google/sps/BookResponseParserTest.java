@@ -16,17 +16,29 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
  
 /**
-   This is a test class for RequestJson.java
+   This is a test class for BookResponseParserTest.java
     Tests the implementations ability to convert
-    strings into a FullBook with the correct fields
+    strings into a Books with the correct fields
 */
  
 @RunWith(JUnit4.class)
 public final class BookResponseParserTest {
-  @Test
-  public void compareWithHardCoded(){
-    //parses the string in a cvs file and compares with a hard-coded book
-
+  
+  private static String readFile(String path){
+    String fileString = "";
+    File file = new File(path);
+    try (Scanner scanner = new Scanner(file, "utf-8")){
+      while(scanner.hasNextLine()){
+          fileString += scanner.nextLine();
+      }
+    } catch (Exception ex) {
+      Assert.fail("Could not open file. " + ex);
+    }
+    return fileString;
+  }
+  
+  private static Book createBook(){
+    //creates a book from these hard coded values
     String title = "A Court of Wings and Ruin";
     ArrayList<String> authors = new ArrayList<String>();
     authors.add("Sarah J. Maas");
@@ -56,17 +68,14 @@ public final class BookResponseParserTest {
             .publishedDate(publishedDate).publisher(publisher)
             .maturityRating(maturityRating).thumbnail(thumbnail).isbn(isbn);
     Book expected = builder.build();
+  }
 
-    String fileString = "";
-    try {
-      File file = new File("src/test/java/com/google/sps/BookParserTestFile.csv");
-      Scanner scanner = new Scanner(file, "utf-8");
-      while(scanner.hasNextLine()){
-          fileString += scanner.nextLine();
-      }
-    } catch (Exception ex) {
-      Assert.fail("Could not open file. " + ex);
-    }
+  @Test
+  public void compareWithHardCoded(){
+    //parses the string in a json file and compares with a hard-coded book
+    Book expected = createBook();
+
+    String fileString = readFile("src/test/java/com/google/sps/BookParserTestFile.csv");
 
     try{
         if(!fileString.equals("")){
@@ -87,68 +96,37 @@ public final class BookResponseParserTest {
         }
     }
     catch(Exception e){
-        e.printStackTrace();
+        Assert.fail("Error comparing expected and actual books. " + ex);
     }
 
 
   }
 
-  @Test
+  @Test(expected = JsonException.class)
   public void parseNull() throws Exception{
       //attempts to parse a null value
-      try{
-        Book actual = BookResponseParser.parseBook(null);
-        if(actual != null){
-            throw new Exception("Book made when should have thrown exception.");
-        }
-      }catch(JSONException e){
-        //acted correctly
-      }
+      BookResponseParser.parseBook(null);
+
   }
 
-  @Test
+   @Test(expected = JsonException.class)
   public void parseEmpty() throws Exception{
-      //attempts to parse a empy value
-      try{
-        Book actual = BookResponseParser.parseBook("");
-        if(actual != null){
-            throw new Exception("Book made when should have thrown exception.");
-        }
-      }catch(JSONException e){
-        //acted correctly
-      }
+      //attempts to parse a empty value
+      BookResponseParser.parseBook("");
+
   }
 
-  @Test
+  @Test(expected = JsonException.class)
   public void parseBadString() throws Exception{
-      //attempts to parse a string that is unsiutable
-      try{
-        Book actual = BookResponseParser.parseBook("puppy");
-        if(actual != null){
-            throw new Exception("Book made when should have thrown exception.");
-        }
-      }catch(JSONException e){
-        //acted correctly
-      }
+    //attempts to parse a string that is unsiutable
+    BookResponseParser.parseBook("puppy");
   }
 
-  @Test
+  @Test(expected = JsonException.class)
   public void parseFullApiResponse() throws Exception{
-      //attempts to parse a string of the full api response
-      try{
-        File file = new File("src/test/java/com/google/sps/ResponseSample.csv");
-        Scanner scanner = new Scanner(file, "utf-8");
-        String fileString = "";
-        while(scanner.hasNextLine()){
-            fileString += scanner.nextLine();
-        }
-        Book actual = BookResponseParser.parseBook(fileString);
-        if(actual != null){
-            throw new Exception("Book made when should have thrown exception.");
-        }
-      }catch(JSONException e){
-        //acted correctly
-      }
+    //attempts to parse the full response from the book api
+    String fileString = readFile("src/test/java/com/google/sps/ResponseSample.csv");
+    BookResponseParser.parseBook(fileString);
   }
 }
 

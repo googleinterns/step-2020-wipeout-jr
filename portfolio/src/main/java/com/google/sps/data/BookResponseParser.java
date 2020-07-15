@@ -34,7 +34,7 @@ public class BookResponseParser {
 
   public static Book parseBook(String jsonResponse) throws JSONException{
     try{
-        if(acceptable(jsonResponse)){
+        if(validate(jsonResponse)){
             JSONObject jsonObject = new JSONObject(jsonResponse);
             return jsonToBook(jsonObject);
         }
@@ -121,8 +121,7 @@ public class BookResponseParser {
         builder.thumbnail(thumbnail);
       }
     } catch (JSONException e) {
-        e.printStackTrace();
-        throw new JSONException("There was an error when building the book from the json string");
+        throw new JSONException("There was an error when building the book from the json string",e);
     }
 
     Book book = builder.build();
@@ -137,8 +136,7 @@ public class BookResponseParser {
         strArray.add(jsArray.get(j).toString());
 
       } catch (JSONException e) {
-        e.printStackTrace();
-        throw new JSONException("There was an error converting jsonArray to ArrayList<String>");
+        throw new JSONException("There was an error converting jsonArray to ArrayList<String>",e);
       }
     }
     return strArray;
@@ -168,8 +166,8 @@ public class BookResponseParser {
     return null;
   }
 
-  private static boolean acceptable(String jsonResponse){
-      //checks to see if the input is an acceptable value
+  private static boolean validate(String jsonResponse){
+      //checks to see if the input is an validate value
       //empty string
       if(jsonResponse == null || jsonResponse.equals("")){
         throw new JSONException("The response was either null or empty.");
@@ -177,11 +175,6 @@ public class BookResponseParser {
       JSONObject jsonObject = new JSONObject(jsonResponse);
       //if full api response (contains multiple items)
       if(jsonObject.has("items") || !jsonObject.has(VOLUME_INFO)){
-        throw new JSONException("The response was not in the required format.");
-      }
-      //if response not of the right length
-      if(jsonResponse.length() < 2000){
-        //average book size seems to be around 3000 without descriptions
         throw new JSONException("The response was not in the required format.");
       }
       return true;
