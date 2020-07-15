@@ -2,11 +2,13 @@ import com.google.sps.data.BookResponseParser;
 import com.google.sps.data.Book;
 import java.io.File;
 import java.text.ParseException;
+import java.lang.Exception;
 import java.lang.IllegalAccessException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +24,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class BookResponseParserTest {
   @Test
-  public void test1(){
-    //calls the API with the title and compares the result
+  public void compareWithHardCoded(){
+    //parses the string in a cvs file and compares with a hard-coded book
 
     String title = "A Court of Wings and Ruin";
     ArrayList<String> authors = new ArrayList<String>();
@@ -89,6 +91,64 @@ public final class BookResponseParserTest {
     }
 
 
+  }
+
+  @Test
+  public void parseNull() throws Exception{
+      //attempts to parse a null value
+      try{
+        Book actual = BookResponseParser.parseBook(null);
+        if(actual != null){
+            throw new Exception("Book made when should have thrown exception.");
+        }
+      }catch(JSONException e){
+        //acted correctly
+      }
+  }
+
+  @Test
+  public void parseEmpty() throws Exception{
+      //attempts to parse a empy value
+      try{
+        Book actual = BookResponseParser.parseBook("");
+        if(actual != null){
+            throw new Exception("Book made when should have thrown exception.");
+        }
+      }catch(JSONException e){
+        //acted correctly
+      }
+  }
+
+  @Test
+  public void parseBadString() throws Exception{
+      //attempts to parse a string that is unsiutable
+      try{
+        Book actual = BookResponseParser.parseBook("puppy");
+        if(actual != null){
+            throw new Exception("Book made when should have thrown exception.");
+        }
+      }catch(JSONException e){
+        //acted correctly
+      }
+  }
+
+  @Test
+  public void parseFullApiResponse() throws Exception{
+      //attempts to parse a string of the full api response
+      try{
+        File file = new File("src/test/java/com/google/sps/ResponseSample.csv");
+        Scanner scanner = new Scanner(file, "utf-8");
+        String fileString = "";
+        while(scanner.hasNextLine()){
+            fileString += scanner.nextLine();
+        }
+        Book actual = BookResponseParser.parseBook(fileString);
+        if(actual != null){
+            throw new Exception("Book made when should have thrown exception.");
+        }
+      }catch(JSONException e){
+        //acted correctly
+      }
   }
 }
 

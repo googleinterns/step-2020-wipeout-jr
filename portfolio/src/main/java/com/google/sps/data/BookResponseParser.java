@@ -32,9 +32,16 @@ public class BookResponseParser {
   private static final String ISBN = "ISBN_13";
   private static final String INDUSTRTRY_IDS = "industryIdentifiers";
 
-  public static Book parseBook(String jsonResponse) {
-    JSONObject jsonObject = new JSONObject(jsonResponse);
-    return jsonToBook(jsonObject);
+  public static Book parseBook(String jsonResponse) throws JSONException{
+    try{
+        if(acceptable(jsonResponse)){
+            JSONObject jsonObject = new JSONObject(jsonResponse);
+            return jsonToBook(jsonObject);
+        }
+        return null;
+    }catch(JSONException e){
+        return null;
+    }
   }
 
   private static Book jsonToBook(JSONObject jsonObject) throws JSONException {
@@ -43,7 +50,6 @@ public class BookResponseParser {
 
     try {
       String isbn = getIsbn(volumeInfo).get(ISBN);// double nested [{}]
-      System.out.println(isbn);
       if (isbn == null) {
         //should never be the case, all books should have ISBN-13
         return null;
@@ -160,6 +166,25 @@ public class BookResponseParser {
       return isbnMap;
     }
     return null;
+  }
+
+  private static boolean acceptable(String jsonResponse){
+      //checks to see if the input is an acceptable value
+      //empty string
+      if(jsonResponse == null || jsonResponse.equals("")){
+        throw new JSONException("The response was either null or empty.");
+      }
+      JSONObject jsonObject = new JSONObject(jsonResponse);
+      //if full api response (contains multiple items)
+      if(jsonObject.has("items") || !jsonObject.has(VOLUME_INFO)){
+        throw new JSONException("The response was not in the required format.");
+      }
+      //if response not of the right length
+      if(jsonResponse.length() < 2000){
+        //average book size seems to be around 3000 without descriptions
+        throw new JSONException("The response was not in the required format.");
+      }
+      return true;
   }
 }
 
