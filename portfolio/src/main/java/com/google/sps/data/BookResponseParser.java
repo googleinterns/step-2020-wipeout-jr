@@ -145,9 +145,8 @@ public class BookResponseParser {
     String isbn = "";
 
     Map<String, String> isbnMap = new HashMap<String, String>();
-    int counter = 0;
-    if (volumeInfo.has("industryIdentifiers")) {
-      JSONArray arrayOfIsbns = volumeInfo.getJSONArray("industryIdentifiers");
+    if (volumeInfo.has(INDUSTRTRY_IDS)) {
+      JSONArray arrayOfIsbns = volumeInfo.getJSONArray(INDUSTRTRY_IDS);
       Type listType = new TypeToken<List<HashMap<String, String>>>() {}.getType();
       List<HashMap<String, String>> isbns = gson.fromJson(arrayOfIsbns.toString(), listType);
 
