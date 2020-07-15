@@ -3,7 +3,6 @@ package com.google.sps.data;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.sps.data.Book;
-import com.google.sps.data.BookFieldsEnum;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ public class BookResponseParser {
   private static final String THUMBNAIL = "thumbnail";
   private static final String IMAGE_LINKS = "imageLinks";
   private static final String ISBN = "ISBN_13";
+  private static final String INDUSTRTRY_IDS = "industryIdentifiers";
 
   public static Book parseBook(String jsonResponse) {
     JSONObject jsonObject = new JSONObject(jsonResponse);
@@ -38,90 +38,85 @@ public class BookResponseParser {
   }
 
   private static Book jsonToBook(JSONObject jsonObject) throws JSONException {
-    String tempTitle;
-    String tempLang;
-    String tempDesc;
-    String tempInfoLink;
-    String tempPubDate;
-    String tempPublisher;
-    String tempMatRate;
-    int tempPageCount;
-    String tempThumbnail; // nested in map {}
-    String tempIsbn; // double nested [{}]
-    ArrayList<String> tempCategories = new ArrayList<String>();
-    ArrayList<String> tempAuthors = new ArrayList<String>();
-
     Book.Builder builder = Book.builder();
-
-    tempIsbn = getIsbn(jsonObject).get(ISBN);
-    builder.isbn(tempIsbn);
+    JSONObject volumeInfo = jsonObject.getJSONObject(VOLUME_INFO);
 
     try {
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(TITLE)) {
-        tempTitle = jsonObject.getJSONObject(VOLUME_INFO).get(TITLE).toString();
-        builder.title(tempTitle);
+      String isbn = getIsbn(volumeInfo).get(ISBN);// double nested [{}]
+      System.out.println(isbn);
+      if (isbn == null) {
+        //should never be the case, all books should have ISBN-13
+        return null;
+      }
+      builder.isbn(isbn);
+
+      if (volumeInfo.has(TITLE)) {
+        String title = volumeInfo.get(TITLE).toString();
+        builder.title(title);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(LANGUAGE)) {
-        tempLang = jsonObject.getJSONObject(VOLUME_INFO).get(LANGUAGE).toString();
-        builder.language(tempLang);
+      if (volumeInfo.has(LANGUAGE)) {
+        String lang = volumeInfo.get(LANGUAGE).toString();
+        builder.language(lang);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(DESCRIPTION)) {
-        tempDesc = jsonObject.getJSONObject(VOLUME_INFO).get(DESCRIPTION).toString();
-        builder.description(tempDesc);
+      if (volumeInfo.has(DESCRIPTION)) {
+        String desc = volumeInfo.get(DESCRIPTION).toString();
+        builder.description(desc);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(INFO_LINK)) {
-        tempInfoLink = jsonObject.getJSONObject(VOLUME_INFO).get(INFO_LINK).toString();
-        builder.infoLink(tempInfoLink);
+      if (volumeInfo.has(INFO_LINK)) {
+        String infoLink = volumeInfo.get(INFO_LINK).toString();
+        builder.infoLink(infoLink);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(PAGE_COUNT)) {
-        tempPageCount =
-            Integer.parseInt(jsonObject.getJSONObject(VOLUME_INFO).get(PAGE_COUNT).toString());
-        builder.pageCount(tempPageCount);
+      if (volumeInfo.has(PAGE_COUNT)) {
+        int pageCount =
+            Integer.parseInt(volumeInfo.get(PAGE_COUNT).toString());
+        builder.pageCount(pageCount);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(PUBLISHED_DATE)) {
-        tempPubDate = jsonObject.getJSONObject(VOLUME_INFO).get(PUBLISHED_DATE).toString();
-        builder.publishedDate(tempPubDate);
+      if (volumeInfo.has(PUBLISHED_DATE)) {
+        String pubDate = volumeInfo.get(PUBLISHED_DATE).toString();
+        builder.publishedDate(pubDate);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(PUBLISHER)) {
-        tempPublisher = jsonObject.getJSONObject(VOLUME_INFO).get(PUBLISHER).toString();
-        builder.publisher(tempPublisher);
+      if (volumeInfo.has(PUBLISHER)) {
+        String publisher = volumeInfo.get(PUBLISHER).toString();
+        builder.publisher(publisher);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(MATURITY_RATING)) {
-        tempMatRate = jsonObject.getJSONObject(VOLUME_INFO).get(MATURITY_RATING).toString();
-        builder.maturityRating(tempMatRate);
+      if (volumeInfo.has(MATURITY_RATING)) {
+        String matRate = volumeInfo.get(MATURITY_RATING).toString();
+        builder.maturityRating(matRate);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(CATEGORIES)) {
-        tempCategories =
-            jsonArrayToStringArray(jsonObject.getJSONObject(VOLUME_INFO).getJSONArray(CATEGORIES));
-        builder.categories(tempCategories);
+      if (volumeInfo.has(CATEGORIES)) {
+        ArrayList<String> categories =
+            jsonArrayToStringArray(volumeInfo.getJSONArray(CATEGORIES));
+        builder.categories(categories);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(AUTHORS)) {
-        tempAuthors =
-            jsonArrayToStringArray(jsonObject.getJSONObject(VOLUME_INFO).getJSONArray(AUTHORS));
-        builder.authors(tempAuthors);
+      if (volumeInfo.has(AUTHORS)) {
+        ArrayList<String> authors =
+            jsonArrayToStringArray(volumeInfo.getJSONArray(AUTHORS));
+        builder.authors(authors);
       }
 
-      if (jsonObject.getJSONObject(VOLUME_INFO).has(IMAGE_LINKS)
-          && jsonObject.getJSONObject(VOLUME_INFO)
+      // nested in map {}
+      if (volumeInfo.has(IMAGE_LINKS)
+          && volumeInfo
                  .getJSONObject(IMAGE_LINKS)
                  .has(THUMBNAIL)) { // if imageLinks and the thumbnail are present
-        tempThumbnail = jsonObject.getJSONObject(VOLUME_INFO)
+        String thumbnail = volumeInfo
                             .getJSONObject(IMAGE_LINKS)
                             .get(THUMBNAIL)
                             .toString();
-        builder.thumbnail(tempThumbnail);
+        builder.thumbnail(thumbnail);
       }
     } catch (JSONException e) {
-      e.printStackTrace();
+        e.printStackTrace();
+        throw new JSONException("There was an error when building the book from the json string");
     }
 
     Book book = builder.build();
@@ -137,36 +132,30 @@ public class BookResponseParser {
 
       } catch (JSONException e) {
         e.printStackTrace();
+        throw new JSONException("There was an error converting jsonArray to ArrayList<String>");
       }
     }
     return strArray;
   }
 
-  private static Map<String, String> getIsbn(JSONObject item) throws JSONException {
+  private static Map<String, String> getIsbn(JSONObject volumeInfo) throws JSONException {
     Gson gson = new Gson();
 
-    String tempType = "", tempISBN = "";
+    String type = "";
+    String isbn = "";
+
     Map<String, String> isbnMap = new HashMap<String, String>();
     int counter = 0;
-    if (item.getJSONObject(VOLUME_INFO).has("industryIdentifiers")) {
-      JSONArray tempArr = item.getJSONObject(VOLUME_INFO).getJSONArray("industryIdentifiers");
+    if (volumeInfo.has("industryIdentifiers")) {
+      JSONArray arrayOfIsbns = volumeInfo.getJSONArray("industryIdentifiers");
       Type listType = new TypeToken<List<HashMap<String, String>>>() {}.getType();
-      List<HashMap<String, String>> isbns = gson.fromJson(tempArr.toString(), listType);
+      List<HashMap<String, String>> isbns = gson.fromJson(arrayOfIsbns.toString(), listType);
 
       for (HashMap<String, String> map : isbns) {
-        counter = 0;
-        for (HashMap.Entry<String, String> entry : map.entrySet()) {
-          if (counter == 0) {
-            tempISBN = entry.getValue(); // Key is identifier
-          }
-          if (counter == 1) {
-            tempType = entry.getValue();
-            // Key is type
-          }
-          counter++;
-        }
-        if (tempType != null || tempISBN != null) {
-          isbnMap.put(tempType, tempISBN);
+        isbn = map.get("identifier");
+        type = map.get("type");
+        if(isbn != null && type != null){
+            isbnMap.put(type,isbn);
         }
       }
       return isbnMap;
