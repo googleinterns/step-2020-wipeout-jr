@@ -2,7 +2,7 @@ package com.google.sps.data;
 
 import com.google.auto.value.AutoValue;
 import com.google.sps.data.Book;
-// import com.google.sps.data.User;
+import com.google.sps.data.User;
 
 @AutoValue
 public abstract class Review {

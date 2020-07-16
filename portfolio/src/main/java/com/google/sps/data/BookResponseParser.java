@@ -32,15 +32,15 @@ public class BookResponseParser {
   private static final String ISBN = "ISBN_13";
   private static final String INDUSTRTRY_IDS = "industryIdentifiers";
 
-  public static Book parseBook(String jsonResponse) throws JSONException{
-    try{
-        if(validate(jsonResponse)){
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            return jsonToBook(jsonObject);
-        }
-        return null;
-    }catch(JSONException e){
-        return null;
+  public static Book parseBook(String jsonResponse) throws JSONException {
+    try {
+      if (validate(jsonResponse)) {
+        JSONObject jsonObject = new JSONObject(jsonResponse);
+        return jsonToBook(jsonObject);
+      }
+      return null;
+    } catch (JSONException e) {
+      return null;
     }
   }
 
@@ -49,9 +49,9 @@ public class BookResponseParser {
     JSONObject volumeInfo = jsonObject.getJSONObject(VOLUME_INFO);
 
     try {
-      String isbn = getIsbn(volumeInfo).get(ISBN);// double nested [{}]
+      String isbn = getIsbn(volumeInfo).get(ISBN); // double nested [{}]
       if (isbn == null) {
-        //should never be the case, all books should have ISBN-13
+        // should never be the case, all books should have ISBN-13
         return null;
       }
       builder.isbn(isbn);
@@ -77,8 +77,7 @@ public class BookResponseParser {
       }
 
       if (volumeInfo.has(PAGE_COUNT)) {
-        int pageCount =
-            Integer.parseInt(volumeInfo.get(PAGE_COUNT).toString());
+        int pageCount = Integer.parseInt(volumeInfo.get(PAGE_COUNT).toString());
         builder.pageCount(pageCount);
       }
 
@@ -98,30 +97,24 @@ public class BookResponseParser {
       }
 
       if (volumeInfo.has(CATEGORIES)) {
-        ArrayList<String> categories =
-            jsonArrayToStringArray(volumeInfo.getJSONArray(CATEGORIES));
+        ArrayList<String> categories = jsonArrayToStringArray(volumeInfo.getJSONArray(CATEGORIES));
         builder.categories(categories);
       }
 
       if (volumeInfo.has(AUTHORS)) {
-        ArrayList<String> authors =
-            jsonArrayToStringArray(volumeInfo.getJSONArray(AUTHORS));
+        ArrayList<String> authors = jsonArrayToStringArray(volumeInfo.getJSONArray(AUTHORS));
         builder.authors(authors);
       }
 
       // nested in map {}
       if (volumeInfo.has(IMAGE_LINKS)
-          && volumeInfo
-                 .getJSONObject(IMAGE_LINKS)
+          && volumeInfo.getJSONObject(IMAGE_LINKS)
                  .has(THUMBNAIL)) { // if imageLinks and the thumbnail are present
-        String thumbnail = volumeInfo
-                            .getJSONObject(IMAGE_LINKS)
-                            .get(THUMBNAIL)
-                            .toString();
+        String thumbnail = volumeInfo.getJSONObject(IMAGE_LINKS).get(THUMBNAIL).toString();
         builder.thumbnail(thumbnail);
       }
     } catch (JSONException e) {
-        throw new JSONException("There was an error when building the book from the json string",e);
+      throw new JSONException("There was an error when building the book from the json string", e);
     }
 
     Book book = builder.build();
@@ -136,7 +129,7 @@ public class BookResponseParser {
         strArray.add(jsArray.get(j).toString());
 
       } catch (JSONException e) {
-        throw new JSONException("There was an error converting jsonArray to ArrayList<String>",e);
+        throw new JSONException("There was an error converting jsonArray to ArrayList<String>", e);
       }
     }
     return strArray;
@@ -157,8 +150,8 @@ public class BookResponseParser {
       for (HashMap<String, String> map : isbns) {
         isbn = map.get("identifier");
         type = map.get("type");
-        if(isbn != null && type != null){
-            isbnMap.put(type,isbn);
+        if (isbn != null && type != null) {
+          isbnMap.put(type, isbn);
         }
       }
       return isbnMap;
@@ -166,18 +159,17 @@ public class BookResponseParser {
     return null;
   }
 
-  private static boolean validate(String jsonResponse){
-      //checks to see if the input is an validate value
-      //empty string
-      if(jsonResponse == null || jsonResponse.equals("")){
-        throw new JSONException("The response was either null or empty.");
-      }
-      JSONObject jsonObject = new JSONObject(jsonResponse);
-      //if full api response (contains multiple items)
-      if(jsonObject.has("items") || !jsonObject.has(VOLUME_INFO)){
-        throw new JSONException("The response was not in the required format.");
-      }
-      return true;
+  private static boolean validate(String jsonResponse) {
+    // checks to see if the input is an validate value
+    // empty string
+    if (jsonResponse == null || jsonResponse.equals("")) {
+      throw new JSONException("The response was either null or empty.");
+    }
+    JSONObject jsonObject = new JSONObject(jsonResponse);
+    // if full api response (contains multiple items)
+    if (jsonObject.has("items") || !jsonObject.has(VOLUME_INFO)) {
+      throw new JSONException("The response was not in the required format.");
+    }
+    return true;
   }
 }
-
