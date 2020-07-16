@@ -5,5 +5,7 @@ import com.google.sps.data.Book;
 public interface BookDao {
   void create(Book book);
   Book get(String isbn);
+  void update(Book book);
+  void delete(String isbn);
 }
 

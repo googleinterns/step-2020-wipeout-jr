@@ -38,31 +38,31 @@ public class BookDaoDatastore implements BookDao {
         datastore = DatastoreServiceFactory.getDatastoreService();
     }
 
+    /**
+    * Create a Book entity in Datastore
+    * @param book: the book that you want to create an entity from
+    */
     @Override
-    public void create(Book book) {
-        long timeStamp = System.currentTimeMillis();
-
-        Entity bookEntity = new Entity(ENTITY_KIND,book.isbn());
-
-        bookEntity.setProperty(TIME_STAMP,timeStamp);
-        bookEntity.setProperty(TITLE,book.title());
-        bookEntity.setProperty(GENRE,book.genre());
-        bookEntity.setProperty(CATEGORIES,book.categories());
-        bookEntity.setProperty(AUTHORS,book.authors());
-        bookEntity.setProperty(LANGUAGE,book.language());
-        bookEntity.setProperty(DESCRIPTION,book.description());
-        bookEntity.setProperty(INFO_LINK,book.infoLink());
-        bookEntity.setProperty(PAGE_COUNT,book.pageCount());
-        bookEntity.setProperty(PUBLISHED_DATE,book.publishedDate());
-        bookEntity.setProperty(PUBLISHER,book.publisher());
-        bookEntity.setProperty(MATURITY_RATING,book.maturityRating());
-
-        datastore.put(bookEntity);
+    public void create(Book book){
+        datastore.put(parseEntity(bookEntity));
     }
 
+    /**
+    * Delete a Book entity in Datastore
+    * @param isbn: the isbn of the book that you want to delete
+    */
+    @Override
+    public void delete(String isbn){
+        datastore.delete(createKey(isbn));
+    }
+
+    /**
+    * Gets the entity from datastore and parses as Book
+    * @param isbn: The isbn of the book you want
+    */
     @Override
     public Book get(String isbn) {
-        Entity bookEntity = new Entity("Book");
+        Entity bookEntity;
         try{
             Key bookKey = KeyFactory.stringToKey(isbn);
             bookEntity = datastore.get(bookKey);
@@ -73,6 +73,19 @@ public class BookDaoDatastore implements BookDao {
         }
     }
 
+    /**
+    * Update a user entity in Datastore
+    * @param book: The book to be updated
+    */
+    @Override
+    public void update(Book book) {
+        datastore.put(parseEntity(book));
+    };
+
+    /**
+    * Parse a book from an entity
+    * @param bookEntity: the entity that you want to create a book from
+    */
     private Book parseBook(Entity bookEntity){
         String title = (String) bookEntity.getProperty(TITLE);
         Set<String> genre = (Set<String>) bookEntity.getProperty(GENRE);
@@ -97,5 +110,39 @@ public class BookDaoDatastore implements BookDao {
         return book;
 
     }
+
+    /**
+    * Parse an entity from a book
+    * @param bookEntity: the entity that you want to create a book from
+    */
+    private Entity parseEntity(Book book) {
+        //parse entity from book
+        long timeStamp = System.currentTimeMillis();
+
+        Entity bookEntity = new Entity(createKey(book.isbn()));
+
+        bookEntity.setProperty(TIME_STAMP,timeStamp);
+        bookEntity.setProperty(TITLE,book.title());
+        bookEntity.setProperty(GENRE,book.genre());
+        bookEntity.setProperty(CATEGORIES,book.categories());
+        bookEntity.setProperty(AUTHORS,book.authors());
+        bookEntity.setProperty(LANGUAGE,book.language());
+        bookEntity.setProperty(DESCRIPTION,book.description());
+        bookEntity.setProperty(INFO_LINK,book.infoLink());
+        bookEntity.setProperty(PAGE_COUNT,book.pageCount());
+        bookEntity.setProperty(PUBLISHED_DATE,book.publishedDate());
+        bookEntity.setProperty(PUBLISHER,book.publisher());
+        bookEntity.setProperty(MATURITY_RATING,book.maturityRating());
+
+        return bookEntity;
+    }
+
+    /**
+    * Creates a custom Key object of kind ENTITY_KIND ("Book")
+    * @param isbn: The isbn of the book you want to create the key for
+    */
+    private Key createKey(String isbn) {
+    return KeyFactory.createKey(ENTITY_KIND, isbn);
+  }
 }
 
