@@ -18,22 +18,6 @@ import org.junit.runners.JUnit4;
  
 @RunWith(JUnit4.class)
 public final class BookServiceClientTest {
-  
-  @Test
-  public void getTopResult(){
-    //calls the API with the title and checks to make sure it only returns one item
-    String title = "A Court of Wings and Ruin";
-    String bookInfo = "";
-    try{
-        bookInfo = BookServiceClient.getBookInfo(title);
-    }catch(Exception e){
-        String failureMessage = "Was not able to query the Book API. \n"+e;
-        Assert.fail(failureMessage);
-    }
-    JSONObject jsonObject = new JSONObject(bookInfo);
-    Assert.assertEquals(true,jsonObject.has("volumeInfo"));
-    Assert.assertEquals(false,jsonObject.has("items"));
-  }
 
   @Test(expected = NullPointerException.class)
   public void queryNull() throws Exception{
