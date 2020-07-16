@@ -44,7 +44,11 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void create(Book book){
-        datastore.put(parseEntity(bookEntity));
+        if(!entityExists(book.isbn())){
+            datastore.put(parseEntity(bookEntity));
+        }else{
+            update(book);
+        }
     }
 
     /**
@@ -53,7 +57,9 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void delete(String isbn){
-        datastore.delete(createKey(isbn));
+        if(entityExists(isbn){
+          datastore.delete(createKey(isbn));
+        }
     }
 
     /**
@@ -67,10 +73,9 @@ public class BookDaoDatastore implements BookDao {
             Key bookKey = KeyFactory.stringToKey(isbn);
             bookEntity = datastore.get(bookKey);
         } catch(EntityNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            return parseBook(bookEntity);
+            return null;
         }
+        return parseBook(bookEntity);
     }
 
     /**
@@ -79,8 +84,10 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void update(Book book) {
-        datastore.put(parseEntity(book));
-    };
+        if(entityExists(book.isbn())){
+            datastore.put(parseEntity(book));
+        }
+    }
 
     /**
     * Parse a book from an entity
@@ -142,7 +149,21 @@ public class BookDaoDatastore implements BookDao {
     * @param isbn: The isbn of the book you want to create the key for
     */
     private Key createKey(String isbn) {
-    return KeyFactory.createKey(ENTITY_KIND, isbn);
-  }
+        return KeyFactory.createKey(ENTITY_KIND, isbn);
+    }
+
+    /**
+    * Checks to see if book is already in datastore
+    * @param isbn: The isbn of the book you want to check for
+    */
+    private boolean entityExists(String isbn){
+        try{
+            get(createKey(isbn());
+            return true;
+        }
+        catch(EntityNotFoundException){
+            return false;
+        }
+    }
 }
 
