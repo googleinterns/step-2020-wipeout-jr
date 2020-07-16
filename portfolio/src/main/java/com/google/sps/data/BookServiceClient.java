@@ -3,6 +3,7 @@ package com.google.sps.data;
 import com.google.sps.data.Book;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.NullPointerException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.UnsupportedEncodingException;
@@ -14,38 +15,30 @@ import org.json.JSONObject;
 // Given a book name, fetches book info json by calling Google books api and returns as string.
 public class BookServiceClient {
  
-  public static String getBookInfo(String bookName){
-    if (bookName.equals("")){
-      return null;
-    }
-    String encodedBookName = null;
-    try {
-      encodedBookName = URLEncoder.encode(bookName, "UTF-8");
-    }
-    catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
- 
-    try {
-      String allResults = queryBooksAPI(encodedBookName);
-      return getTopResult(allResults);
-    }
-    catch (Exception e) {
-      e.printStackTrace();
+  public static String getBookInfo(String bookName) throws Exception {
+    if(validate(bookName)){
+        String encodedBookName = null;
+        encodedBookName = URLEncoder.encode(bookName, "UTF-8");
+        String allResults = queryBooksAPI(encodedBookName);
+        return getTopResult(allResults);
     }
     return null;
   }
  
   private static String getTopResult(String booksApiResults){
+    //test to check that it took the right balue off
     JSONObject jsonObject = new JSONObject(booksApiResults);
     JSONArray allItems = jsonObject.getJSONArray("items");
     JSONObject firstItem = allItems.getJSONObject(0);//returns top result'
     return firstItem.toString();
   }
+
+  private static String queryBooksAPI(String bookName) throws Exception {
+    String url = String.format("https://www.googleapis.com/books/v1/volumes?country=US&q=%s", bookName);
+    return queryURL(url);
+  }
  
-  public static String queryBooksAPI(String bookName) throws Exception {
-    String url =
-        String.format("https://www.googleapis.com/books/v1/volumes?country=US&q=%s", bookName);
+  public static String queryURL(String url) throws Exception {
     // this link contains different data than the book's selfLink
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -61,6 +54,13 @@ public class BookServiceClient {
     }
     in.close();
     return response.toString();
+  }
+
+  private static boolean validate(String bookName){
+    if(bookName == null || bookName.equals("")){
+        throw new NullPointerException("The response was either null or empty.");
+    }
+    return true;
   }
 }
 
