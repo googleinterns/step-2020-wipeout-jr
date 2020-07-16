@@ -65,7 +65,6 @@ public class ReviewDaoDatastore implements ReviewDao {
   @Override
   public ImmutableSet<Review> getAll(Book book) {
     ImmutableSet.Builder<Review> reviews = new ImmutableSet.Builder<Review>();
-    Entity bookEntity = new Entity("Review");
 
     Filter bookFilter = new FilterPredicate("Book", FilterOperator.EQUAL, book);
     Query query = new Query("Review").setFilter(bookFilter);
