@@ -5,7 +5,7 @@ import com.google.sps.data.Review;
 import java.util.Set;
 
 public interface ReviewDao {
-  void loadAll(Book book);
-  void loadNew(Review review);
+  void uploadAll(Book book);
+  void uploadNew(Review review);
   ImmutableSet<Review> getAll(Book book);
 }

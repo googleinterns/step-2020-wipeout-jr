@@ -19,7 +19,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   private DatastoreService datastore;
   private static final String ENTITY_KIND = "Review";
   private static final String BOOK_PROPERTY = "Book";
-  private static final String CONTENT_PROPERTY = "Content";
+  private static final String FULLTEXT_PROPERTY = "FullText";
   private static final String USER_PROPERTY = "User";
 
   public ReviewDaoDatastore() {
@@ -33,13 +33,13 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @param book: Book object whose reviews are to be uploaded
    */
   @Override
-  public void loadAll(Book book) {
+  public void uploadAll(Book book) {
     User defaultUser = User.create("unknown email", "GoodReads User");
     // loop through all the reviews of a book
     for (String review : book.reviews()) {
       Entity reviewEntity = new Entity(ENTITY_KIND);
       reviewEntity.setProperty(BOOK_PROPERTY, book);
-      reviewEntity.setProperty(CONTENT_PROPERTY, review);
+      reviewEntity.setProperty(FULLTEXT_PROPERTY, review);
       reviewEntity.setProperty(USER_PROPERTY, defaultUser);
       datastore.put(reviewEntity);
     }
@@ -51,10 +51,10 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @param review: Review object to be uploaded
    */
   @Override
-  public void loadNew(Review review) {
+  public void uploadNew(Review review) {
     Entity reviewEntity = new Entity(ENTITY_KIND);
     reviewEntity.setProperty(BOOK_PROPERTY, review.book());
-    reviewEntity.setProperty(CONTENT_PROPERTY, review.fullText());
+    reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
     reviewEntity.setProperty(USER_PROPERTY, review.user());
     datastore.put(reviewEntity);
   }
@@ -85,7 +85,7 @@ public class ReviewDaoDatastore implements ReviewDao {
 
   private static Review entityToReview(Entity reviewEntity) {
     return Review.builder()
-        .fullText((String) reviewEntity.getProperty(CONTENT_PROPERTY))
+        .fullText((String) reviewEntity.getProperty(FULLTEXT_PROPERTY))
         .book((Book) reviewEntity.getProperty(BOOK_PROPERTY))
         .user((User) reviewEntity.getProperty(USER_PROPERTY))
         .build();
