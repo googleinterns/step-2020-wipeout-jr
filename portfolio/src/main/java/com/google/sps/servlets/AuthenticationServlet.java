@@ -11,7 +11,11 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.sps.data.User;
+import com.google.sps.data.UserDao;
+import com.google.sps.data.UserDaoDatastore;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +26,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/auth")
 public class AuthenticationServlet extends HttpServlet {
+  private UserDaoDatastore userStorage = new UserDaoDatastore();
+
+  @Override
+  public void init() {
+    UserDaoDatastore userStorage = new UserDaoDatastore();
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
@@ -31,8 +42,9 @@ public class AuthenticationServlet extends HttpServlet {
 
     if (userService.isUserLoggedIn()) {
       // If user has not set a nickname, redirect to nickname page
-      String nickname = getUserNickname(userService.getCurrentUser().getUserId());
-      if (nickname == null) {
+      String nickname = getUserNickname(userService.getCurrentUser().getEmail());
+
+      if (nickname.equals("")) {
         response.sendRedirect("/user-info");
         return;
       }
@@ -53,15 +65,10 @@ public class AuthenticationServlet extends HttpServlet {
 
   /** Returns the nickname of the user with id, or null if the user has not set a nickname. */
   private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("User").setFilter(
-        new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return null;
+    Optional<User> user = userStorage.get(id);
+    if (user.isPresent()) {
+      return user.get().nickname();
     }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
+    return "";
   }
 }

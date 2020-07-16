@@ -26,6 +26,7 @@ import com.google.sps.data.UserDao;
 import com.google.sps.data.UserDaoDatastore;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Optional;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,13 +51,13 @@ public class UserInfoServlet extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       String nickname = getUserNickname(userService.getCurrentUser().getUserId());
       out.println("<p>Set your nickname here:</p>");
-      out.println("<form method=\"POST\" action=\"/nickname\">");
+      out.println("<form method=\"POST\" action=\"/user-info\">");
       out.println("<input name=\"nickname\" value=\"" + nickname + "\" />");
       out.println("<br/>");
       out.println("<button>Submit</button>");
       out.println("</form>");
     } else {
-      String loginUrl = userService.createLoginURL("/nickname");
+      String loginUrl = userService.createLoginURL("/auth");
       out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
     }
   }
@@ -64,10 +65,7 @@ public class UserInfoServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/user-info");
-      return;
-    }
+
     String nickname = request.getParameter("nickname");
     String id = userService.getCurrentUser().getEmail(); // user email is used as id
 
@@ -81,15 +79,10 @@ public class UserInfoServlet extends HttpServlet {
    * Returns the nickname of the user with id, or empty String if the user has not set a nickname.
    */
   private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("User").setFilter(
-        new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
+    Optional<User> user = userStorage.get(id);
+    if (user.isPresent()) {
+      return user.get().nickname();
     }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
+    return "";
   }
 }

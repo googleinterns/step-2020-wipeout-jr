@@ -9,7 +9,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-// import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.util.Optional;
@@ -34,10 +33,9 @@ public class UserDaoDatastore implements UserDao {
    */
   @Override
   public Optional<User> get(String email) {
-    Key userKey = KeyFactory.stringToKey(email);
     Entity userEntity;
     try {
-      userEntity = datastore.get(userKey);
+      userEntity = datastore.get(createKey(email));
     } catch (EntityNotFoundException ex) {
       return Optional.empty();
     }
@@ -69,7 +67,7 @@ public class UserDaoDatastore implements UserDao {
    */
   private static User entityToUser(Entity userEntity) {
     return User.create(
-        (String) userEntity.getProperty("email"), (String) userEntity.getProperty("firstName"));
+        (String) userEntity.getProperty("email"), (String) userEntity.getProperty("nickname"));
   }
 
   /**
@@ -79,11 +77,15 @@ public class UserDaoDatastore implements UserDao {
    */
   private Entity userToEntity(User user) {
     String userEmail = userService.getCurrentUser().getEmail();
-    Entity userEntity = new Entity("User", userEmail);
+    Entity userEntity = new Entity(createKey(userEmail));
 
     userEntity.setProperty("email", userEmail);
     userEntity.setProperty("nickname", user.nickname());
 
     return userEntity;
+  }
+
+  private Key createKey(String email) {
+    return KeyFactory.createKey("User", email);
   }
 }
