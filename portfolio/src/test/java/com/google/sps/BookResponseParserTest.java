@@ -67,7 +67,8 @@ public final class BookResponseParserTest {
             .description(description).infoLink(infoLink).pageCount(pageCount)
             .publishedDate(publishedDate).publisher(publisher)
             .maturityRating(maturityRating).thumbnail(thumbnail).isbn(isbn);
-    Book expected = builder.build();
+    Book defaultBook = builder.build();
+    return defaultBook;
   }
 
   @Test
@@ -75,7 +76,7 @@ public final class BookResponseParserTest {
     //parses the string in a json file and compares with a hard-coded book
     Book expected = createBook();
 
-    String fileString = readFile("src/test/java/com/google/sps/BookParserTestFile.csv");
+    String fileString = readFile("src/test/java/com/google/sps/BookParserTestFile.json");
 
     try{
         if(!fileString.equals("")){
@@ -96,36 +97,36 @@ public final class BookResponseParserTest {
         }
     }
     catch(Exception e){
-        Assert.fail("Error comparing expected and actual books. " + ex);
+        Assert.fail("Error comparing expected and actual books. " + e);
     }
 
 
   }
 
-  @Test(expected = JsonException.class)
+  @Test(expected = JSONException.class)
   public void parseNull() throws Exception{
       //attempts to parse a null value
       BookResponseParser.parseBook(null);
 
   }
 
-   @Test(expected = JsonException.class)
+   @Test(expected = JSONException.class)
   public void parseEmpty() throws Exception{
       //attempts to parse a empty value
       BookResponseParser.parseBook("");
 
   }
 
-  @Test(expected = JsonException.class)
+  @Test(expected = JSONException.class)
   public void parseBadString() throws Exception{
     //attempts to parse a string that is unsiutable
     BookResponseParser.parseBook("puppy");
   }
 
-  @Test(expected = JsonException.class)
+  @Test(expected = JSONException.class)
   public void parseFullApiResponse() throws Exception{
     //attempts to parse the full response from the book api
-    String fileString = readFile("src/test/java/com/google/sps/ResponseSample.csv");
+    String fileString = readFile("src/test/java/com/google/sps/ResponseSample.json");
     BookResponseParser.parseBook(fileString);
   }
 }

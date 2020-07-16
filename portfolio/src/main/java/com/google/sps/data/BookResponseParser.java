@@ -33,15 +33,11 @@ public class BookResponseParser {
   private static final String INDUSTRTRY_IDS = "industryIdentifiers";
 
   public static Book parseBook(String jsonResponse) throws JSONException{
-    try{
-        if(validate(jsonResponse)){
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            return jsonToBook(jsonObject);
-        }
-        return null;
-    }catch(JSONException e){
-        return null;
+    if(validate(jsonResponse)){
+        JSONObject jsonObject = new JSONObject(jsonResponse);
+        return jsonToBook(jsonObject);
     }
+    return null;
   }
 
   private static Book jsonToBook(JSONObject jsonObject) throws JSONException {
