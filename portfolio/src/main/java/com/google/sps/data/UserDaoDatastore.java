@@ -18,7 +18,9 @@ import java.util.Optional;
  */
 public class UserDaoDatastore implements UserDao {
   private DatastoreService datastore;
-  UserService userService;
+  private UserService userService;
+  private static final String EMAIL = "email";
+  private static final String NICKNAME = "nickname";
 
   public UserDaoDatastore() {
     datastore = DatastoreServiceFactory.getDatastoreService();
@@ -67,7 +69,7 @@ public class UserDaoDatastore implements UserDao {
    */
   private static User entityToUser(Entity userEntity) {
     return User.create(
-        (String) userEntity.getProperty("email"), (String) userEntity.getProperty("nickname"));
+        (String) userEntity.getProperty(EMAIL), (String) userEntity.getProperty(NICKNAME));
   }
 
   /**
@@ -79,8 +81,8 @@ public class UserDaoDatastore implements UserDao {
     String userEmail = userService.getCurrentUser().getEmail();
     Entity userEntity = new Entity(createKey(userEmail));
 
-    userEntity.setProperty("email", userEmail);
-    userEntity.setProperty("nickname", user.nickname());
+    userEntity.setProperty(EMAIL, userEmail);
+    userEntity.setProperty(NICKNAME, user.nickname());
 
     return userEntity;
   }
