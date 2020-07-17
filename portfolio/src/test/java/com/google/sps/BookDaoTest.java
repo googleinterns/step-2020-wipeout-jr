@@ -114,50 +114,50 @@ public final class BookDaoTest {
     BookDao.getEntity(null);
   }
   
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateEmptyIsbn(){
     BookDao.getEntity("");
   }
   
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateShortIsbn(){
     BookDao.getEntity("1234567");
   }
   
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateLongIsbn(){
     BookDao.getEntity("1234567891124151234");
   }
   
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateNonNumericIsbn(){
     BookDao.getEntity("puppies");
   }
   
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateIllegalCharIsbn(){
     BookDao.getEntity("1+2-344444444");
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = NullPointerException.class)
   public void validateBookNullIsbn(){
     Book nullIsbn = newBook("A Court of Wings and Ruin","Fiction","Sarah Maas","Fantasy","en",34,null);
     BookDao.create(nullIsbn);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateBookEmptyIsbn(){
     Book emptyIsbn = newBook("A Court of Wings and Ruin","Fiction","Sarah Maas","Fantasy","en",34,"");
     BookDao.create(emptyIsbn);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateBookShortIsbn(){
     Book shortIsbn = newBook("A Court of Wings and Ruin","Fiction","Sarah Maas","Fantasy","en",34,"12345");
     BookDao.create(shortIsbn);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void validateBookLongIsbn(){
     Book longIsbn = newBook("A Court of Wings and Ruin","Fiction","Sarah Maas","Fantasy","en",34,"1234543243792349374074");
     BookDao.create(longIsbn);

@@ -1,5 +1,8 @@
 package com.google.sps.data;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.Preconditions;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -46,7 +49,7 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void create(Book book){
-      if(validate(book)){
+      if(validateBook(book)){
         if(!entityExists(book.isbn())){
           datastore.put(parseEntity(book));
         }else{
@@ -61,7 +64,7 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void delete(String isbn){
-        if(validate(isbn) && entityExists(isbn)){
+        if(validateIsbn(isbn) && entityExists(isbn)){
           datastore.delete(createKey(isbn));
         }
     }
@@ -72,7 +75,7 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public Book getEntity(String isbn) {
-        if(validate(isbn)){
+        if(validateIsbn(isbn)){
             Entity bookEntity;
             try{
                 bookEntity = datastore.get(createKey(isbn));
@@ -90,7 +93,7 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void update(Book book) {
-        if(validate(book) && entityExists(book.isbn())){
+        if(validateBook(book) && entityExists(book.isbn())){
             datastore.put(parseEntity(book));
         }
     }
@@ -170,26 +173,23 @@ public class BookDaoDatastore implements BookDao {
 
     /**
     * Checks to see if the input is valid
-    * @param obj: The input you want to 
-    * validate (isbn or book)
+    * @param book: The input you want to validate
     */
-    private boolean validate(Object obj){
-        if(obj == null){
-            throw new NullPointerException("The input was null.");
-        }
+    private boolean validateBook(Book book){
+        Preconditions.checkNotNull(book, "The Book cannot be a null value");
+        validateIsbn(book.isbn());
+        return true;
+    }
 
-        String isbn = null;
-        if(obj.getClass().equals(java.lang.String.class)){
-            isbn = (String) obj;
-        }else if(obj.getClass().equals(com.google.sps.data.AutoValue_Book.class)){
-            Book book = (Book) obj;
-            isbn = book.isbn();
-        }
-
-        if(isbn != null && isbn.matches("[0-9]+") && isbn.length() == 13){
-            return true;
-        }
-        throw new RuntimeException(String.format("Bad argument %s", obj));
+    /**
+    * Checks to see if the input is valid
+    * @param isbn: The isbn you want to validate
+    */
+    private boolean validateIsbn(String isbn){
+        Preconditions.checkNotNull(isbn, "The ISBN cannot be a null value");
+        Preconditions.checkArgument(isbn.matches("[0-9]+"), "The ISBN can only be numeric");
+        Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digit's");
+        return true;
     }
 
     /**
