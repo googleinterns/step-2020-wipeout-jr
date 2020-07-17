@@ -3,6 +3,8 @@ package com.google.sps.data;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -99,10 +101,18 @@ public class ReviewDaoDatastore implements ReviewDao {
   }
 
   private static Entity reviewToEntity(Review review) {
-    Entity reviewEntity = new Entity(ENTITY_KIND);
+    String isbn = review.book().isbn();
+    String email = review.user().email();
+    Entity reviewEntity = new Entity(createKey(isbn, email));
+
     reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
-    reviewEntity.setProperty(ISBN_PROPERTY, review.book().isbn());
-    reviewEntity.setProperty(USEREMAIL_PROPERTY, review.user().email());
+    reviewEntity.setProperty(ISBN_PROPERTY, isbn);
+    reviewEntity.setProperty(USEREMAIL_PROPERTY, email);
     return userEntity;
+  }
+
+  private Key createKey(String isbn, String email) {
+    String uniqueID = isbn + "+" + email;
+    return KeyFactory.createKey(ENTITY_KIND, uniqueID);
   }
 }
