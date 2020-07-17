@@ -75,55 +75,32 @@ public final class BookResponseParserTest {
   public void compareWithHardCoded(){
     //parses the string in a json file and compares with a hard-coded book
     Book expected = createBook();
-
     String fileString = readFile("src/test/java/com/google/sps/BookParserTestFile.json");
-
-    try{
-        if(!fileString.equals("")){
-            Book actual = BookResponseParser.parseBook(fileString);
-            Assert.assertEquals(expected.title(),actual.title());
-            Assert.assertEquals(expected.genre(),actual.genre());
-            Assert.assertEquals(expected.categories(),actual.categories());
-            Assert.assertEquals(expected.authors(),actual.authors());
-            Assert.assertEquals(expected.language(),actual.language());
-            Assert.assertEquals(expected.description(),actual.description());
-            Assert.assertEquals(expected.infoLink(),actual.infoLink());
-            Assert.assertEquals(expected.pageCount(),actual.pageCount());
-            Assert.assertEquals(expected.publishedDate(),actual.publishedDate());
-            Assert.assertEquals(expected.publisher(),actual.publisher());
-            Assert.assertEquals(expected.maturityRating(),actual.maturityRating());
-            Assert.assertEquals(expected.thumbnail(),actual.thumbnail());
-            Assert.assertEquals(expected.isbn(),actual.isbn());
-        }
-    }
-    catch(Exception e){
-        Assert.fail("Error comparing expected and actual books. " + e);
-    }
-
-
+    Book actual = BookResponseParser.parseBook(fileString);
+    Assert.assertEquals(expected,actual);
   }
 
-  @Test(expected = JSONException.class)
+  @Test(expected = NullPointerException.class)
   public void parseNull() throws Exception{
       //attempts to parse a null value
       BookResponseParser.parseBook(null);
 
   }
 
-   @Test(expected = JSONException.class)
+   @Test(expected = IllegalArgumentException.class)
   public void parseEmpty() throws Exception{
       //attempts to parse a empty value
       BookResponseParser.parseBook("");
 
   }
 
-  @Test(expected = JSONException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void parseBadString() throws Exception{
     //attempts to parse a string that is unsiutable
     BookResponseParser.parseBook("puppy");
   }
 
-  @Test(expected = JSONException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void parseFullApiResponse() throws Exception{
     //attempts to parse the full response from the book api
     String fileString = readFile("src/test/java/com/google/sps/ResponseSample.json");
