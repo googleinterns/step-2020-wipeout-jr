@@ -6,9 +6,12 @@ import com.google.common.base.Preconditions;
 import com.google.sps.data.Book;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.NullPointerException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import org.json.JSONArray;
@@ -22,9 +25,12 @@ public class BookServiceClient {
   * Validates the book name and gets the most relevent result
   * @param bookName: the name of the book you want to search for
   */
-  public static String getBookInfo(String bookName) throws Exception{
+  public static String getBookInfo(String bookName){
     validate(bookName);
     String allResults = queryBooksAPI(bookName);
+    if(allResults == null){
+      return null;
+    }
     return getTopResult(allResults);
   }
 
@@ -44,15 +50,15 @@ public class BookServiceClient {
   * url and gets the results from the api by calling queryUrl 
   * @param bookName: the name of the book you want to search for
   */
-  private static String queryBooksAPI(String bookName) throws Exception{
-    String encodedBookName = null;
-    encodedBookName = URLEncoder.encode(bookName, "UTF-8");
-    String url = String.format("https://www.googleapis.com/books/v1/volumes?country=US&q=%s", encodedBookName);
+  private static String queryBooksAPI(String bookName){
     try{
-        return queryURL(url);
+      String encodedBookName = null;
+      encodedBookName = URLEncoder.encode(bookName, "UTF-8");
+      String url = String.format("https://www.googleapis.com/books/v1/volumes?country=US&q=%s", encodedBookName);
+      return queryURL(url);
     }
     catch(Exception e){
-        throw new Exception("Could not query URL",e);
+      return null;
     }
   }
 
@@ -62,21 +68,24 @@ public class BookServiceClient {
   * reader, and returns a string representing that data
   * @param url: the that you want to query
   */
-  public static String queryURL(String url) throws Exception{
-    URL obj = new URL(url);
-    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-    con.setRequestMethod("GET");
+  public static String queryURL(String url) throws IOException, MalformedURLException, ProtocolException{
+    URL obj = new URL(url); //can throw MalformedURLException
+    HttpURLConnection con = (HttpURLConnection) obj.openConnection(); //can throw IOException
+    con.setRequestMethod("GET"); //can throw ProtocolException
     con.setRequestProperty("User-Agent", "Mozilla/5.0");
-    int responseCode = con.getResponseCode();
+    int responseCode = con.getResponseCode(); //can throw IOException
  
-    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-    String inputLine;
-    StringBuffer response = new StringBuffer(); // will contain the large string of information
-    while ((inputLine = in.readLine()) != null) {
-      response.append(inputLine);
+    try(BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))){
+      String inputLine;
+      StringBuffer response = new StringBuffer(); // will contain the large string of information
+      while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+      }
+      in.close();
+      return response.toString();
+    }catch(Exception e){
+      return null;
     }
-    in.close();
-    return response.toString();
   }
   
   /**
