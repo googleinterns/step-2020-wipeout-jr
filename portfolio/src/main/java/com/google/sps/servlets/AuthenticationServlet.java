@@ -11,10 +11,14 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 import com.google.sps.data.User;
 import com.google.sps.data.UserDao;
 import com.google.sps.data.UserDaoDatastore;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +37,12 @@ public class AuthenticationServlet extends HttpServlet {
     UserDaoDatastore userStorage = new UserDaoDatastore();
   }
 
+    private String toJson(ArrayList authInfo) {
+    Gson gson = new Gson();
+    return gson.toJson(authInfo);
+  }
+
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
@@ -45,21 +55,24 @@ public class AuthenticationServlet extends HttpServlet {
       String nickname = getUserNickname(userService.getCurrentUser().getEmail());
 
       if (nickname.equals("")) {
-        response.sendRedirect("/user-info");
+        response.sendRedirect("/");
         return;
       }
 
       String userEmail = userService.getCurrentUser().getEmail();
       String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
 
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      response.getWriter().println(toJson(new ArrayList<String>(Arrays.asList(userEmail,logoutUrl))));
+
+    //   response.getWriter().println("<p>Hello " + userEmail + "!</p>");
+    //   response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
 
     } else {
       String loginUrl = userService.createLoginURL(urlToRedirectTo);
 
-      response.getWriter().println("<p>Hello stranger.</p>");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+        response.getWriter().println(toJson(new ArrayList<String>(Arrays.asList(loginUrl))));
+    //   response.getWriter().println("<p>Hello stranger.</p>");
+    //   response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
     }
   }
 

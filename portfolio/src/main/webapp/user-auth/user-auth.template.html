@@ -1,0 +1,11 @@
+<p ng-show='userAuthCtrl.loading'>Loading...</p> 
+
+<p ng-show='!userAuthCtrl.loading && userAuthCtrl.isLoggedIn()'>
+    <p>Hello {{userAuthCtrl.authInfo[0]}}</p>
+    <p>Logout <a ng-href= "{{userAuthCtrl.authInfo[1]}}"> here </a> </p>
+    </p>
+
+<div ng-show='!userAuthCtrl.loading && !userAuthCtrl.isLoggedIn()'>
+    <p>Hello stranger.</p>
+    <p>Login <a ng-href= "{{userAuthCtrl.authInfo[0]}}"> here </a> </p>
+</div>
