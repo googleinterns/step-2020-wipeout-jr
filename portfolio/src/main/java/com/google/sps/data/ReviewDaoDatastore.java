@@ -21,10 +21,8 @@ import java.util.Set;
 public class ReviewDaoDatastore implements ReviewDao {
   private DatastoreService datastore;
   private static final String ENTITY_KIND = "Review";
-  private static final String BOOK_PROPERTY = "Book";
   private static final String ISBN_PROPERTY = "ISBN";
   private static final String FULLTEXT_PROPERTY = "FullText";
-  private static final String USER_PROPERTY = "User";
   private static final String USEREMAIL_PROPERTY = "UserEmail";
 
   public ReviewDaoDatastore() {
@@ -32,10 +30,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   }
 
   /**
-   * Takes in a book and uploads all associated reviews
-   * to Datastore with user set to default values
-   *
-   * @param book: Book object whose reviews are to be uploaded
+   * {@inheritDoc}
    */
   @Override
   public void uploadAll(Book book) {
@@ -47,19 +42,20 @@ public class ReviewDaoDatastore implements ReviewDao {
   }
 
   /**
-   * Takes in a review and uploads to Datastore
-   *
-   * @param review: Review object to be uploaded
+   * {@inheritDoc}
    */
   @Override
   public void uploadNew(Review review) {
     if (reviewExists(review.book().isbn(), review.user().email())) {
-      throw new Exception("Review exists for book:" + review.book().title() + " by user "
+      throw new Exception("Review exists for book:" + review.book().title() + ", by user "
           + review.user().nickname());
     }
     datastore.put(reviewToEntity(review));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void updateReview(Review review) {
     String isbn = review.book().isbn();
@@ -78,22 +74,29 @@ public class ReviewDaoDatastore implements ReviewDao {
   }
 
   /**
-   * Takes in a book and returns a set of all Reviews associated
-   * with that book in Datastore
-   *
-   * @param book: Book object whose reviews are to be returned
-   * @return ImmutableSet of reviews associated with the book
+   * {@inheritDoc}
    */
   @Override
   public ImmutableSet<Review> getAllByISBN(String isbn) {
     return getAllByProperty(ISBN_PROPERTY, isbn);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public ImmutableSet<Review> getAllByEmail(String email) {
     return getAllByProperty(USEREMAIL_PROPERTY, email);
   }
 
+  /**
+   * Takes in a property and the associated value to create a 
+   * filter and returns all Entities with this value
+   * 
+   * @param property: property to be filtered by
+   * @param value: value of this property that is wanted
+   * @return ImmutableSet of Reviews that pass this filter
+   */
   private static ImmutableSet<Review> getAllByProperty(String property, String value) {
     ImmutableSet.Builder<Review> reviews = new ImmutableSet.Builder<Review>();
     Filter filter = null;
@@ -114,6 +117,11 @@ public class ReviewDaoDatastore implements ReviewDao {
     return reviews.build();
   }
 
+  /**
+   * Creates a Review object from entity
+   * @param reviewEntity: the entity representing the review to be created
+   * @return Corresponding Review object that is created
+   */
   private static Review entityToReview(Entity reviewEntity) {
     return Review.builder()
         .fullText((String) reviewEntity.getProperty(FULLTEXT_PROPERTY))
@@ -122,6 +130,11 @@ public class ReviewDaoDatastore implements ReviewDao {
         .build();
   }
 
+  /**
+   * Creates a datastore entity from a Review object
+   * @param review: The Review object that the entity will be created of
+   * @return Corresponding Entity that is created
+   */
   private static Entity reviewToEntity(Review review) {
     String isbn = review.book().isbn();
     String email = review.user().email();
@@ -133,11 +146,25 @@ public class ReviewDaoDatastore implements ReviewDao {
     return userEntity;
   }
 
+  /**
+   * Creates a key for Reviews containing Book and User information
+   *
+   * @param isbn: isbn value of the Book for which the Review is written
+   * @param email: email of the User who writes the Review
+   * @return Key object for a Review 
+   */
   private Key createKey(String isbn, String email) {
     String uniqueID = isbn + "+" + email;
     return KeyFactory.createKey(ENTITY_KIND, uniqueID);
   }
 
+  /**
+   * Checks if a review exists for a given book by given user
+   *
+   * @param isbn: ISBN of book to be checked
+   * @param email: email of user to be checked
+   * @return whether a review exists for this book/user pair
+   */
   private boolean reviewExists(String isbn, String email) {
     Entity reviewEntity;
     try {
