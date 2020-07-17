@@ -49,12 +49,11 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void create(Book book){
-      if(validateBook(book)){
-        if(!entityExists(book.isbn())){
-          datastore.put(parseEntity(book));
-        }else{
-          throw new RuntimeException(String.format("Book already exists with ISBN-13=%s", book.isbn()));
-        }
+      validateBook(book);
+      if(!entityExists(book.isbn())){
+        datastore.put(parseEntity(book));
+      }else{
+        throw new RuntimeException(String.format("Book already exists with ISBN-13=%s", book.isbn()));
       }
     }
 
@@ -64,7 +63,8 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void delete(String isbn){
-        if(validateIsbn(isbn) && entityExists(isbn)){
+        validateIsbn(isbn);
+        if(entityExists(isbn)){
           datastore.delete(createKey(isbn));
         }
     }
@@ -75,16 +75,14 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public Book getEntity(String isbn) {
-        if(validateIsbn(isbn)){
-            Entity bookEntity;
-            try{
-                bookEntity = datastore.get(createKey(isbn));
-            } catch(EntityNotFoundException ex) {
-                return null;
-            }
-            return parseBook(bookEntity);
+        validateIsbn(isbn);
+        Entity bookEntity;
+        try{
+            bookEntity = datastore.get(createKey(isbn));
+        } catch(EntityNotFoundException ex) {
+            return null;
         }
-        return null;
+        return parseBook(bookEntity);
     }
 
     /**
@@ -93,7 +91,8 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void update(Book book) {
-        if(validateBook(book) && entityExists(book.isbn())){
+        validateBook(book);
+        if(entityExists(book.isbn())){
             datastore.put(parseEntity(book));
         }
     }
@@ -175,21 +174,19 @@ public class BookDaoDatastore implements BookDao {
     * Checks to see if the input is valid
     * @param book: The input you want to validate
     */
-    private boolean validateBook(Book book){
+    private void validateBook(Book book){
         Preconditions.checkNotNull(book, "The Book cannot be a null value");
         validateIsbn(book.isbn());
-        return true;
     }
 
     /**
     * Checks to see if the input is valid
     * @param isbn: The isbn you want to validate
     */
-    private boolean validateIsbn(String isbn){
+    private void validateIsbn(String isbn){
         Preconditions.checkNotNull(isbn, "The ISBN cannot be a null value");
         Preconditions.checkArgument(isbn.matches("[0-9]+"), "The ISBN can only be numeric");
         Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digit's");
-        return true;
     }
 
     /**
@@ -197,10 +194,7 @@ public class BookDaoDatastore implements BookDao {
     * @param isbn: The isbn of the book you want to check for
     */
     private boolean entityExists(String isbn){
-        if(getEntity(isbn) != null){
-            return true;
-        }
-        return false;
+        return getEntity(isbn) != null;
     }
 }
 

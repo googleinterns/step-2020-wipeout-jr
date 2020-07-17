@@ -26,7 +26,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class BookDaoTest {
   private final BookDao BookDao = new BookDaoDatastore();
-  private static final Book defaultBook = createDefaultBook();
+  private static final Book DEFAULT_BOOK = createDefaultBook();
 
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(
@@ -76,22 +76,6 @@ public final class BookDaoTest {
         .maturityRating(maturityRating).thumbnail(thumbnail).isbn(isbn);
     Book expected = builder.build();
     return expected;
-  }
-
-  private void compareBooks(Book expected, Book actual){
-    Assert.assertEquals(expected.title(),actual.title());
-    Assert.assertEquals(expected.genre(),actual.genre());
-    Assert.assertEquals(expected.categories(),actual.categories());
-    Assert.assertEquals(expected.authors(),actual.authors());
-    Assert.assertEquals(expected.language(),actual.language());
-    Assert.assertEquals(expected.description(),actual.description());
-    Assert.assertEquals(expected.infoLink(),actual.infoLink());
-    Assert.assertEquals(expected.pageCount(),actual.pageCount());
-    Assert.assertEquals(expected.publishedDate(),actual.publishedDate());
-    Assert.assertEquals(expected.publisher(),actual.publisher());
-    Assert.assertEquals(expected.maturityRating(),actual.maturityRating());
-    Assert.assertEquals(expected.thumbnail(),actual.thumbnail());
-    Assert.assertEquals(expected.isbn(),actual.isbn());
   }
 
   private static Book newBook(String title, String category, String author,
@@ -166,15 +150,16 @@ public final class BookDaoTest {
   @Test
   public void createAndGetBook() {
     //creates a book and stores in DS, gets the book and compares
-    BookDao.create(defaultBook);
-    Book actual = BookDao.getEntity(defaultBook.isbn());
-    compareBooks(defaultBook,actual);
+    BookDao.create(DEFAULT_BOOK);
+    Book actual = BookDao.getEntity(DEFAULT_BOOK.isbn());
+    Assert.assertEquals(DEFAULT_BOOK,actual);
   }
 
-  @Test
+  @Test(expected = RuntimeException.class)
   public void createExistingBook() {
     //tries to create a book that is already in datastore
-    BookDao.create(defaultBook);
+    BookDao.create(DEFAULT_BOOK);
+    BookDao.create(DEFAULT_BOOK);
   }
 
   @Test
@@ -183,32 +168,32 @@ public final class BookDaoTest {
     Book original = newBook("A Court of Wings and Ruin","Fiction","Sarah Maas","Fantasy","en",34,"9781619634497");
     BookDao.create(original);
 
-    Book updatedBook = newBook("A Court of Ruin and Wings","Fiction","Sarah Maas","Fantasy","en",34,"9781619634497");
+    Book updatedBook = newBook("A Court of Ruin and Wings","Historical","Sarah Maas","Biography","en",34,"9781619634497");
     BookDao.update(updatedBook);
 
-    Book actual = BookDao.getEntity(defaultBook.isbn());
-    compareBooks(updatedBook,actual);
+    Book actual = BookDao.getEntity(DEFAULT_BOOK.isbn());
+    Assert.assertEquals(updatedBook,actual);
   }
 
   @Test
   public void updateNullBook() {
     //creates a book and stores in DS, gets the book and compares
-    BookDao.update(defaultBook);
-    Assert.assertEquals(null, BookDao.getEntity(defaultBook.isbn()));
+    BookDao.update(DEFAULT_BOOK);
+    Assert.assertEquals(null, BookDao.getEntity(DEFAULT_BOOK.isbn()));
   }
 
   @Test
   public void deleteEntity(){
     //deletes a book that exists in datastore
-    BookDao.create(defaultBook);
-    BookDao.delete(defaultBook.isbn());
-    Assert.assertEquals(null, BookDao.getEntity(defaultBook.isbn()));
+    BookDao.create(DEFAULT_BOOK);
+    BookDao.delete(DEFAULT_BOOK.isbn());
+    Assert.assertEquals(null, BookDao.getEntity(DEFAULT_BOOK.isbn()));
   }
 
   @Test
   public void deleteNullEntity(){
     //deletes a book that does not exist in datastore
-    BookDao.delete(defaultBook.isbn());
+    BookDao.delete(DEFAULT_BOOK.isbn());
   }
 }
 
