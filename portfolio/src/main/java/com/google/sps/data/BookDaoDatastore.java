@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /** 
@@ -26,6 +27,7 @@ public class BookDaoDatastore implements BookDao {
     private static final String LANGUAGE = "language";
     private static final String DESCRIPTION = "description";
     private static final String INFO_LINK = "infoLink";
+    private static final String THUMBNAIL = "thumbnail";
     private static final String PAGE_COUNT = "pageCount";
     private static final String PUBLISHED_DATE = "publishedDate";
     private static final String PUBLISHER = "publisher";
@@ -44,11 +46,13 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void create(Book book){
+      if(validate(book)){
         if(!entityExists(book.isbn())){
-            datastore.put(parseEntity(bookEntity));
+          datastore.put(parseEntity(book));
         }else{
-            update(book);
+          throw new RuntimeException(String.format("Book already exists with ISBN-13=%s", book.isbn()));
         }
+      }
     }
 
     /**
@@ -57,7 +61,7 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void delete(String isbn){
-        if(entityExists(isbn){
+        if(validate(isbn) && entityExists(isbn)){
           datastore.delete(createKey(isbn));
         }
     }
@@ -67,15 +71,17 @@ public class BookDaoDatastore implements BookDao {
     * @param isbn: The isbn of the book you want
     */
     @Override
-    public Book get(String isbn) {
-        Entity bookEntity;
-        try{
-            Key bookKey = KeyFactory.stringToKey(isbn);
-            bookEntity = datastore.get(bookKey);
-        } catch(EntityNotFoundException ex) {
-            return null;
+    public Book getEntity(String isbn) {
+        if(validate(isbn)){
+            Entity bookEntity;
+            try{
+                bookEntity = datastore.get(createKey(isbn));
+            } catch(EntityNotFoundException ex) {
+                return null;
+            }
+            return parseBook(bookEntity);
         }
-        return parseBook(bookEntity);
+        return null;
     }
 
     /**
@@ -84,7 +90,7 @@ public class BookDaoDatastore implements BookDao {
     */
     @Override
     public void update(Book book) {
-        if(entityExists(book.isbn())){
+        if(validate(book) && entityExists(book.isbn())){
             datastore.put(parseEntity(book));
         }
     }
@@ -95,22 +101,28 @@ public class BookDaoDatastore implements BookDao {
     */
     private Book parseBook(Entity bookEntity){
         String title = (String) bookEntity.getProperty(TITLE);
-        Set<String> genre = (Set<String>) bookEntity.getProperty(GENRE);
-        ArrayList<String> categories = (ArrayList<String>) bookEntity.getProperty(CATEGORIES);
-        ArrayList<String> authors = (ArrayList<String>) bookEntity.getProperty(AUTHORS);
         String language = (String) bookEntity.getProperty(LANGUAGE);
         String description = (String) bookEntity.getProperty(DESCRIPTION);
         String infoLink = (String) bookEntity.getProperty(INFO_LINK);
-        int pageCount = (int) bookEntity.getProperty(PAGE_COUNT);
-        String publishedDate = (String) bookEntity.getProperty(PUBLISHED_DATE);
+        String thumbnail = (String) bookEntity.getProperty(THUMBNAIL);
+         String publishedDate = (String) bookEntity.getProperty(PUBLISHED_DATE);
         String publisher = (String) bookEntity.getProperty(PUBLISHER);
         String maturityRating = (String) bookEntity.getProperty(MATURITY_RATING);
         String isbn = (String) bookEntity.getProperty(ISBN);
+        ArrayList<String> categories = (ArrayList<String>) bookEntity.getProperty(CATEGORIES);
+        ArrayList<String> authors = (ArrayList<String>) bookEntity.getProperty(AUTHORS);
+
+        ArrayList<String> genreList = (ArrayList<String>) bookEntity.getProperty(GENRE);
+        Set<String> genre = new HashSet<String>();
+        genre.addAll(genreList);
+        
+        Long tempPageCount = (Long) bookEntity.getProperty(PAGE_COUNT);
+        int pageCount = tempPageCount.intValue();
  
         Book.Builder builder = Book.builder().title(title).genre(genre)
             .categories(categories).authors(authors).language(language)
             .description(description).infoLink(infoLink).pageCount(pageCount)
-            .publishedDate(publishedDate).publisher(publisher)
+            .publishedDate(publishedDate).publisher(publisher).thumbnail(thumbnail)
             .maturityRating(maturityRating).isbn(isbn);
  
         Book book = builder.build();
@@ -136,10 +148,12 @@ public class BookDaoDatastore implements BookDao {
         bookEntity.setProperty(LANGUAGE,book.language());
         bookEntity.setProperty(DESCRIPTION,book.description());
         bookEntity.setProperty(INFO_LINK,book.infoLink());
+        bookEntity.setProperty(THUMBNAIL,book.thumbnail());
         bookEntity.setProperty(PAGE_COUNT,book.pageCount());
         bookEntity.setProperty(PUBLISHED_DATE,book.publishedDate());
         bookEntity.setProperty(PUBLISHER,book.publisher());
         bookEntity.setProperty(MATURITY_RATING,book.maturityRating());
+        bookEntity.setProperty(ISBN,book.isbn());
 
         return bookEntity;
     }
@@ -147,9 +161,35 @@ public class BookDaoDatastore implements BookDao {
     /**
     * Creates a custom Key object of kind ENTITY_KIND ("Book")
     * @param isbn: The isbn of the book you want to create the key for
+    * the same isbn will create the same key so it will work when
+    * passing isbn to get book
     */
     private Key createKey(String isbn) {
         return KeyFactory.createKey(ENTITY_KIND, isbn);
+    }
+
+    /**
+    * Checks to see if the input is valid
+    * @param obj: The input you want to 
+    * validate (isbn or book)
+    */
+    private boolean validate(Object obj){
+        if(obj == null){
+            throw new NullPointerException("The input was null.");
+        }
+
+        String isbn = null;
+        if(obj.getClass().equals(java.lang.String.class)){
+            isbn = (String) obj;
+        }else if(obj.getClass().equals(com.google.sps.data.AutoValue_Book.class)){
+            Book book = (Book) obj;
+            isbn = book.isbn();
+        }
+
+        if(isbn != null && isbn.matches("[0-9]+") && isbn.length() == 13){
+            return true;
+        }
+        throw new RuntimeException(String.format("Bad argument %s", obj));
     }
 
     /**
@@ -157,13 +197,10 @@ public class BookDaoDatastore implements BookDao {
     * @param isbn: The isbn of the book you want to check for
     */
     private boolean entityExists(String isbn){
-        try{
-            get(createKey(isbn());
+        if(getEntity(isbn) != null){
             return true;
         }
-        catch(EntityNotFoundException){
-            return false;
-        }
+        return false;
     }
 }
 

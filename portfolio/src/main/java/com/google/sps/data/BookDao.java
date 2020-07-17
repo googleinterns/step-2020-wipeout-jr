@@ -4,7 +4,7 @@ import com.google.sps.data.Book;
 // Given an instance of Book, persists it in the datastore.
 public interface BookDao {
   void create(Book book);
-  Book get(String isbn);
+  Book getEntity(String isbn);
   void update(Book book);
   void delete(String isbn);
 }
