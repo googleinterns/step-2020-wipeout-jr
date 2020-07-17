@@ -19,8 +19,10 @@ public class ReviewDaoDatastore implements ReviewDao {
   private DatastoreService datastore;
   private static final String ENTITY_KIND = "Review";
   private static final String BOOK_PROPERTY = "Book";
+  private static final String ISBN_PROPERTY = "ISBN";
   private static final String FULLTEXT_PROPERTY = "FullText";
   private static final String USER_PROPERTY = "User";
+  private static final String USEREMAIL_PROPERTY = "UserEmail";
 
   public ReviewDaoDatastore() {
     datastore = DatastoreServiceFactory.getDatastoreService();
@@ -35,13 +37,9 @@ public class ReviewDaoDatastore implements ReviewDao {
   @Override
   public void uploadAll(Book book) {
     User defaultUser = User.create("unknown email", "GoodReads User");
-    // loop through all the reviews of a book
-    for (String review : book.reviews()) {
-      Entity reviewEntity = new Entity(ENTITY_KIND);
-      reviewEntity.setProperty(BOOK_PROPERTY, book);
-      reviewEntity.setProperty(FULLTEXT_PROPERTY, review);
-      reviewEntity.setProperty(USER_PROPERTY, defaultUser);
-      datastore.put(reviewEntity);
+    for (String reviewStr : book.reviews()) {
+      Review review = Review.builder().fullText(reviewStr).book(book).user(defaultUser).build();
+      datastore.put(reviewToEntity(review));
     }
   }
 
@@ -52,11 +50,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    */
   @Override
   public void uploadNew(Review review) {
-    Entity reviewEntity = new Entity(ENTITY_KIND);
-    reviewEntity.setProperty(BOOK_PROPERTY, review.book());
-    reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
-    reviewEntity.setProperty(USER_PROPERTY, review.user());
-    datastore.put(reviewEntity);
+    datastore.put(reviewToEntity(review));
   }
 
   /**
@@ -67,11 +61,24 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @return ImmutableSet of reviews associated with the book
    */
   @Override
-  public ImmutableSet<Review> getAll(Book book) {
-    ImmutableSet.Builder<Review> reviews = new ImmutableSet.Builder<Review>();
+  public ImmutableSet<Review> getAllByISBN(String isbn) {
+    return getAllByProperty(ISBN_PROPERTY, isbn);
+  }
 
-    Filter bookFilter = new FilterPredicate(BOOK_PROPERTY, FilterOperator.EQUAL, book);
-    Query query = new Query(ENTITY_KIND).setFilter(bookFilter);
+  @Override
+  public ImmutableSet<Review> getAllByEmail(String email) {
+    return getAllByProperty(USEREMAIL_PROPERTY, email);
+  }
+
+  private static ImmutableSet<Review> getAllByProperty(String property, String value) {
+    ImmutableSet.Builder<Review> reviews = new ImmutableSet.Builder<Review>();
+    Filter filter = null;
+    if (property.equals(ISBN_PROPERTY)) {
+      filter = new FilterPredicate(ISBN_PROPERTY, FilterOperator.EQUAL, value);
+    } else {
+      filter = new FilterPredicate(USEREMAIL_PROPERTY, FilterOperator.EQUAL, value);
+    }
+    Query query = new Query(ENTITY_KIND).setFilter(filter);
     PreparedQuery results = datastore.prepare(query);
     if (results == null) {
       return reviews.build();
@@ -89,5 +96,13 @@ public class ReviewDaoDatastore implements ReviewDao {
         .book((Book) reviewEntity.getProperty(BOOK_PROPERTY))
         .user((User) reviewEntity.getProperty(USER_PROPERTY))
         .build();
+  }
+
+  private static Entity reviewToEntity(Review review) {
+    Entity reviewEntity = new Entity(ENTITY_KIND);
+    reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
+    reviewEntity.setProperty(ISBN_PROPERTY, review.book().isbn());
+    reviewEntity.setProperty(USEREMAIL_PROPERTY, review.user().email());
+    return userEntity;
   }
 }
