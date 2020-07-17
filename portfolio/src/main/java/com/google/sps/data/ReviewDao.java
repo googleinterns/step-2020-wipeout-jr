@@ -3,6 +3,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.sps.data.Book;
 import com.google.sps.data.Review;
 import java.util.Set;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 
 public interface ReviewDao {
 
@@ -21,7 +23,7 @@ public interface ReviewDao {
    *
    * @param review: Review object to be uploaded
    */
-  void uploadNew(Review review);
+  void uploadNew(Review review) throws Exception;
 
   /**
    * Takes in a review and updates in Datastore.
@@ -30,7 +32,7 @@ public interface ReviewDao {
    *
    * @param review: Review object to be updated
    */
-  void updateReview(Review review);
+  void updateReview(Review review) throws Exception;
 
   /**
    * Takes in a book's ISBN value and returns a set of 

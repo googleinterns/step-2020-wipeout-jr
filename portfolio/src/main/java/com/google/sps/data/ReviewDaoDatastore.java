@@ -3,6 +3,7 @@ package com.google.sps.data;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -14,7 +15,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.sps.data.Book;
 import com.google.sps.data.Review;
-import com.google.sps.data.User;
 import java.lang.Exception;
 import java.util.Set;
 
@@ -24,6 +24,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   private static final String ISBN_PROPERTY = "ISBN";
   private static final String FULLTEXT_PROPERTY = "FullText";
   private static final String USEREMAIL_PROPERTY = "UserEmail";
+  private static final String DEFAULT_EMAIL = "unknown@email";
 
   public ReviewDaoDatastore() {
     datastore = DatastoreServiceFactory.getDatastoreService();
@@ -34,9 +35,9 @@ public class ReviewDaoDatastore implements ReviewDao {
    */
   @Override
   public void uploadAll(Book book) {
-    User defaultUser = User.create("unknown email", "GoodReads User");
+    //User defaultUser = User.create("unknown email", "GoodReads User");
     for (String reviewStr : book.reviews()) {
-      Review review = Review.builder().fullText(reviewStr).book(book).user(defaultUser).build();
+      Review review = Review.builder().fullText(reviewStr).isbn(book.isbn()).email(DEFAULT_EMAIL).build();
       datastore.put(reviewToEntity(review));
     }
   }
@@ -45,10 +46,10 @@ public class ReviewDaoDatastore implements ReviewDao {
    * {@inheritDoc}
    */
   @Override
-  public void uploadNew(Review review) {
-    if (reviewExists(review.book().isbn(), review.user().email())) {
-      throw new Exception("Review exists for book:" + review.book().title() + ", by user "
-          + review.user().nickname());
+  public void uploadNew(Review review) throws Exception {
+    if (reviewExists(review.isbn(), review.email())) {
+      throw new Exception("Review exists for ISBN:" + review.isbn() + ", by user "
+          + review.email());
     }
     datastore.put(reviewToEntity(review));
   }
@@ -57,20 +58,24 @@ public class ReviewDaoDatastore implements ReviewDao {
    * {@inheritDoc}
    */
   @Override
-  public void updateReview(Review review) {
-    String isbn = review.book().isbn();
-    String email = review.user().email();
+  public void updateReview(Review review) throws EntityNotFoundException{
+    String isbn = review.isbn();
+    String email = review.email();
     String fullText = review.fullText();
 
     if (!reviewExists(isbn, email)) {
-      throw new Exception("Review does not exist for book:" + review.book().title() + " by user "
-          + review.user().nickname());
+      throw new EntityNotFoundException(createKey(isbn, email));
     }
 
-    Entity newReview = Entity.newBuilder(datastore.get(createKey(isbn, email)))
-                           .set(FULLTEXT_PROPERTY, fullText)
-                           .build();
-    datastore.update(newReview);
+    datastore.get(createKey(isbn, email)).setProperty(FULLTEXT_PROPERTY, fullText);
+    // Entity.Builder builder = Entity.newBuilder(createKey(isbn, email));
+    // builder.set(FULLTEXT_PROPERTY, fullText);
+    // Entity updatedReview = builder.build();
+    // datastore.update(updatedReview);
+    // Entity newReview = Entity.newBuilder(datastore.get(createKey(isbn, email)))
+    //                        .set(FULLTEXT_PROPERTY, fullText)
+    //                        .build();
+    // datastore.update(newReview);
   }
 
   /**
@@ -97,7 +102,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @param value: value of this property that is wanted
    * @return ImmutableSet of Reviews that pass this filter
    */
-  private static ImmutableSet<Review> getAllByProperty(String property, String value) {
+  private ImmutableSet<Review> getAllByProperty(String property, String value) {
     ImmutableSet.Builder<Review> reviews = new ImmutableSet.Builder<Review>();
     Filter filter = null;
     if (property.equals(ISBN_PROPERTY)) {
@@ -122,11 +127,11 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @param reviewEntity: the entity representing the review to be created
    * @return Corresponding Review object that is created
    */
-  private static Review entityToReview(Entity reviewEntity) {
+  private Review entityToReview(Entity reviewEntity) {
     return Review.builder()
         .fullText((String) reviewEntity.getProperty(FULLTEXT_PROPERTY))
-        .book((Book) reviewEntity.getProperty(BOOK_PROPERTY))
-        .user((User) reviewEntity.getProperty(USER_PROPERTY))
+        .isbn((String) reviewEntity.getProperty(ISBN_PROPERTY))
+        .email((String) reviewEntity.getProperty(USEREMAIL_PROPERTY))
         .build();
   }
 
@@ -135,15 +140,15 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @param review: The Review object that the entity will be created of
    * @return Corresponding Entity that is created
    */
-  private static Entity reviewToEntity(Review review) {
-    String isbn = review.book().isbn();
-    String email = review.user().email();
+  private Entity reviewToEntity(Review review) {
+    String isbn = review.isbn();
+    String email = review.email();
     Entity reviewEntity = new Entity(createKey(isbn, email));
 
     reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
     reviewEntity.setProperty(ISBN_PROPERTY, isbn);
     reviewEntity.setProperty(USEREMAIL_PROPERTY, email);
-    return userEntity;
+    return reviewEntity;
   }
 
   /**
