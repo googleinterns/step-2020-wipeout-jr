@@ -14,7 +14,7 @@
 
 // AngularJS App Configuration
 angular.module(
-    'betterReadsApp', ['ngRoute', 'bookList', 'bookDetail', 'userStatus']);
+    'betterReadsApp', ['ngRoute', 'bookList', 'bookDetail', 'userStatus', 'userInfo']);
 
 /**
  * Adds a random greeting to the page.

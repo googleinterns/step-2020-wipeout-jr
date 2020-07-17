@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 import com.google.sps.data.User;
 import com.google.sps.data.UserDao;
 import com.google.sps.data.UserDaoDatastore;
@@ -41,25 +42,40 @@ public class UserInfoServlet extends HttpServlet {
     UserDaoDatastore userStorage = new UserDaoDatastore();
   }
 
+  private String toJson(String status) {
+    Gson gson = new Gson();
+    return gson.toJson(status);
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
-    PrintWriter out = response.getWriter();
-    out.println("<h1>Set Nickname</h1>");
-
+    response.setContentType("application/json");
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-      String nickname = getUserNickname(userService.getCurrentUser().getUserId());
-      out.println("<p>Set your nickname here:</p>");
-      out.println("<form method=\"POST\" action=\"/user-info\">");
-      out.println("<input name=\"nickname\" value=\"" + nickname + "\" />");
-      out.println("<br/>");
-      out.println("<button>Submit</button>");
-      out.println("</form>");
+        String nickname = getUserNickname(userService.getCurrentUser().getUserId());
+        response.getWriter().println(toJson(nickname));
     } else {
-      String loginUrl = userService.createLoginURL("/auth");
-      out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+        String loginUrl = userService.createLoginURL("/auth");
+        response.getWriter().println(toJson(loginUrl));
     }
+    
+    // response.setContentType("text/html");
+    // PrintWriter out = response.getWriter();
+    // out.println("<h1>Set Nickname</h1>");
+
+    // UserService userService = UserServiceFactory.getUserService();
+    // if (userService.isUserLoggedIn()) {
+    //   String nickname = getUserNickname(userService.getCurrentUser().getUserId());
+    //   out.println("<p>Set your nickname here:</p>");
+    //   out.println("<form method=\"POST\" action=\"/user-info\">");
+    //   out.println("<input name=\"nickname\" value=\"" + nickname + "\" />");
+    //   out.println("<br/>");
+    //   out.println("<button>Submit</button>");
+    //   out.println("</form>");
+    // } else {
+    //   String loginUrl = userService.createLoginURL("/auth");
+    //   out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+    // }
   }
 
   @Override
