@@ -15,6 +15,7 @@ import com.google.common.collect.ImmutableSet.Builder;
 import com.google.sps.data.Book;
 import com.google.sps.data.Review;
 import com.google.sps.data.User;
+import java.lang.Exception;
 import java.util.Set;
 
 public class ReviewDaoDatastore implements ReviewDao {
@@ -52,6 +53,10 @@ public class ReviewDaoDatastore implements ReviewDao {
    */
   @Override
   public void uploadNew(Review review) {
+    if (reviewExists(review.book().isbn(), review.user().email())) {
+      throw new Exception("Review exists for book:" + review.book().title() + " by user "
+          + review.user().nickname());
+    }
     datastore.put(reviewToEntity(review));
   }
 
@@ -114,5 +119,15 @@ public class ReviewDaoDatastore implements ReviewDao {
   private Key createKey(String isbn, String email) {
     String uniqueID = isbn + "+" + email;
     return KeyFactory.createKey(ENTITY_KIND, uniqueID);
+  }
+
+  private boolean reviewExists(String isbn, String email) {
+    Entity reviewEntity;
+    try {
+      reviewEntity = datastore.get(createKey(isbn, email));
+    } catch (EntityNotFoundException ex) {
+      return false;
+    }
+    return true;
   }
 }
