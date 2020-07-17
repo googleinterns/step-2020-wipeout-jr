@@ -25,12 +25,9 @@ public class BookServiceClient {
   * Validates the book name and gets the most relevent result
   * @param bookName: the name of the book you want to search for
   */
-  public static String getBookInfo(String bookName){
+  public static String getBookInfo(String bookName) throws Exception{
     validate(bookName);
     String allResults = queryBooksAPI(bookName);
-    if(allResults == null){
-      return null;
-    }
     return getTopResult(allResults);
   }
 
@@ -50,16 +47,11 @@ public class BookServiceClient {
   * url and gets the results from the api by calling queryUrl 
   * @param bookName: the name of the book you want to search for
   */
-  private static String queryBooksAPI(String bookName){
-    try{
-      String encodedBookName = null;
-      encodedBookName = URLEncoder.encode(bookName, "UTF-8");
-      String url = String.format("https://www.googleapis.com/books/v1/volumes?country=US&q=%s", encodedBookName);
-      return queryURL(url);
-    }
-    catch(Exception e){
-      return null;
-    }
+  private static String queryBooksAPI(String bookName) throws Exception{
+    String encodedBookName = null;
+    encodedBookName = URLEncoder.encode(bookName, "UTF-8");
+    String url = String.format("https://www.googleapis.com/books/v1/volumes?country=US&q=%s", encodedBookName);
+    return queryURL(url);
   }
 
   /**
