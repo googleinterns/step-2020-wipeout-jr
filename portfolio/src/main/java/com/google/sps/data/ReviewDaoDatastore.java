@@ -60,6 +60,23 @@ public class ReviewDaoDatastore implements ReviewDao {
     datastore.put(reviewToEntity(review));
   }
 
+  @Override
+  public void updateReview(Review review) {
+    String isbn = review.book().isbn();
+    String email = review.user().email();
+    String fullText = review.fullText();
+
+    if (!reviewExists(isbn, email)) {
+      throw new Exception("Review does not exist for book:" + review.book().title() + " by user "
+          + review.user().nickname());
+    }
+
+    Entity newReview = Entity.newBuilder(datastore.get(createKey(isbn, email)))
+                           .set(FULLTEXT_PROPERTY, fullText)
+                           .build();
+    datastore.update(newReview);
+  }
+
   /**
    * Takes in a book and returns a set of all Reviews associated
    * with that book in Datastore

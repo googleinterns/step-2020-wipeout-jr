@@ -7,6 +7,7 @@ import java.util.Set;
 public interface ReviewDao {
   void uploadAll(Book book);
   void uploadNew(Review review);
+  void updateReview(Review review);
   ImmutableSet<Review> getAllByISBN(String isbn);
   ImmutableSet<Review> getAllByEmail(String email);
 }
