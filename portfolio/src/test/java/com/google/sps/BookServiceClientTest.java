@@ -18,17 +18,18 @@ import org.junit.runners.JUnit4;
  
 @RunWith(JUnit4.class)
 public final class BookServiceClientTest {
+    //check to make sure it only returns N books
 
   @Test(expected = NullPointerException.class)
   public void queryNull() throws Exception{
-      //attempts to query a null value
-      BookServiceClient.getBookInfo(null);
+    //attempts to query a null value
+    BookServiceClient.getBookInfo(null);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void queryEmpty() throws Exception{
-      //attempts to query an empty value
-      BookServiceClient.getBookInfo("");
+    //attempts to query an empty value
+    BookServiceClient.getBookInfo("");
   }
 }
 
