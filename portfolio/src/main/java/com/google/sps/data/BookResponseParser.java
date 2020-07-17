@@ -1,5 +1,8 @@
 package com.google.sps.data;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.sps.data.Book;
@@ -32,16 +35,10 @@ public class BookResponseParser {
   private static final String ISBN = "ISBN_13";
   private static final String INDUSTRTRY_IDS = "industryIdentifiers";
 
-  public static Book parseBook(String jsonResponse) throws JSONException{
-    try{
-        if(validate(jsonResponse)){
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            return jsonToBook(jsonObject);
-        }
-        return null;
-    }catch(JSONException e){
-        return null;
-    }
+  public static Book parseBook(String jsonResponse){
+    validate(jsonResponse);
+    JSONObject jsonObject = new JSONObject(jsonResponse);
+    return jsonToBook(jsonObject);
   }
 
   private static Book jsonToBook(JSONObject jsonObject) throws JSONException {
@@ -166,18 +163,16 @@ public class BookResponseParser {
     return null;
   }
 
-  private static boolean validate(String jsonResponse){
+  private static void validate(String jsonResponse){
       //checks to see if the input is an validate value
       //empty string
-      if(jsonResponse == null || jsonResponse.equals("")){
-        throw new JSONException("The response was either null or empty.");
-      }
+      Preconditions.checkNotNull(jsonResponse,"The response was null");
+      Preconditions.checkArgument(!jsonResponse.equals(""),"The response was empty");
+      Preconditions.checkArgument(jsonResponse.charAt(0) =='{',"The response must begin with \"{\"");
       JSONObject jsonObject = new JSONObject(jsonResponse);
       //if full api response (contains multiple items)
-      if(jsonObject.has("items") || !jsonObject.has(VOLUME_INFO)){
-        throw new JSONException("The response was not in the required format.");
-      }
-      return true;
+      Preconditions.checkArgument(!jsonObject.has("items"), "The response should only contain one book");
+      Preconditions.checkArgument(jsonObject.has(VOLUME_INFO),"The response did not contain the volumeInfo for a book");
   }
 }
 
