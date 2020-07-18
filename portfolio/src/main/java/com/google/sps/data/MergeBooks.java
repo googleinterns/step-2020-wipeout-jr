@@ -22,11 +22,13 @@ public class MergeBooks {
   public static Book merge(Book original, Book addition){
     validate(original);
     validate(addition);
+    String isbn = getIsbn(original,addition);
+    //One of the ISBNs will be null so you only need to have one valid isbn
+    checkArgument(optional.isbn() != null|| addition.isbn() != null,"One of the books must have a non-null ISBN");
     Preconditions.checkArgument(original.title()==addition.title(),"The books must be of the same title");
-    Preconditions.checkArgument(original.isbn()==addition.isbn(),"The books must be of the same ISBN");
 
     Book.Builder combined_builder = Book.builder();
-    combined_builder.title(original.title()).isbn(original.isbn());
+    combined_builder.title(original.title());
     //Lists and Sets
     combined_builder.categories(combineLists(original.categories(),addition.categories()));
     combined_builder.genre(combineSets(original.genre(),addition.genre()));
@@ -36,6 +38,7 @@ public class MergeBooks {
         combined_builder.addReview(each);
     }
     //Strings
+    combined_builder.isbn(getNonNullString(original.isbn(),addition.isbn()));
     combined_builder.description(getNonNullString(original.description(),addition.description()));
     combined_builder.infoLink(getNonNullString(original.infoLink(),addition.infoLink()));
     combined_builder.thumbnail(getNonNullString(original.thumbnail(),addition.thumbnail()));
@@ -155,7 +158,9 @@ public class MergeBooks {
     Preconditions.checkNotNull(book,"One of the books was null");
     Preconditions.checkNotNull(book.title(),"The book's title was null");
     Preconditions.checkArgument(!book.title().equals(""),"The book's title was empty");
-    
+  }
+
+  private static void validateISBN(String isbn){
     Preconditions.checkNotNull(book.isbn(),"The book's ISBN was null");
     Preconditions.checkArgument(!book.isbn().equals(""),"The book's ISBN was empty");
     Preconditions.checkArgument(book.isbn().matches("[0-9]+"), "The ISBN can only be numeric");

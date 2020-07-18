@@ -17,16 +17,10 @@ class BookUploadUtility {
   * @param bookName: the name of the book you want to query
   * the book API for
   */
-  void uploadBook(String bookName) {
-    try{
-        String bookApiResponse = BookServiceClient.getBookInfo(bookName);
-        Book book = BookResponseParser.parseBook(bookApiResponse);
-        bookDao.create(book);
-    }
-    catch(Exception e){
-        //
-    }
-    
+  void uploadBook(String bookName) throws Exception {
+    String bookApiResponse = BookServiceClient.getBookInfo(bookName);
+    Book book = BookResponseParser.parseBook(bookApiResponse);
+    bookDao.create(book);
   }
 
   /**
@@ -38,15 +32,10 @@ class BookUploadUtility {
   * @param book: the pre-existing book you want to merge with,
   * most likely a book constructed from the CSV file
   */
-  void mergeUploadBook(String bookName, Book preExisting) {
-    try{
-        String bookApiResponse = BookServiceClient.getBookInfo(bookName);
-        Book apiBook = BookResponseParser.parseBook(bookApiResponse);
-        Book composite = MergeBooks.merge(apiBook,preExisting);
-        bookDao.create(composite);  
-    }catch(Exception e){
-        //
-    }
-    
+  void mergeUploadBook(String bookName, Book preExisting) throws Exception{
+    String bookApiResponse = BookServiceClient.getBookInfo(bookName);
+    Book apiBook = BookResponseParser.parseBook(bookApiResponse);
+    Book composite = MergeBooks.merge(apiBook,preExisting);
+    bookDao.create(composite);
   }
 }
