@@ -66,7 +66,7 @@ public final class ReviewDaoTest {
   }
 
   @Test(expected = Exception.class)
-  public void uploadNewEdgeTest() throws Exception {
+  public void uploadNewReviewAlreadyExists() throws Exception {
     Review review1 = Review.create("New user review #1", DEFAULT_ISBN_2, USER_EMAIL_1);
     Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
     reviewDao.uploadNew(review1);
@@ -94,7 +94,7 @@ public final class ReviewDaoTest {
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void updateReviewEdgeTest() throws Exception {
+  public void updateReviewNoExistingReview() throws Exception {
     Review review1 = Review.create("New user review #1", DEFAULT_ISBN_1, USER_EMAIL_1);
     Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
     reviewDao.uploadNew(review1);
@@ -102,7 +102,7 @@ public final class ReviewDaoTest {
   }
 
   @Test
-  public void getAllByISBNEdgeTest() {
+  public void getAllByISBNNotInDatastore() {
     Set<Review> actual = reviewDao.getAllByISBN(DEFAULT_ISBN_1);
     Set<Review> expected = ImmutableSet.of();
     Assert.assertEquals(expected, actual);
@@ -124,7 +124,7 @@ public final class ReviewDaoTest {
   }
 
   @Test
-  public void getAllByEmailEdgeTest() throws Exception {
+  public void getAllByEmailNotInDatastore() throws Exception {
     Set<Review> actual = reviewDao.getAllByEmail("notreal@email.com");
     Set<Review> expected = ImmutableSet.of();
     Assert.assertEquals(expected, actual);
