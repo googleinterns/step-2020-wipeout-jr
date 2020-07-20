@@ -75,7 +75,6 @@ public class ReviewDaoDatastore implements ReviewDao {
     if (!reviewExists(isbn, email)) {
       throw new EntityNotFoundException(createKey(isbn, email));
     }
-    datastore.delete(createKey(isbn, email));
     datastore.put(reviewToEntity(review));
   }
 
