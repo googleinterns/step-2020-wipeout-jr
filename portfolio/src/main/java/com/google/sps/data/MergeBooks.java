@@ -25,7 +25,7 @@ public class MergeBooks {
         addition.isbn()); // One of the ISBNs will be null so you only need to have one valid isbn
     validateISBN(isbn);
     Preconditions.checkArgument(
-        original.title() == addition.title(), "The books must be of the same title");
+        original.title().equals(addition.title()), "The books must be of the same title");
 
     Book.Builder combined_builder = Book.builder();
     combined_builder.title(original.title());
@@ -55,28 +55,12 @@ public class MergeBooks {
   }
 
   /**
-   * This method checks whether both objects are null
-   */
-  private static boolean bothNonNull(Object original, Object addition) {
-    if (original != null && addition == null) {
-      return false;
-    }
-    if (original == null && addition != null) {
-      return false;
-    }
-    if (original.equals(addition)) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
    * This method combines two strings together
    * @param original: the first string
    * @param addition: the second string
    */
   private static String combineStrings(String original, String addition) {
-    if (bothNonNull(original, addition)) {
+    if (original == null && addition == null) {
       return getNonNullString(original, addition);
     }
     return original + addition;
@@ -113,7 +97,7 @@ public class MergeBooks {
    */
   private static ArrayList<String> combineLists(
       ImmutableList<String> original, ImmutableList<String> addition) {
-    if (bothNonNull(original, addition)) {
+    if (original == null && addition == null) {
       return new ArrayList<>(getNonNullList(original, addition));
     }
     Set<String> combined = new LinkedHashSet<>(new ArrayList<>(original));
