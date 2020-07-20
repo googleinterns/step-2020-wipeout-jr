@@ -22,14 +22,13 @@ public class MergeBooks {
   public static Book merge(Book original, Book addition){
     validate(original);
     validate(addition);
-    String isbn = getIsbn(original,addition);
-    //One of the ISBNs will be null so you only need to have one valid isbn
-    checkArgument(optional.isbn() != null|| addition.isbn() != null,"One of the books must have a non-null ISBN");
+    String isbn = getNonNullString(original.isbn(),addition.isbn());//One of the ISBNs will be null so you only need to have one valid isbn
+    validateISBN(isbn);
     Preconditions.checkArgument(original.title()==addition.title(),"The books must be of the same title");
 
     Book.Builder combined_builder = Book.builder();
     combined_builder.title(original.title());
-    //Lists and Sets
+    //Combine lists and Sets
     combined_builder.categories(combineLists(original.categories(),addition.categories()));
     combined_builder.genre(combineSets(original.genre(),addition.genre()));
     combined_builder.authors(combineLists(original.authors(),addition.authors()));
@@ -37,7 +36,7 @@ public class MergeBooks {
     for(String each: reviews){
         combined_builder.addReview(each);
     }
-    //Strings
+    //Get non-null strings (value should be present in one book and null in other)
     combined_builder.isbn(getNonNullString(original.isbn(),addition.isbn()));
     combined_builder.description(getNonNullString(original.description(),addition.description()));
     combined_builder.infoLink(getNonNullString(original.infoLink(),addition.infoLink()));
@@ -161,9 +160,9 @@ public class MergeBooks {
   }
 
   private static void validateISBN(String isbn){
-    Preconditions.checkNotNull(book.isbn(),"The book's ISBN was null");
-    Preconditions.checkArgument(!book.isbn().equals(""),"The book's ISBN was empty");
-    Preconditions.checkArgument(book.isbn().matches("[0-9]+"), "The ISBN can only be numeric");
-    Preconditions.checkArgument(book.isbn().length() == 13, "The ISBN must be 13 digit's");
+    Preconditions.checkNotNull(isbn,"The book's ISBN was null");
+    Preconditions.checkArgument(!isbn.equals(""),"The book's ISBN was empty");
+    Preconditions.checkArgument(isbn.matches("[0-9]+"), "The ISBN can only be numeric");
+    Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digit's");
   }
 }
