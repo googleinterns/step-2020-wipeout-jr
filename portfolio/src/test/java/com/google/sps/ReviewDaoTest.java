@@ -95,9 +95,7 @@ public final class ReviewDaoTest {
 
   @Test(expected = EntityNotFoundException.class)
   public void updateReviewNoExistingReview() throws Exception {
-    Review review1 = Review.create("New user review #1", DEFAULT_ISBN_1, USER_EMAIL_1);
     Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
-    reviewDao.uploadNew(review1);
     reviewDao.updateReview(review2); // Error: User has not left a review for ISBN_2 before
   }
 
