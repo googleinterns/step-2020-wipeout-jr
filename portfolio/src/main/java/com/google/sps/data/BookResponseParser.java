@@ -156,20 +156,6 @@ public class BookResponseParser {
     return null;
   }
 
-<<<<<<< HEAD
-  private static boolean validate(String jsonResponse) {
-    // checks to see if the input is an validate value
-    // empty string
-    if (jsonResponse == null || jsonResponse.equals("")) {
-      throw new JSONException("The response was either null or empty.");
-    }
-    JSONObject jsonObject = new JSONObject(jsonResponse);
-    // if full api response (contains multiple items)
-    if (jsonObject.has("items") || !jsonObject.has(VOLUME_INFO)) {
-      throw new JSONException("The response was not in the required format.");
-    }
-    return true;
-=======
   private static void validate(String jsonResponse){
       //checks to see if the input is an validate value
       //empty string
@@ -180,6 +166,5 @@ public class BookResponseParser {
       //if full api response (contains multiple items)
       Preconditions.checkArgument(!jsonObject.has("items"), "The response should only contain one book");
       Preconditions.checkArgument(jsonObject.has(VOLUME_INFO),"The response did not contain the volumeInfo for a book");
->>>>>>> master
   }
 }
