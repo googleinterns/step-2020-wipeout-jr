@@ -38,7 +38,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    * {@inheritDoc}
    */
   @Override
-  public void uploadAll(Book book) {
+  public void uploadAll(Book book) throws Exception {
     int userNumber = 0;
     for (String reviewStr : book.reviews()) {
       Review review = Review.builder()
@@ -46,7 +46,7 @@ public class ReviewDaoDatastore implements ReviewDao {
                           .isbn(book.isbn())
                           .email(DEFAULT_EMAIL + Integer.toString(userNumber))
                           .build();
-      datastore.put(reviewToEntity(review));
+      uploadNew(review);
       userNumber++;
     }
   }

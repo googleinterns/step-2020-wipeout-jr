@@ -41,7 +41,7 @@ public final class ReviewDaoTest {
       new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy());
 
   @Test
-  public void uploadAllTest() {
+  public void uploadAllTest() throws Exception {
     Book bookWithReviews = createBook();
     reviewDao.uploadAll(bookWithReviews);
     Set<Review> actual = reviewDao.getAllByISBN(DEFAULT_ISBN_1);
