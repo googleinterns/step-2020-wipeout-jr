@@ -106,12 +106,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    */
   private ImmutableSet<Review> getAllByProperty(String property, String value) {
     ImmutableSet.Builder<Review> reviews = new ImmutableSet.Builder<Review>();
-    Filter filter = null;
-    if (property.equals(ISBN_PROPERTY)) {
-      filter = new FilterPredicate(ISBN_PROPERTY, FilterOperator.EQUAL, value);
-    } else {
-      filter = new FilterPredicate(USEREMAIL_PROPERTY, FilterOperator.EQUAL, value);
-    }
+    Filter filter = new FilterPredicate(property, FilterOperator.EQUAL, value);
     Query query = new Query(ENTITY_KIND).setFilter(filter);
     PreparedQuery results = datastore.prepare(query);
     if (results == null) {
@@ -189,7 +184,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   private void validateIsbn(String isbn) {
     Preconditions.checkNotNull(isbn, "The ISBN cannot be a null value");
     Preconditions.checkArgument(isbn.matches("[0-9]+"), "The ISBN can only be numeric");
-    Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digit's");
+    Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digits");
   }
 
   /**
