@@ -1,11 +1,11 @@
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.sps.data.Book;
 import com.google.common.collect.ImmutableSet;
+import com.google.sps.data.Book;
 import com.google.sps.data.Review;
 import com.google.sps.data.ReviewDao;
 import com.google.sps.data.ReviewDaoDatastore;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import java.lang.IllegalAccessException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -31,7 +31,6 @@ public final class ReviewDaoTest {
   private ReviewDao reviewDao = new ReviewDaoDatastore();
   private static final String DEFAULT_ISBN_1 = "1111111111111";
   private static final String DEFAULT_ISBN_2 = "1111111111112";
-  private static final String DEFAULT_ISBN_3 = "1111111111113";
   private static final String DEFAULT_EMAIL_1 = "unknown@email.com0";
   private static final String DEFAULT_EMAIL_2 = "unknown@email.com1";
   private static final String DEFAULT_EMAIL_3 = "unknown@email.com2";
@@ -55,95 +54,91 @@ public final class ReviewDaoTest {
   }
 
   @Test
-  public void uploadNewNormalTest() throws Exception{
-      Review review1 = Review.create("New user review #1", DEFAULT_ISBN_1, USER_EMAIL_1);
-      Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
-      reviewDao.uploadNew(review1);
-      reviewDao.uploadNew(review2);
-      Set<Review> actual = reviewDao.getAllByEmail(USER_EMAIL_1);
-      Set<Review> expected =
-        new HashSet<>(Arrays.asList(review1, review2));
+  public void uploadNewNormalTest() throws Exception {
+    Review review1 = Review.create("New user review #1", DEFAULT_ISBN_1, USER_EMAIL_1);
+    Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
+    reviewDao.uploadNew(review1);
+    reviewDao.uploadNew(review2);
+    Set<Review> actual = reviewDao.getAllByEmail(USER_EMAIL_1);
+    Set<Review> expected = new HashSet<>(Arrays.asList(review1, review2));
 
-      Assert.assertEquals(expected, actual);
+    Assert.assertEquals(expected, actual);
   }
 
   @Test(expected = Exception.class)
-  public void uploadNewEdgeTest() throws Exception{
-      Review review1 = Review.create("New user review #1", DEFAULT_ISBN_2, USER_EMAIL_1);
-      Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
-      reviewDao.uploadNew(review1);
-      reviewDao.uploadNew(review2); // Error: Same user leaving new comment for same book
+  public void uploadNewEdgeTest() throws Exception {
+    Review review1 = Review.create("New user review #1", DEFAULT_ISBN_2, USER_EMAIL_1);
+    Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
+    reviewDao.uploadNew(review1);
+    reviewDao.uploadNew(review2); // Error: Same user leaving new comment for same book
   }
 
   @Test
-  public void updateReviewNormalTest() throws Exception{
-      // Add reviews:
-      Review review1 = Review.create("New user review #1", DEFAULT_ISBN_2, USER_EMAIL_1);
-      Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_2);
-      reviewDao.uploadNew(review1);
-      reviewDao.uploadNew(review2);
-      
-      // Update reviews:
-      Review updatedReview1 = Review.create("Updating Review 1!", DEFAULT_ISBN_2, USER_EMAIL_1);
-      Review updatedReview2 = Review.create("Updating Review 2!", DEFAULT_ISBN_2, USER_EMAIL_2);
-      reviewDao.updateReview(updatedReview1);
-      reviewDao.updateReview(updatedReview2);
+  public void updateReviewNormalTest() throws Exception {
+    // Add reviews:
+    Review review1 = Review.create("New user review #1", DEFAULT_ISBN_2, USER_EMAIL_1);
+    Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_2);
+    reviewDao.uploadNew(review1);
+    reviewDao.uploadNew(review2);
 
-      Set<Review> actual = reviewDao.getAllByISBN(DEFAULT_ISBN_2);
-      Set<Review> expected =
-        new HashSet<>(Arrays.asList(updatedReview1, updatedReview2));
+    // Update reviews:
+    Review updatedReview1 = Review.create("Updating Review 1!", DEFAULT_ISBN_2, USER_EMAIL_1);
+    Review updatedReview2 = Review.create("Updating Review 2!", DEFAULT_ISBN_2, USER_EMAIL_2);
+    reviewDao.updateReview(updatedReview1);
+    reviewDao.updateReview(updatedReview2);
 
-      Assert.assertEquals(expected, actual);
+    Set<Review> actual = reviewDao.getAllByISBN(DEFAULT_ISBN_2);
+    Set<Review> expected = new HashSet<>(Arrays.asList(updatedReview1, updatedReview2));
+
+    Assert.assertEquals(expected, actual);
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void updateReviewEdgeTest() throws Exception{
-      Review review1 = Review.create("New user review #1", DEFAULT_ISBN_1, USER_EMAIL_1);
-      Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
-      reviewDao.uploadNew(review1);
-      reviewDao.updateReview(review2); // Error: User has not left a review for ISBN_2 before
+  public void updateReviewEdgeTest() throws Exception {
+    Review review1 = Review.create("New user review #1", DEFAULT_ISBN_1, USER_EMAIL_1);
+    Review review2 = Review.create("New user review #2", DEFAULT_ISBN_2, USER_EMAIL_1);
+    reviewDao.uploadNew(review1);
+    reviewDao.updateReview(review2); // Error: User has not left a review for ISBN_2 before
   }
 
   @Test
-  public void getAllByISBNEdgeTest(){
-      Set<Review> actual = reviewDao.getAllByISBN(DEFAULT_ISBN_1);
-      Set<Review> expected = ImmutableSet.of();
-      Assert.assertEquals(expected, actual);
+  public void getAllByISBNEdgeTest() {
+    Set<Review> actual = reviewDao.getAllByISBN(DEFAULT_ISBN_1);
+    Set<Review> expected = ImmutableSet.of();
+    Assert.assertEquals(expected, actual);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void getAllByISBNNonNumericTest(){
-      Set<Review> actual = reviewDao.getAllByISBN("Not a valid ISBN");
+  public void getAllByISBNNonNumericTest() {
+    Set<Review> actual = reviewDao.getAllByISBN("Not a valid ISBN");
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void getAllByISBNWrongNumOfDigitsTest(){
-      Set<Review> actual = reviewDao.getAllByISBN("2341234");
+  public void getAllByISBNWrongNumOfDigitsTest() {
+    Set<Review> actual = reviewDao.getAllByISBN("2341234");
   }
 
   @Test(expected = NullPointerException.class)
-  public void getAllByISBNNullTest(){
-      Set<Review> actual = reviewDao.getAllByISBN(null);
+  public void getAllByISBNNullTest() {
+    Set<Review> actual = reviewDao.getAllByISBN(null);
   }
 
   @Test
-  public void getAllByEmailEdgeTest() throws Exception{
-      Set<Review> actual = reviewDao.getAllByEmail("notreal@email.com");
-      Set<Review> expected = ImmutableSet.of();
-      Assert.assertEquals(expected, actual);
+  public void getAllByEmailEdgeTest() throws Exception {
+    Set<Review> actual = reviewDao.getAllByEmail("notreal@email.com");
+    Set<Review> expected = ImmutableSet.of();
+    Assert.assertEquals(expected, actual);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void getAllByEmailWrongFormatTest(){
-      Set<Review> actual = reviewDao.getAllByEmail("notRight@emailFormat");
+  public void getAllByEmailWrongFormatTest() {
+    Set<Review> actual = reviewDao.getAllByEmail("notRight@emailFormat");
   }
 
   @Test(expected = NullPointerException.class)
-  public void getAllByEmailNullTest(){
-      Set<Review> actual = reviewDao.getAllByEmail(null);
+  public void getAllByEmailNullTest() {
+    Set<Review> actual = reviewDao.getAllByEmail(null);
   }
-
-  
 
   private static Book createBook() {
     return Book.builder()

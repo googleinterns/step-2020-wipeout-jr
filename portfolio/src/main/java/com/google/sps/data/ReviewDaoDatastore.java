@@ -1,7 +1,7 @@
 package com.google.sps.data;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import com.google.common.base.Preconditions;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -11,14 +11,15 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
-import java.lang.NumberFormatException;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.sps.data.Book;
 import com.google.sps.data.Review;
 import java.lang.Exception;
+import java.lang.NumberFormatException;
 import java.util.Set;
 
 public class ReviewDaoDatastore implements ReviewDao {
@@ -182,14 +183,23 @@ public class ReviewDaoDatastore implements ReviewDao {
     return true;
   }
 
-  private void validateIsbn(String isbn){
-        Preconditions.checkNotNull(isbn, "The ISBN cannot be a null value");
-        Preconditions.checkArgument(isbn.matches("[0-9]+"), "The ISBN can only be numeric");
-        Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digit's");
-    }
-  private void validateEmail(String email){
-        Preconditions.checkNotNull(email, "The email cannot be a null value");
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-        Preconditions.checkArgument(email.matches(regex), "Not a valid email format");
-    }
+  /**
+   * Checks if input is a valid ISBN value
+   * @param isbn: The isbn you want to validate
+   */
+  private void validateIsbn(String isbn) {
+    Preconditions.checkNotNull(isbn, "The ISBN cannot be a null value");
+    Preconditions.checkArgument(isbn.matches("[0-9]+"), "The ISBN can only be numeric");
+    Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digit's");
+  }
+
+  /**
+   * Checks if input is a valid email value
+   * @param email: The email you want to validate
+   */
+  private void validateEmail(String email) {
+    Preconditions.checkNotNull(email, "The email cannot be a null value");
+    String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+    Preconditions.checkArgument(email.matches(regex), "Not a valid email format");
+  }
 }
