@@ -13,6 +13,9 @@ public abstract class Review {
   public abstract String fullText();
   public abstract String isbn();
   public abstract String email();
+  public static Review create(String fullText, String isbn, String email) {
+    return builder().fullText(fullText).isbn(isbn).email(email).build();
+  }
 
   @AutoValue.Builder
   public static abstract class Builder {

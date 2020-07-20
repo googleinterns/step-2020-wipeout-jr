@@ -1,5 +1,7 @@
 package com.google.sps.data;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.base.Preconditions;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -9,6 +11,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
+import java.lang.NumberFormatException;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.common.collect.ImmutableSet;
@@ -24,7 +27,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   private static final String ISBN_PROPERTY = "ISBN";
   private static final String FULLTEXT_PROPERTY = "FullText";
   private static final String USEREMAIL_PROPERTY = "UserEmail";
-  private static final String DEFAULT_EMAIL = "unknown@email";
+  private static final String DEFAULT_EMAIL = "unknown@email.com";
 
   public ReviewDaoDatastore() {
     datastore = DatastoreServiceFactory.getDatastoreService();
@@ -35,10 +38,15 @@ public class ReviewDaoDatastore implements ReviewDao {
    */
   @Override
   public void uploadAll(Book book) {
-    //User defaultUser = User.create("unknown email", "GoodReads User");
+    int userNumber = 0;
     for (String reviewStr : book.reviews()) {
-      Review review = Review.builder().fullText(reviewStr).isbn(book.isbn()).email(DEFAULT_EMAIL).build();
+      Review review = Review.builder()
+                          .fullText(reviewStr)
+                          .isbn(book.isbn())
+                          .email(DEFAULT_EMAIL + Integer.toString(userNumber))
+                          .build();
       datastore.put(reviewToEntity(review));
+      userNumber++;
     }
   }
 
@@ -48,8 +56,8 @@ public class ReviewDaoDatastore implements ReviewDao {
   @Override
   public void uploadNew(Review review) throws Exception {
     if (reviewExists(review.isbn(), review.email())) {
-      throw new Exception("Review exists for ISBN:" + review.isbn() + ", by user "
-          + review.email());
+      throw new Exception(
+          "Review exists for ISBN:" + review.isbn() + ", by user " + review.email());
     }
     datastore.put(reviewToEntity(review));
   }
@@ -58,7 +66,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    * {@inheritDoc}
    */
   @Override
-  public void updateReview(Review review) throws EntityNotFoundException{
+  public void updateReview(Review review) throws EntityNotFoundException {
     String isbn = review.isbn();
     String email = review.email();
     String fullText = review.fullText();
@@ -66,16 +74,8 @@ public class ReviewDaoDatastore implements ReviewDao {
     if (!reviewExists(isbn, email)) {
       throw new EntityNotFoundException(createKey(isbn, email));
     }
-
-    datastore.get(createKey(isbn, email)).setProperty(FULLTEXT_PROPERTY, fullText);
-    // Entity.Builder builder = Entity.newBuilder(createKey(isbn, email));
-    // builder.set(FULLTEXT_PROPERTY, fullText);
-    // Entity updatedReview = builder.build();
-    // datastore.update(updatedReview);
-    // Entity newReview = Entity.newBuilder(datastore.get(createKey(isbn, email)))
-    //                        .set(FULLTEXT_PROPERTY, fullText)
-    //                        .build();
-    // datastore.update(newReview);
+    datastore.delete(createKey(isbn, email));
+    datastore.put(reviewToEntity(review));
   }
 
   /**
@@ -83,6 +83,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    */
   @Override
   public ImmutableSet<Review> getAllByISBN(String isbn) {
+    validateIsbn(isbn);
     return getAllByProperty(ISBN_PROPERTY, isbn);
   }
 
@@ -91,13 +92,14 @@ public class ReviewDaoDatastore implements ReviewDao {
    */
   @Override
   public ImmutableSet<Review> getAllByEmail(String email) {
+    validateEmail(email);
     return getAllByProperty(USEREMAIL_PROPERTY, email);
   }
 
   /**
-   * Takes in a property and the associated value to create a 
+   * Takes in a property and the associated value to create a
    * filter and returns all Entities with this value
-   * 
+   *
    * @param property: property to be filtered by
    * @param value: value of this property that is wanted
    * @return ImmutableSet of Reviews that pass this filter
@@ -156,7 +158,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    *
    * @param isbn: isbn value of the Book for which the Review is written
    * @param email: email of the User who writes the Review
-   * @return Key object for a Review 
+   * @return Key object for a Review
    */
   private Key createKey(String isbn, String email) {
     String uniqueID = isbn + "+" + email;
@@ -179,4 +181,15 @@ public class ReviewDaoDatastore implements ReviewDao {
     }
     return true;
   }
+
+  private void validateIsbn(String isbn){
+        Preconditions.checkNotNull(isbn, "The ISBN cannot be a null value");
+        Preconditions.checkArgument(isbn.matches("[0-9]+"), "The ISBN can only be numeric");
+        Preconditions.checkArgument(isbn.length() == 13, "The ISBN must be 13 digit's");
+    }
+  private void validateEmail(String email){
+        Preconditions.checkNotNull(email, "The email cannot be a null value");
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        Preconditions.checkArgument(email.matches(regex), "Not a valid email format");
+    }
 }
