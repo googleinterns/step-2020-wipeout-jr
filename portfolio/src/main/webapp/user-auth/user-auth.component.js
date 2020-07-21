@@ -12,10 +12,8 @@ angular.module('userAuth').component('userAuth', {
 
     vm.isLoggedIn = function() {
       if (vm.userStatus == 'Logged In') {
-        console.log('logged in');
         return true;
       } else {
-        console.log('not logged in');
         return false;
       }
     }
