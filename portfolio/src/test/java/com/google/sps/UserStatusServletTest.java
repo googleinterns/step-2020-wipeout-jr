@@ -26,11 +26,13 @@ public final class UserStatusServletTest extends Mockito {
   private final UserStatusServlet servlet = new UserStatusServlet();
   private final HttpServletRequest request = mock(HttpServletRequest.class);
   private final HttpServletResponse response = mock(HttpServletResponse.class);
+  private static final String EMAIL = "abc@xyz.com";
   private static final String DOMAIN = "test.com";
 
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalUserServiceTestConfig())
           .setEnvIsLoggedIn(true)
+          .setEnvEmail(EMAIL)
           .setEnvAuthDomain(DOMAIN);
 
   @Before

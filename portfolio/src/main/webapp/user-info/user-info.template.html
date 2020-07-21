@@ -1,0 +1,16 @@
+<p ng-show='userInfoCtrl.loading'>Loading...</p> 
+
+<p ng-show='!userInfoCtrl.loading && !userInfoCtrl.isLoggedIn()'>Hello Stranger</a>!</p>
+
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && !userInfoCtrl.nicknameSet'>Hello new friend</a>!</p>
+
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && userInfoCtrl.nicknameSet'>Hello {{userInfoCtrl.userInfo}}</a>!</p>
+
+<div ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn()'>
+    <p ng-show='!userInfoCtrl.nicknameSet'>Set your nickname here to save your data:</p>
+    <p ng-show='userInfoCtrl.nicknameSet'>Update your nickname here:</p>
+    <form method="post" action="/user-info">
+        <input name='nickname' type='text'/>
+        <button>Submit</button>
+    </form>
+</div>
