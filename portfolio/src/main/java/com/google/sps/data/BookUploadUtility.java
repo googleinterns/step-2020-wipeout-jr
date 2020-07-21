@@ -7,7 +7,7 @@ import com.google.sps.data.BookResponseParser;
 import com.google.sps.data.MergeBooks;
 
 // Given a book name, fetches it's info from Google Books Api and stores the response in Datastore.
-class BookUploadUtility {
+public class BookUploadUtility {
   // the BookServiceClient and the BookResponseParser are both static
   private final BookDao bookDao = new BookDaoDatastore();
 
