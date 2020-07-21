@@ -8,7 +8,6 @@ angular.module('userInfo').component('userInfo', {
 
     $http.get('user-info').then(function(response) {
       vm.userInfo = response.data;
-      console.log(vm.userInfo);
       vm.loading = false;
     });
 
