@@ -33,9 +33,7 @@ public class BookUploadServlet extends HttpServlet {
     String failedBooks = "\n Could not upload: ";
     int successes = 0;
     for (Book book : bookList.values()) {
-      System.out.println("Trying: " + book.title());
       try {
-        // bookUploadUtility.uploadBook(book.title());
         bookUploadUtility.mergeUploadBook(book.title(), book);
         successes++;
       } catch (Exception e) {
