@@ -39,9 +39,9 @@ public class UploadBookWithListOfFields extends HttpServlet {
   private static final String ENTITY_KIND = "Book";
   private static final String PAGE_REDIRECT = "/index.html";
   private static final String TIMESTAMP_PROP = "timeStamp";
-  
+
   private Map<Integer, Book> bookList;
-  
+
   @Override
   public void init() throws ServletException {
     try {
@@ -57,24 +57,24 @@ public class UploadBookWithListOfFields extends HttpServlet {
     String urlBase = "https://www.googleapis.com/books/v1/volumes?q=";
 
     for (Map.Entry<Integer, Book> bookEntry : bookList.entrySet()) {
-        System.out.println(bookEntry.getKey());
-        System.out.println(bookEntry.getValue().title());
-        
-        String googleBooksUrl = urlBase + bookEntry.getValue().title().replace(" ", "+");
-        System.out.println(googleBooksUrl);
+      System.out.println(bookEntry.getKey());
+      System.out.println(bookEntry.getValue().title());
 
-        // TODO(adrian): Figure out how to make an HTTP GET request in Java.
+      String googleBooksUrl = urlBase + bookEntry.getValue().title().replace(" ", "+");
+      System.out.println(googleBooksUrl);
 
-        // TODO(adrian): get the fields we care about from the GET response.
-        // (same fields as in the JavaScript 'searchBooks' method)
+      // TODO(adrian): Figure out how to make an HTTP GET request in Java.
 
-        // TODO(adrian): copy-paste the Datastore upload code from the doPost() method below.
+      // TODO(adrian): get the fields we care about from the GET response.
+      // (same fields as in the JavaScript 'searchBooks' method)
+
+      // TODO(adrian): copy-paste the Datastore upload code from the doPost() method below.
     }
 
     response.setContentType("application/json");
     response.getWriter().println("Data Uploaded!");
   }
- 
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long timeStamp = System.currentTimeMillis();

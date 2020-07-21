@@ -52,30 +52,13 @@ public class UserInfoServlet extends HttpServlet {
     response.setContentType("application/json");
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-        String nickname = getUserNickname(userService.getCurrentUser().getUserId());
-        response.getWriter().println(toJson(nickname));
-    } else {
-        String loginUrl = userService.createLoginURL("/auth");
-        response.getWriter().println(toJson(loginUrl));
-    }
-    
-    // response.setContentType("text/html");
-    // PrintWriter out = response.getWriter();
-    // out.println("<h1>Set Nickname</h1>");
+      String nickname = getUserNickname(userService.getCurrentUser().getEmail());
+      response.getWriter().println(toJson(nickname));
 
-    // UserService userService = UserServiceFactory.getUserService();
-    // if (userService.isUserLoggedIn()) {
-    //   String nickname = getUserNickname(userService.getCurrentUser().getUserId());
-    //   out.println("<p>Set your nickname here:</p>");
-    //   out.println("<form method=\"POST\" action=\"/user-info\">");
-    //   out.println("<input name=\"nickname\" value=\"" + nickname + "\" />");
-    //   out.println("<br/>");
-    //   out.println("<button>Submit</button>");
-    //   out.println("</form>");
-    // } else {
-    //   String loginUrl = userService.createLoginURL("/auth");
-    //   out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
-    // }
+    } else {
+      String loginUrl = userService.createLoginURL("/auth");
+      response.getWriter().println(toJson(loginUrl));
+    }
   }
 
   @Override
@@ -83,19 +66,21 @@ public class UserInfoServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
 
     String nickname = request.getParameter("nickname");
-    String id = userService.getCurrentUser().getEmail(); // user email is used as id
+    String email = userService.getCurrentUser().getEmail(); // user email is used as id
 
-    User newUser = User.create(id, nickname);
+    User newUser = User.create(email, nickname);
     userStorage.upload(newUser);
 
-    response.sendRedirect("/auth");
+    response.sendRedirect("/");
   }
 
   /**
-   * Returns the nickname of the user with id, or empty String if the user has not set a nickname.
+   * Returns the nickname of the user with given email, or empty String if the user has not set a
+   * nickname.
    */
-  private String getUserNickname(String id) {
-    Optional<User> user = userStorage.get(id);
+  private String getUserNickname(String email) {
+    Optional<User> user = userStorage.get(email);
+
     if (user.isPresent()) {
       return user.get().nickname();
     }
