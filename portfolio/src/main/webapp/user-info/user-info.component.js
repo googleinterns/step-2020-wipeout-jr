@@ -8,21 +8,16 @@ angular.module('userInfo').component('userInfo', {
 
     $http.get('user-info').then(function(response) {
       vm.userInfo = response.data;
+      console.log(vm.userInfo);
       vm.loading = false;
     });
 
     vm.isLoggedIn = function() {
-      if (!vm.userInfo.includes('_ah/login')) {
-        if (!vm.userInfo == '') {  // TODO: input validation on nicknames so
-                                   // can't have empty string
-          vm.nicknameSet = true;
+        if (!(typeof vm.userInfo === "string" || vm.userInfo instanceof String)){ //if currently logged in
+            return true;
         } else {
-          vm.nicknameSet = false;
+            return false;
         }
-        return true;
-      } else {
-        return false;
-      }
     };
   },
   controllerAs: 'userInfoCtrl'
