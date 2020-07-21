@@ -119,27 +119,5 @@ public final class MergeBooksTest {
             reviewsMaker("It was good.", "It was pretty good.", "It was heart-wrenching."));
     Book mergedBook = MergeBooks.merge(originalBook, diffTitleBook);
   }
-
-  @Test
-  public void combineReviews() throws Exception {
-    // attempts to combine two books with valid review values
-    Book goodReviews = newBook("A Court of Wings and Ruin", "Fiction", "Sarah J. Maas", "Fantasy",
-        "en", 432, "9781619634497",
-        reviewsMaker("It was good.", "It was pretty good.", "It was heart-wrenching."));
-    Book badReviews = newBook("A Court of Wings and Ruin", "Fiction", "Sarah J. Maas", "Fantasy",
-        "en", 432, "9781619634497",
-        reviewsMaker("It was bad.", "It was pretty bad.", "Could only get half-way through."));
-    Book mergedBook = MergeBooks.merge(goodReviews, badReviews);
-    
-    ArrayList<String> expectedReviews =
-        reviewsMaker("It was good.", "It was pretty good.", "It was heart-wrenching.");
-    expectedReviews.add("It was bad.");
-    expectedReviews.add("It was pretty bad.");
-    expectedReviews.add("Could only get half-way through.");
-
-    Book expected = newBook("A Court of Wings and Ruin", "Fiction", "Sarah J. Maas", "Fantasy",
-        "en", 432, "9781619634497", expectedReviews);
-    Assert.assertEquals(expected, mergedBook);
-  }
 }
 

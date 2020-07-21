@@ -25,17 +25,16 @@ class BookUploadUtility {
 
   /**
    * This method retrieves a book made from the bookname
-   * and combines it with a pre-existing book and uploads the
-   * new merged book into datastore.
+   * and combines it with a pre-existing book made from the GoodReads
+   * csv and uploads the new merged book into datastore.
    * @param bookName: the name of the book you want to query
    * the book API for
-   * @param book: the pre-existing book you want to merge with,
-   * most likely a book constructed from the CSV file
+   * @param goodReadsBook: the book constructed from the csv file
    */
-  public void mergeUploadBook(String bookName, Book preExisting) throws Exception {
+  public void mergeUploadBook(String bookName, Book goodReadsBook) throws Exception {
     String bookApiResponse = BookServiceClient.getBookInfo(bookName);
     Book apiBook = BookResponseParser.parseBook(bookApiResponse);
-    Book composite = MergeBooks.merge(apiBook, preExisting);
+    Book composite = MergeBooks.merge(apiBook, goodReadsBook);
     bookDao.create(composite);
   }
 }
