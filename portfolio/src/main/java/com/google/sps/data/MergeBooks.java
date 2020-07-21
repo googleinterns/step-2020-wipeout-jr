@@ -19,8 +19,9 @@ public class MergeBooks {
     validate(googleApiBook);
     validate(goodReadsBook);
     validateISBN(googleApiBook.isbn());
+    System.out.println(googleApiBook.title().equals(goodReadsBook.title()));
     Preconditions.checkArgument(
-        googleApiBook.title().equals(goodReadsBook.title()), "The books must be of the same title");
+        googleApiBook.title().toLowerCase().equals(goodReadsBook.title().toLowerCase()), "The books must be of the same title. Expected [" + goodReadsBook.title() + "] but got ["+googleApiBook.title()+"]");
 
     // Get API data
     Book.Builder combinedBuilder = googleApiBook.toBuilder();

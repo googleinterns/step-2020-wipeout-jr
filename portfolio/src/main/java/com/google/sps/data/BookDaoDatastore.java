@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
@@ -148,7 +149,11 @@ public class BookDaoDatastore implements BookDao {
         bookEntity.setProperty(CATEGORIES,book.categories());
         bookEntity.setProperty(AUTHORS,book.authors());
         bookEntity.setProperty(LANGUAGE,book.language());
-        bookEntity.setProperty(DESCRIPTION,book.description());
+        if (book.description().getBytes().length >= 1500) {
+            bookEntity.setProperty(DESCRIPTION, new Text(book.description()));
+        }else{
+            bookEntity.setProperty(DESCRIPTION,book.description());
+        }
         bookEntity.setProperty(INFO_LINK,book.infoLink());
         bookEntity.setProperty(THUMBNAIL,book.thumbnail());
         bookEntity.setProperty(PAGE_COUNT,book.pageCount());
