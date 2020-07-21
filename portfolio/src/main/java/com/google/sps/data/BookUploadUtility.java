@@ -14,7 +14,7 @@ public class BookUploadUtility {
 
   /**
    * This method retrieves a book made from the bookname
-   * and uploads the book into datastore.
+   * and uploads the book and associated comments into datastore.
    * @param bookName: the name of the book you want to query
    * the book API for
    */
@@ -28,7 +28,7 @@ public class BookUploadUtility {
   /**
    * This method retrieves a book made from the bookname
    * and combines it with a pre-existing book made from the GoodReads
-   * csv and uploads the new merged book into datastore.
+   * csv and uploads the new merged book and associated comments into datastore.
    * @param bookName: the name of the book you want to query
    * the book API for
    * @param goodReadsBook: the book constructed from the csv file
