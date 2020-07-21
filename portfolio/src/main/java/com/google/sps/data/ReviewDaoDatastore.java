@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -144,8 +145,12 @@ public class ReviewDaoDatastore implements ReviewDao {
     String isbn = review.isbn();
     String email = review.email();
     Entity reviewEntity = new Entity(createKey(isbn, email));
-
-    reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
+    if (review.fullText().getBytes().length >= 1500) {
+        reviewEntity.setProperty(FULLTEXT_PROPERTY, new Text(review.fullText()));
+    }else{
+        reviewEntity.setProperty(FULLTEXT_PROPERTY,review.fullText());
+    }
+    // reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
     reviewEntity.setProperty(ISBN_PROPERTY, isbn);
     reviewEntity.setProperty(USEREMAIL_PROPERTY, email);
     return reviewEntity;
