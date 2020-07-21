@@ -79,4 +79,3 @@ public abstract class Book {
     public abstract Book build();
   }
 }
-

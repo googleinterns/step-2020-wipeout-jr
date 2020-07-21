@@ -64,7 +64,7 @@ public final class UserStatusServletTest extends Mockito {
 
     Assert.assertTrue(stringWriter.toString().contains("Logged In"));
   }
-  
+
   @Test
   public void userLoggedOut() throws Exception {
     helper.setEnvIsLoggedIn(false);

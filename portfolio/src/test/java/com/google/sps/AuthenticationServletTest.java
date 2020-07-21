@@ -70,7 +70,7 @@ public final class AuthenticationServletTest extends Mockito {
         + "abc@xyz.com"));
     Assert.assertTrue(stringWriter.toString().contains(logoutUrl));
   }
-  
+
   @Test
   public void userLoggedOut() throws Exception {
     helper.setEnvIsLoggedIn(false);
