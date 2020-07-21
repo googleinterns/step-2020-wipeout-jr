@@ -1,0 +1,803 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 2081,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "pLL-DAAAQBAJ",
+      "etag": "/JReaUzsQOI",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/pLL-DAAAQBAJ",
+      "volumeInfo": {
+        "title": "A Court of Wings and Ruin",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publisher": "Bloomsbury Publishing USA",
+        "publishedDate": "2017-05-02",
+        "description": "Looming war threatens all Feyre holds dear in the third volume of the #1 New York Times bestselling A Court of Thorns and Roses series. Feyre has returned to the Spring Court, determined to gather information on Tamlin's maneuverings and the invading king threatening to bring Prythian to its knees. But to do so she must play a deadly game of deceit-and one slip may spell doom not only for Feyre, but for her world as well. As war bears down upon them all, Feyre must decide who to trust amongst the dazzling and lethal High Lords-and hunt for allies in unexpected places. In this thrilling third book in the #1 New York Times bestselling series from Sarah J. Maas, the earth will be painted red as mighty armies grapple for power over the one thing that could destroy them all.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781619634497"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "161963449X"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 432,
+        "printType": "BOOK",
+        "categories": [
+          "Fiction"
+        ],
+        "averageRating": 4,
+        "ratingsCount": 31,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "1.16.16.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=pLL-DAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=pLL-DAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=pLL-DAAAQBAJ&printsec=frontcover&dq=A+Court+of+Wings+and+Ruin&hl=&cd=1&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=pLL-DAAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=pLL-DAAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 14.4,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 6.55,
+          "currencyCode": "USD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=pLL-DAAAQBAJ&rdid=book-pLL-DAAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 14400000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 6550000,
+              "currencyCode": "USD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Wings_and_Ruin-sample-epub.acsm?id=pLL-DAAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Wings_and_Ruin-sample-pdf.acsm?id=pLL-DAAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=pLL-DAAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "In this thrilling third book in the #1 New York Times bestselling series from Sarah J. Maas, the fate of Feyre&#39;s world is at stake as armies grapple for power over the one thing that could destroy it."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "E-kdBQAAQBAJ",
+      "etag": "XSJgdGepvd0",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/E-kdBQAAQBAJ",
+      "volumeInfo": {
+        "title": "A Court of Thorns and Roses",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publisher": "Bloomsbury Publishing USA",
+        "publishedDate": "2015-05-05",
+        "description": "The sexy, action-packed first book in the #1 New York Times bestselling Court of Thorns and Roses series from Sarah J. Maas. When nineteen-year-old huntress Feyre kills a wolf in the woods, a terrifying creature arrives to demand retribution. Dragged to a treacherous magical land she knows about only from legends, Feyre discovers that her captor is not truly a beast, but one of the lethal, immortal faeries who once ruled her world. At least, he's not a beast all the time. As she adapts to her new home, her feelings for the faerie, Tamlin, transform from icy hostility into a fiery passion that burns through every lie she's been told about the beautiful, dangerous world of the Fae. But something is not right in the faerie lands. An ancient, wicked shadow is growing, and Feyre must find a way to stop it, or doom Tamlin-and his world-forever. From bestselling author Sarah J. Maas comes a seductive, breathtaking book that blends romance, adventure, and faerie lore into an unforgettable read.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781619634459"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1619634457"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 432,
+        "printType": "BOOK",
+        "categories": [
+          "Fiction"
+        ],
+        "averageRating": 4,
+        "ratingsCount": 2732,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "1.22.20.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=E-kdBQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=E-kdBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=E-kdBQAAQBAJ&printsec=frontcover&dq=A+Court+of+Wings+and+Ruin&hl=&cd=2&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=E-kdBQAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=E-kdBQAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 14.4,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 6.65,
+          "currencyCode": "USD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=E-kdBQAAQBAJ&rdid=book-E-kdBQAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 14400000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 6650000,
+              "currencyCode": "USD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Thorns_and_Roses-sample-epub.acsm?id=E-kdBQAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Thorns_and_Roses-sample-pdf.acsm?id=E-kdBQAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=E-kdBQAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "The sexy, action-packed first book in the #1 New York Times bestselling Court of Thorns and Roses series from Sarah J. Maas."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "GcbMDgAAQBAJ",
+      "etag": "ImFPFBJDA3U",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/GcbMDgAAQBAJ",
+      "volumeInfo": {
+        "title": "A Court of Mist and Fury",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publisher": "Bloomsbury Publishing USA",
+        "publishedDate": "2017-05-02",
+        "description": "The #1 New York Times bestselling sequel to Sarah J. Maas's stunning and seductive A Court of Thorns and Roses.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781619635197"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1619635194"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 656,
+        "printType": "BOOK",
+        "categories": [
+          "Young Adult Fiction"
+        ],
+        "averageRating": 4.5,
+        "ratingsCount": 49,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=GcbMDgAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=GcbMDgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=GcbMDgAAQBAJ&printsec=frontcover&dq=A+Court+of+Wings+and+Ruin&hl=&cd=3&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=GcbMDgAAQBAJ&dq=A+Court+of+Wings+and+Ruin&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/A_Court_of_Mist_and_Fury.html?hl=&id=GcbMDgAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=GcbMDgAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "The #1 New York Times bestselling sequel to Sarah J. Maas&#39;s stunning and seductive A Court of Thorns and Roses."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "FvhJzQEACAAJ",
+      "etag": "WCePg5PIF9U",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/FvhJzQEACAAJ",
+      "volumeInfo": {
+        "title": "A Court of Wings and Ruin",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publishedDate": "2020-06",
+        "description": "Feyre has returned to the Spring Court, determined to gather information on Tamlin's manoeuvrings and the invading king threatening to bring her land to its knees. But to do so she must play a deadly game of deceit - and one slip may spell doom not only for Feyre, but for her world as well. As war bears down upon them all, Feyre must decide who to trust amongst the dazzling and lethal High Lords and hunt for allies in unexpected places. And her heart will face the ultimate test as she and her mate are forced to question whether they can truly trust each other. Sarah J. Maas is a global #1 bestselling author. Her books have sold more than nine million copies and been translated into 37 languages. Discover the sweeping romantic fantasy for yourself.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "152661717X"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781526617170"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 736,
+        "printType": "BOOK",
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=FvhJzQEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=FvhJzQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=FvhJzQEACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&cd=4&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=FvhJzQEACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/A_Court_of_Wings_and_Ruin.html?hl=&id=FvhJzQEACAAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=FvhJzQEACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "And her heart will face the ultimate test as she and her mate are forced to question whether they can truly trust each other. Sarah J. Maas is a global #1 bestselling author."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "N2QzDwAAQBAJ",
+      "etag": "L9cP6bbOVm8",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/N2QzDwAAQBAJ",
+      "volumeInfo": {
+        "title": "A Court of Frost and Starlight",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publisher": "Bloomsbury Publishing USA",
+        "publishedDate": "2018-05-01",
+        "description": "Narrated by Feyre and Rhysand, this bridges the events in A Court of Wings and Ruin and the upcoming novels in the series. Feyre, Rhys, and their close-knit circle of friends are still busy rebuilding the Night Court and the vastly-changed world beyond. But Winter Solstice is finally near, and with it, a hard-earned reprieve. Yet even the festive atmosphere can't keep the shadows of the past from looming. As Feyre navigates her first Winter Solstice as High Lady, she finds that those dearest to her have more wounds than she anticipated--scars that will have far-reaching impact on the future of their Court.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781681199061"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1681199068"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 400,
+        "printType": "BOOK",
+        "categories": [
+          "Fiction"
+        ],
+        "averageRating": 3.5,
+        "ratingsCount": 18,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "3.9.9.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=N2QzDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=N2QzDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=N2QzDwAAQBAJ&printsec=frontcover&dq=A+Court+of+Wings+and+Ruin&hl=&cd=5&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=N2QzDwAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=N2QzDwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 12.8,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 7.17,
+          "currencyCode": "USD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=N2QzDwAAQBAJ&rdid=book-N2QzDwAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 12800000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 7170000,
+              "currencyCode": "USD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Frost_and_Starlight-sample-epub.acsm?id=N2QzDwAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Frost_and_Starlight-sample-pdf.acsm?id=N2QzDwAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=N2QzDwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Bridging the events of A Court of Wings and Ruin with the later books in the series, A Court of Frost and Starlight explores the far-reaching effects of a devastating war and the fierce love between friends."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "_W1xzQEACAAJ",
+      "etag": "/r/vztxCcSM",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/_W1xzQEACAAJ",
+      "volumeInfo": {
+        "title": "Sobranie dokumentov Samizdata",
+        "publishedDate": "1972",
+        "industryIdentifiers": [
+          {
+            "type": "OTHER",
+            "identifier": "OCLC:530231"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "printType": "BOOK",
+        "categories": [
+          "Underground literature"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=_W1xzQEACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&cd=6&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=_W1xzQEACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Sobranie_dokumentov_Samizdata.html?hl=&id=_W1xzQEACAAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=_W1xzQEACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Wide Ruled Notebook."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "hn8wvgAACAAJ",
+      "etag": "TFCqnYJXfL4",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/hn8wvgAACAAJ",
+      "volumeInfo": {
+        "title": "A Court of Thorns and Roses Coloring Book",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publisher": "Bloomsbury USA Childrens",
+        "publishedDate": "2017-05-02",
+        "description": "This must-have companion invites readers to experience the vivid imagery of Sarah J. Maas's #1 New York Times bestselling A Court of Thorns and Roses series. 46 pieces of stunning original artwork bring to life favorite characters, creatures, and moments, including the lush beauty of the Spring Court and the glimmering vibrancy of the Night Court. Join Feyre as she falls in love, wages war, and explores the haunting and deadly world of the Fae.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "1681195763"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781681195766"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 96,
+        "printType": "BOOK",
+        "categories": [
+          "Young Adult Fiction"
+        ],
+        "averageRating": 5,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=hn8wvgAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=hn8wvgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=hn8wvgAACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&cd=7&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=hn8wvgAACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/A_Court_of_Thorns_and_Roses_Coloring_Boo.html?hl=&id=hn8wvgAACAAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=hn8wvgAACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This must-have companion invites readers to experience the vivid imagery of Sarah J. Maas&#39;s #1 New York Times bestselling A Court of Thorns and Roses series. 46 pieces of stunning original artwork bring to life favorite characters, ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "VURuxAEACAAJ",
+      "etag": "qFVHkZEqA0I",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/VURuxAEACAAJ",
+      "volumeInfo": {
+        "title": "A Court of Thorns and Roses Collector's Edition",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publisher": "Bloomsbury YA",
+        "publishedDate": "2019-11-05",
+        "description": "Experience Feyre Archeron's journey all over again with the beautiful collector's edition of A Court of Thorns and Roses, the seductive first book in the #1 New York Times bestselling series by Sarah J. Maas, featuring a deluxe new package, an updated map, ribbon pull, and more! When nineteen-year-old Feyre kills a wolf in the woods, a beast-like creature arrives to demand retribution for it. Dragged to a treacherous magical land she only knows about from legends, Feyre discovers that her captor is not an animal, but Tamlin-one of the lethal, immortal faeries who once ruled their world. As she dwells on his estate, her feelings for Tamlin transform from icy hostility into a fiery passion that burns through every lie and warning she's been told about the beautiful, dangerous world of the Fae. But an ancient, wicked shadow over the faerie lands is growing, and Feyre must find a way to stop it or doom Tamlin-and his world-forever. All of the magic of Feyre's epic journey and romance is reflected in this enchanting, collectible edition of A Court of Thorns and Roses, which comes complete with a cloth slipcase featuring unique foil art on the case and book cover, ribbon pull, brand-new interior page designs, metallic endpapers, and a newly illustrated map.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "1547604174"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781547604173"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 448,
+        "printType": "BOOK",
+        "categories": [
+          "Young Adult Fiction"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=VURuxAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=VURuxAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=VURuxAEACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&cd=8&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=VURuxAEACAAJ&dq=A+Court+of+Wings+and+Ruin&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/A_Court_of_Thorns_and_Roses_Collector_s.html?hl=&id=VURuxAEACAAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=VURuxAEACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Experience Feyre Archeron&#39;s journey all over again with the beautiful collector&#39;s edition of A Court of Thorns and Roses, the seductive first book in the #1 New York Times bestselling series by Sarah J. Maas, featuring a deluxe new package, ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "WZmhDwAAQBAJ",
+      "etag": "ed1pmI0E1h0",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/WZmhDwAAQBAJ",
+      "volumeInfo": {
+        "title": "Catwoman: Soulstealer",
+        "authors": [
+          "Sarah J. Maas"
+        ],
+        "publisher": "Ember",
+        "publishedDate": "2019-08-06",
+        "description": "Sizzling with action and suspense, #1 New York Times bestselling author SARAH J. MAAS delivers with this DC Icons coming-of-age Selina Kyle who will steal readers' hearts in the YA blockbuster: CATWOMAN! DC ICONS IS NOW A NEW YORK TIMES BESTSELLING SERIES! \"A Catwoman story with Maas' signature touch. . . . Devilish.\" --Entertainment Weekly When the Bat's away, the Cat will play. It's time to see how many lives this cat really has. Two years after escaping Gotham City's slums, Selina Kyle returns as the mysterious and wealthy Holly Vanderhees. She quickly discovers that with Batman off on a vital mission, the city looks ripe for the taking. Meanwhile, Luke Fox wants to prove that as Batwing he has what it takes to help people. He targets a new thief on the prowl who has teamed up with Poison Ivy and Harley Quinn. Together, they are wreaking havoc. This Catwoman is clever--she may be Batwing's undoing. In this third DC Icons book, Selina is playing a desperate game of cat and mouse, forming unexpected friendships and entangling herself with Batwing by night and her devilishly handsome neighbor Luke Fox by day. But with a dangerous threat from the past on her tail, will she be able to pull off the heist that's closest to her heart? \"Maas has a gift for crafting fierce female protagonists. . . . An epic shoutout to all the bad girls who know how to have fun.\" --Kirkus Reviews, STARRED REVIEW \"A Catwoman story unlike anything you've seen before.\" --Nerdist Don't miss the rest of the DC Icons series! Powerful reads in any order you choose: Wonder Woman: Warbringer by Leigh Bardugo Batman: Nightwalker by Marie Lu Superman: Dawnbreaker by Matt de la Peña",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780399549724"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0399549722"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 400,
+        "printType": "BOOK",
+        "categories": [
+          "Young Adult Fiction"
+        ],
+        "averageRating": 4,
+        "ratingsCount": 5,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=WZmhDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=WZmhDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=WZmhDwAAQBAJ&printsec=frontcover&dq=A+Court+of+Wings+and+Ruin&hl=&cd=9&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=WZmhDwAAQBAJ&dq=A+Court+of+Wings+and+Ruin&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Catwoman_Soulstealer.html?hl=&id=WZmhDwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=WZmhDwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": ". . . An epic shoutout to all the bad girls who know how to have fun.&quot; --Kirkus Reviews, STARRED REVIEW &quot;A Catwoman story unlike anything you&#39;ve seen before.&quot; --Nerdist Don&#39;t miss the rest of the DC Icons series!"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "ouBNBAAAQBAJ",
+      "etag": "J1Fx4ZJJxbY",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/ouBNBAAAQBAJ",
+      "volumeInfo": {
+        "title": "Shadow and Bone",
+        "authors": [
+          "Leigh Bardugo"
+        ],
+        "publisher": "Macmillan",
+        "publishedDate": "2013-05-07",
+        "description": "Orphaned by the Border Wars, Alina Starkov is taken to become the protegâe of the mysterious Darkling, who trains her to join the magical elite in the belief that she is the Sun Summoner, who can destroy the monsters of the Fold.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781250027436"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1250027438"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 416,
+        "printType": "BOOK",
+        "categories": [
+          "Juvenile Fiction"
+        ],
+        "averageRating": 4,
+        "ratingsCount": 186,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.2.0.0.preview.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=ouBNBAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=ouBNBAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=ouBNBAAAQBAJ&printsec=frontcover&dq=A+Court+of+Wings+and+Ruin&hl=&cd=10&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=ouBNBAAAQBAJ&dq=A+Court+of+Wings+and+Ruin&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Shadow_and_Bone.html?hl=&id=ouBNBAAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=ouBNBAAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Orphaned by the Border Wars, Alina Starkov is taken to become the protegâe of the mysterious Darkling, who trains her to join the magical elite in the belief that she is the Sun Summoner, who can destroy the monsters of the Fold."
+      }
+    }
+  ]
+}

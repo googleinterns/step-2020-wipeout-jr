@@ -6,6 +6,7 @@ import com.google.sps.data.Book;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -48,6 +49,7 @@ public class BookReader {
           current_title = title;
         }
       }
+
       Book book = current_builder.build();
       allBooks.put(currentId, book);
     } catch (Exception ex) {

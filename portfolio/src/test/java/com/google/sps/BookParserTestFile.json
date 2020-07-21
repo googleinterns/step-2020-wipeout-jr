@@ -1,0 +1,100 @@
+{
+    "kind": "books#volume",
+    "id": "pLL-DAAAQBAJ",
+    "etag": "/JReaUzsQOI",
+    "selfLink": "https://www.googleapis.com/books/v1/volumes/pLL-DAAAQBAJ",
+    "volumeInfo": {
+    "title": "A Court of Wings and Ruin",
+    "authors": [
+        "Sarah J. Maas"
+    ],
+    "publisher": "Bloomsbury Publishing USA",
+    "publishedDate": "2017-05-02",
+    "description": "Looming war threatens all Feyre holds dear in the third volume of the #1 New York Times bestselling A Court of Thorns and Roses series. Feyre has returned to the Spring Court, determined to gather information on Tamlin's maneuverings and the invading king threatening to bring Prythian to its knees. But to do so she must play a deadly game of deceit-and one slip may spell doom not only for Feyre, but for her world as well. As war bears down upon them all, Feyre must decide who to trust amongst the dazzling and lethal High Lords-and hunt for allies in unexpected places. In this thrilling third book in the #1 New York Times bestselling series from Sarah J. Maas, the earth will be painted red as mighty armies grapple for power over the one thing that could destroy them all.",
+    "industryIdentifiers": [
+        {
+        "type": "ISBN_13",
+        "identifier": "9781619634497"
+        },
+        {
+        "type": "ISBN_10",
+        "identifier": "161963449X"
+        }
+    ],
+    "readingModes": {
+        "text": true,
+        "image": true
+    },
+    "pageCount": 432,
+    "printType": "BOOK",
+    "categories": [
+        "Fiction"
+    ],
+    "averageRating": 4,
+    "ratingsCount": 31,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": true,
+    "contentVersion": "1.16.16.0.preview.3",
+    "panelizationSummary": {
+        "containsEpubBubbles": false,
+        "containsImageBubbles": false
+    },
+    "imageLinks": {
+        "smallThumbnail": "http://books.google.com/books/content?id=pLL-DAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        "thumbnail": "http://books.google.com/books/content?id=pLL-DAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=pLL-DAAAQBAJ&printsec=frontcover&dq=A+Court+of+Wings+and+Ruin&hl=&cd=1&source=gbs_api",
+    "infoLink": "https://play.google.com/store/books/details?id=pLL-DAAAQBAJ&source=gbs_api",
+    "canonicalVolumeLink": "https://play.google.com/store/books/details?id=pLL-DAAAQBAJ"
+    },
+    "saleInfo": {
+    "country": "US",
+    "saleability": "FOR_SALE",
+    "isEbook": true,
+    "listPrice": {
+        "amount": 14.4,
+        "currencyCode": "USD"
+    },
+    "retailPrice": {
+        "amount": 6.55,
+        "currencyCode": "USD"
+    },
+    "buyLink": "https://play.google.com/store/books/details?id=pLL-DAAAQBAJ&rdid=book-pLL-DAAAQBAJ&rdot=1&source=gbs_api",
+    "offers": [
+        {
+        "finskyOfferType": 1,
+        "listPrice": {
+            "amountInMicros": 14400000,
+            "currencyCode": "USD"
+        },
+        "retailPrice": {
+            "amountInMicros": 6550000,
+            "currencyCode": "USD"
+        },
+        "giftable": true
+        }
+    ]
+    },
+    "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+        "isAvailable": true,
+        "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Wings_and_Ruin-sample-epub.acsm?id=pLL-DAAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "pdf": {
+        "isAvailable": true,
+        "acsTokenLink": "http://books.google.com/books/download/A_Court_of_Wings_and_Ruin-sample-pdf.acsm?id=pLL-DAAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "webReaderLink": "http://play.google.com/books/reader?id=pLL-DAAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+    },
+    "searchInfo": {
+    "textSnippet": "In this thrilling third book in the #1 New York Times bestselling series from Sarah J. Maas, the fate of Feyre&#39;s world is at stake as armies grapple for power over the one thing that could destroy it."
+    }
+}
