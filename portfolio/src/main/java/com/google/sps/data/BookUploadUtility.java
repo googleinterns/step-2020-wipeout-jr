@@ -10,6 +10,7 @@ import com.google.sps.data.MergeBooks;
 public class BookUploadUtility {
   // the BookServiceClient and the BookResponseParser are both static
   private final BookDao bookDao = new BookDaoDatastore();
+  private final ReviewDao reviewDao = new ReviewDaoDatastore();
 
   /**
    * This method retrieves a book made from the bookname
@@ -21,6 +22,7 @@ public class BookUploadUtility {
     String bookApiResponse = BookServiceClient.getBookInfo(bookName);
     Book book = BookResponseParser.parseBook(bookApiResponse);
     bookDao.create(book);
+    reviewDao.uploadAll(book);
   }
 
   /**
@@ -36,6 +38,7 @@ public class BookUploadUtility {
     Book apiBook = BookResponseParser.parseBook(bookApiResponse);
     Book composite = MergeBooks.merge(apiBook, goodReadsBook);
     bookDao.create(composite);
+    reviewDao.uploadAll(composite);
   }
 }
 
