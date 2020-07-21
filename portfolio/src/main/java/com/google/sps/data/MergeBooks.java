@@ -22,20 +22,8 @@ public class MergeBooks {
     Preconditions.checkArgument(
         googleApiBook.title().equals(goodReadsBook.title()), "The books must be of the same title");
 
-    Book.Builder combinedBuilder = Book.builder();
     // Get API data
-    combinedBuilder.title(googleApiBook.title());
-    combinedBuilder.categories(new ArrayList<>(googleApiBook.categories()));
-    combinedBuilder.authors(new ArrayList<>(googleApiBook.authors()));
-    combinedBuilder.language(googleApiBook.language());
-    combinedBuilder.description(googleApiBook.description());
-    combinedBuilder.infoLink(googleApiBook.infoLink());
-    combinedBuilder.pageCount(googleApiBook.pageCount());
-    combinedBuilder.publishedDate(googleApiBook.publishedDate());
-    combinedBuilder.publisher(googleApiBook.publisher());
-    combinedBuilder.maturityRating(googleApiBook.maturityRating());
-    combinedBuilder.thumbnail(googleApiBook.thumbnail());
-    combinedBuilder.isbn(googleApiBook.isbn());
+    Book.Builder combinedBuilder = googleApiBook.toBuilder();
     // Get GoodReads data
     combinedBuilder.genre(goodReadsBook.genre());
     ImmutableList<String> reviews = goodReadsBook.reviews();
