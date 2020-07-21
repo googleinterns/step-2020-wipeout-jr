@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// Initiate upload books into the books datastore 
+// Initiate upload books into the books datastore
 @WebServlet("/admin-book-upload")
-public class BookUploadServlet extends HttpServlet{
+public class BookUploadServlet extends HttpServlet {
   private final BookUploadUtility bookUploadUtility = new BookUploadUtility();
   private Map<Integer, Book> bookList;
 
@@ -29,25 +29,26 @@ public class BookUploadServlet extends HttpServlet{
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String failedBooks = "\n Could not upload: ";
     int successes = 0;
     for (Book book : bookList.values()) {
-      System.out.println("Trying: "+book.title());
-      try{
-        //bookUploadUtility.uploadBook(book.title());
-        bookUploadUtility.mergeUploadBook(book.title(),book);
-        successes ++;
-      }catch(Exception e){
-        failedBooks += "\n\t"+book.title()+" because of "+e+".";
+      System.out.println("Trying: " + book.title());
+      try {
+        // bookUploadUtility.uploadBook(book.title());
+        bookUploadUtility.mergeUploadBook(book.title(), book);
+        successes++;
+      } catch (Exception e) {
+        failedBooks += "\n\t" + book.title() + " because of " + e + ".";
       }
     }
-    String proportion = "Uploaded "+successes+" out of "+bookList.values().size()+" books.";
+    String proportion = "Uploaded " + successes + " out of " + bookList.values().size() + " books.";
     response.setContentType("application/json");
-    if(failedBooks.equals("Could not upload: ")){
+    if (failedBooks.equals("Could not upload: ")) {
       response.getWriter().println("Data Uploaded!");
-    }else{
-      response.getWriter().println(proportion+failedBooks);
+    } else {
+      response.getWriter().println(proportion + failedBooks);
     }
   }
 }
+

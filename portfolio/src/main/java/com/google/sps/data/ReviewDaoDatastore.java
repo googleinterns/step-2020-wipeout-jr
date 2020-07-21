@@ -9,11 +9,11 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Text;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
@@ -38,7 +38,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   /**
    * {@inheritDoc}
    * The userNumber appended to the default email serves
-   * to ensure that reviews are not overwritten by each other. 
+   * to ensure that reviews are not overwritten by each other.
    * This is due to the design restriction of one review per user/book pair
    */
   @Override
@@ -146,9 +146,9 @@ public class ReviewDaoDatastore implements ReviewDao {
     String email = review.email();
     Entity reviewEntity = new Entity(createKey(isbn, email));
     if (review.fullText().getBytes().length >= 1500) {
-        reviewEntity.setProperty(FULLTEXT_PROPERTY, new Text(review.fullText()));
-    }else{
-        reviewEntity.setProperty(FULLTEXT_PROPERTY,review.fullText());
+      reviewEntity.setProperty(FULLTEXT_PROPERTY, new Text(review.fullText()));
+    } else {
+      reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
     }
     // reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
     reviewEntity.setProperty(ISBN_PROPERTY, isbn);
@@ -205,3 +205,4 @@ public class ReviewDaoDatastore implements ReviewDao {
     Preconditions.checkArgument(email.matches(regex), "Not a valid email format");
   }
 }
+
