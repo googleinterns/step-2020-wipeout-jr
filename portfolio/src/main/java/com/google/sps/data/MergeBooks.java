@@ -19,8 +19,11 @@ public class MergeBooks {
     validate(googleApiBook);
     validate(goodReadsBook);
     validateISBN(googleApiBook.isbn());
+    
+    String titleMismatchErrorMessage = "The books must be of the same title. Expected [%s] but got [%s]";
+    titleMismatchErrorMessage = String.format(titleMismatchErrorMessage, goodReadsBook.title(), googleApiBook.title());
     Preconditions.checkArgument(
-        googleApiBook.title().equals(goodReadsBook.title()), "The books must be of the same title");
+        googleApiBook.title().toLowerCase().equals(goodReadsBook.title().toLowerCase()), titleMismatchErrorMessage);
 
     // Get API data
     Book.Builder combinedBuilder = googleApiBook.toBuilder();

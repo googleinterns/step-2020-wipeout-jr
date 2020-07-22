@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
@@ -104,10 +105,11 @@ public class BookDaoDatastore implements BookDao {
     private Book parseBook(Entity bookEntity){
         String title = (String) bookEntity.getProperty(TITLE);
         String language = (String) bookEntity.getProperty(LANGUAGE);
-        String description = (String) bookEntity.getProperty(DESCRIPTION);
+        Text descriptionAsText = (Text) bookEntity.getProperty(DESCRIPTION);
+        String description = descriptionAsText.getValue();
         String infoLink = (String) bookEntity.getProperty(INFO_LINK);
         String thumbnail = (String) bookEntity.getProperty(THUMBNAIL);
-         String publishedDate = (String) bookEntity.getProperty(PUBLISHED_DATE);
+        String publishedDate = (String) bookEntity.getProperty(PUBLISHED_DATE);
         String publisher = (String) bookEntity.getProperty(PUBLISHER);
         String maturityRating = (String) bookEntity.getProperty(MATURITY_RATING);
         String isbn = (String) bookEntity.getProperty(ISBN);
@@ -142,20 +144,20 @@ public class BookDaoDatastore implements BookDao {
 
         Entity bookEntity = new Entity(createKey(book.isbn()));
 
-        bookEntity.setProperty(TIME_STAMP,timeStamp);
-        bookEntity.setProperty(TITLE,book.title());
-        bookEntity.setProperty(GENRE,book.genre());
-        bookEntity.setProperty(CATEGORIES,book.categories());
-        bookEntity.setProperty(AUTHORS,book.authors());
-        bookEntity.setProperty(LANGUAGE,book.language());
-        bookEntity.setProperty(DESCRIPTION,book.description());
-        bookEntity.setProperty(INFO_LINK,book.infoLink());
-        bookEntity.setProperty(THUMBNAIL,book.thumbnail());
-        bookEntity.setProperty(PAGE_COUNT,book.pageCount());
-        bookEntity.setProperty(PUBLISHED_DATE,book.publishedDate());
-        bookEntity.setProperty(PUBLISHER,book.publisher());
-        bookEntity.setProperty(MATURITY_RATING,book.maturityRating());
-        bookEntity.setProperty(ISBN,book.isbn());
+        bookEntity.setProperty(TIME_STAMP, timeStamp);
+        bookEntity.setProperty(TITLE, book.title());
+        bookEntity.setProperty(GENRE, book.genre());
+        bookEntity.setProperty(CATEGORIES, book.categories());
+        bookEntity.setProperty(AUTHORS, book.authors());
+        bookEntity.setProperty(LANGUAGE, book.language());
+        bookEntity.setProperty(DESCRIPTION, new Text(book.description()));
+        bookEntity.setProperty(INFO_LINK, book.infoLink());
+        bookEntity.setProperty(THUMBNAIL, book.thumbnail());
+        bookEntity.setProperty(PAGE_COUNT, book.pageCount());
+        bookEntity.setProperty(PUBLISHED_DATE, book.publishedDate());
+        bookEntity.setProperty(PUBLISHER, book.publisher());
+        bookEntity.setProperty(MATURITY_RATING, book.maturityRating());
+        bookEntity.setProperty(ISBN, book.isbn());
 
         return bookEntity;
     }
