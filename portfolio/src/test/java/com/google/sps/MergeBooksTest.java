@@ -119,5 +119,13 @@ public final class MergeBooksTest {
             reviewsMaker("It was good.", "It was pretty good.", "It was heart-wrenching."));
     Book mergedBook = MergeBooks.merge(originalBook, diffTitleBook);
   }
+
+  @Test
+  public void parseTwoDifferentCaseTitles(){
+    Book lowercaseTitle = 
+        newBook("a court of wings and ruin", "Fiction", "Sarah J. Maas", "Fantasy", "en", 432, "",
+            reviewsMaker("It was good.", "It was pretty good.", "It was heart-wrenching."));
+    Book mergedBook = MergeBooks.merge(DEFAULT_BOOK, lowercaseTitle);
+  }
 }
 
