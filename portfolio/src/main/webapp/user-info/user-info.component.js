@@ -12,7 +12,7 @@ angular.module('userInfo').component('userInfo', {
     });
 
     vm.isLoggedIn = function() {
-        if (!(typeof vm.userInfo === "string" || vm.userInfo instanceof String)){ //if currently logged in
+        if (!(vm.userInfo ==="Logged Out")){
             return true;
         } else {
             return false;

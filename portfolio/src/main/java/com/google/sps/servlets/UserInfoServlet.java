@@ -53,12 +53,12 @@ public class UserInfoServlet extends HttpServlet {
         if (user.isPresent()) {
             response.getWriter().println(gson.toJson(user.get()));
         } else {
-            response.getWriter().println(gson.toJson(user.empty()));
+            User newUser = User.create(email,""); // placeholder user where the nickname is an empty string
+            response.getWriter().println(gson.toJson(newUser));
         }
 
     } else {
-      String loginUrl = userService.createLoginURL("/auth");
-      response.getWriter().println(gson.toJson(loginUrl));
+      response.getWriter().println(gson.toJson("Logged Out"));
     }
   }
 

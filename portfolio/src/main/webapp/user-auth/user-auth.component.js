@@ -5,16 +5,16 @@ angular.module('userAuth').component('userAuth', {
     var vm = this;
     vm.loading = true;
 
-    $http.get('user-status').then(function(response) {
+    $http.get('user-info').then(function(response) {
       vm.userStatus = response.data;
       vm.loading = false;
     });
 
     vm.isLoggedIn = function() {
-      if (vm.userStatus == 'Logged In') {
-        return true;
-      } else {
+      if (vm.userStatus === 'Logged Out') {
         return false;
+      } else {
+        return true;
       }
     }
   },
