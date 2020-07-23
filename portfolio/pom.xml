@@ -18,6 +18,18 @@
     <js-tests.skip>false</js-tests.skip>
     <bower-components>${basedir}/src/main/resources/static/bower_components</bower-components>
   </properties>
+
+  <dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>libraries-bom</artifactId>
+      <version>8.0.0</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
  
   <dependencies>
     <dependency>
@@ -45,7 +57,12 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>r05</version>
+      <version>29.0-jre</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-language</artifactId>
+        <version>1.100.0</version>
     </dependency>
     <!-- Datastore & Users API dependency-->
     <dependency>
@@ -80,6 +97,11 @@
         <artifactId>appengine-api-stubs</artifactId>
         <version>1.9.64</version>
         <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.truth</groupId>
+      <artifactId>truth</artifactId>
+      <version>1.0.1</version>
     </dependency>
   </dependencies>
  
