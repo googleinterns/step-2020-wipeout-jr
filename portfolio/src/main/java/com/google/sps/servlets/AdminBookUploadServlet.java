@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/admin-book-upload")
 public class AdminBookUploadServlet extends HttpServlet {
   private final BookUploadUtility bookUploadUtility = new BookUploadUtility();
-  private static final String uploadErrorMessage = "\n Could not upload: ";
+  private static final String UPLOAD_ERROR_MSG = "\n Could not upload: ";
   private Map<Integer, Book> bookList;
 
   @Override
@@ -32,7 +32,7 @@ public class AdminBookUploadServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //if not working locally, try deleting local_db.bin folder in appengine generated files
-    String failedBooks;
+    String failedBooks = UPLOAD_ERROR_MSG;
     int successes = 0;
     for (Book book : bookList.values()) {
       try {
@@ -42,12 +42,12 @@ public class AdminBookUploadServlet extends HttpServlet {
         failedBooks += "\n\t" + book.title() + " because of " + e + ".";
       }
     }
-    String proportion = "Uploaded " + successes + " out of " + bookList.values().size() + " books.";
+    String proportionMsg = "Uploaded " + successes + " out of " + bookList.values().size() + " books.";
     response.setContentType("application/json");
-    if (failedBooks.equals(uploadErrorMessage)) {
+    if (failedBooks.equals(UPLOAD_ERROR_MSG)) {
       response.getWriter().println("Data Uploaded!");
     } else {
-      response.getWriter().println(proportion + failedBooks);
+      response.getWriter().println(proportionMsg + failedBooks);
     }
   }
 }
