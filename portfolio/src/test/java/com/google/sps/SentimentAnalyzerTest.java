@@ -34,19 +34,19 @@ public class SentimentAnalyzerTest {
     analyzer = new SentimentAnalyzer();
   }
 
-//   @Test
-//   public void testHasPositiveSentiment() throws IOException {
-//     Assert.assertTrue(analyzer.hasPositiveSentiment(POSITIVE_SENTENCE));
-//     Assert.assertFalse(analyzer.hasPositiveSentiment(NEGATIVE_SENTENCE));
-//   }
+  @Test
+  public void testHasPositiveSentiment() throws IOException {
+    Assert.assertTrue(analyzer.hasPositiveSentiment(POSITIVE_SENTENCE));
+    Assert.assertFalse(analyzer.hasPositiveSentiment(NEGATIVE_SENTENCE));
+  }
 
-//   @Test
-//   public void testCategories() throws IOException {
-//     Assert.assertTrue(
-//         analyzer.getCategories(TECH_SENTENCE)
-//             .containsKey("/Computers & Electronics/Computer Hardware/Laptops & Notebooks"));
-//     Assert.assertTrue(analyzer.getCategories(FOOD_SENTENCE).containsKey("/Food & Drink"));
-//   }
+  @Test
+  public void testCategories() throws IOException {
+    Assert.assertTrue(
+        analyzer.getCategories(TECH_SENTENCE)
+            .containsKey("/Computers & Electronics/Computer Hardware/Laptops & Notebooks"));
+    Assert.assertTrue(analyzer.getCategories(FOOD_SENTENCE).containsKey("/Food & Drink"));
+  }
 
   @Test
   public void testEntities() throws IOException {
@@ -57,28 +57,28 @@ public class SentimentAnalyzerTest {
     Assert.assertFalse(entities.contains("nachos"));
   }
 
-//   @Test
-//   public void testEntitiesWithSentiments() throws IOException {
-//     Assert.assertTrue(analyzer.getEntitiesWithSentiments(POSITIVE_SENTENCE).get("Othello") > 0);
-//     Assert.assertTrue(analyzer.getEntitiesWithSentiments(NEGATIVE_SENTENCE).get("Christmas") < 0);
-//   }
+  @Test
+  public void testEntitiesWithSentiments() throws IOException {
+    Assert.assertTrue(analyzer.getEntitiesWithSentiments(POSITIVE_SENTENCE).get("Othello") > 0);
+    Assert.assertTrue(analyzer.getEntitiesWithSentiments(NEGATIVE_SENTENCE).get("Christmas") < 0);
+  }
 
-//   @Test
-//   public void testEntitiesWithSaliences() throws IOException {
-//     Map<String, Float> techSalienceMap = analyzer.getEntitiesWithSaliences(TECH_SENTENCE);
-//     Assert.assertTrue(techSalienceMap.get("Pixelbook") > techSalienceMap.get("Chromebook"));
+  @Test
+  public void testEntitiesWithSaliences() throws IOException {
+    Map<String, Float> techSalienceMap = analyzer.getEntitiesWithSaliences(TECH_SENTENCE);
+    Assert.assertTrue(techSalienceMap.get("Pixelbook") > techSalienceMap.get("Chromebook"));
 
-//     Map<String, Float> foodSalienceMap = analyzer.getEntitiesWithSaliences(FOOD_SENTENCE);
-//     Assert.assertTrue(foodSalienceMap.get("patty") > foodSalienceMap.get("arugula"));
-//   }
+    Map<String, Float> foodSalienceMap = analyzer.getEntitiesWithSaliences(FOOD_SENTENCE);
+    Assert.assertTrue(foodSalienceMap.get("patty") > foodSalienceMap.get("arugula"));
+  }
 
-//   @Test
-//   public void testEntityTypes() throws IOException {
-//     Map<String, String> techEntityMap = analyzer.getEntitiesWithTypes(TECH_SENTENCE);
-//     Assert.assertEquals("CONSUMER_GOOD", techEntityMap.get("Surface Pro"));
-//     Assert.assertEquals("WORK_OF_ART", techEntityMap.get("movies"));
+  @Test
+  public void testEntityTypes() throws IOException {
+    Map<String, String> techEntityMap = analyzer.getEntitiesWithTypes(TECH_SENTENCE);
+    Assert.assertEquals("CONSUMER_GOOD", techEntityMap.get("Surface Pro"));
+    Assert.assertEquals("WORK_OF_ART", techEntityMap.get("movies"));
 
-//     Map<String, String> othelloEntityMap = analyzer.getEntitiesWithTypes(POSITIVE_SENTENCE);
-//     Assert.assertEquals("WORK_OF_ART", othelloEntityMap.get("Othello"));
-//   }
+    Map<String, String> othelloEntityMap = analyzer.getEntitiesWithTypes(POSITIVE_SENTENCE);
+    Assert.assertEquals("WORK_OF_ART", othelloEntityMap.get("Othello"));
+  }
 }
