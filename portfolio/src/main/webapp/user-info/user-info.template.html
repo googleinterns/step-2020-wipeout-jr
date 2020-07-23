@@ -10,7 +10,7 @@
     <div ng-show='!userInfoCtrl.userInfo.nickname'>
         <!-- TODO: create a user profile page where they can edit this info, linked from the email/nickname shown here -->
         <p>Your email is {{userInfoCtrl.userInfo.email}}</p>
-        <p>Set your nickname here to save your data:</p>
+        <p>Set your nickname here to save your data (your username cannot be empty):</p>
     </div>
     <div ng-show='userInfoCtrl.userInfo.nickname'>
         <p>Your email is {{userInfoCtrl.userInfo.email}}, and your nickname is {{userInfoCtrl.userInfo.nickname}}</p>

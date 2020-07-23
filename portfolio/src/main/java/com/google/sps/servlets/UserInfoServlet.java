@@ -69,6 +69,12 @@ public class UserInfoServlet extends HttpServlet {
     String nickname = request.getParameter("nickname");
     String email = userService.getCurrentUser().getEmail(); // user email is used as id
 
+    //check that input is non-empty
+    if (nickname.isEmpty()) {
+        response.sendRedirect("/");
+        return;
+    }
+
     User newUser = User.create(email, nickname);
     userStorage.upload(newUser);
 
