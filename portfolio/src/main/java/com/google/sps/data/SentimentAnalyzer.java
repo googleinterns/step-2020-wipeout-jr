@@ -80,7 +80,12 @@ public class SentimentAnalyzer {
    * @return ImmutableSet of entities found, represented as Strings
    */
   public ImmutableSet<String> getEntities(String text) {
-    return getEntitiesWithSentiments(text).keySet();
+    ImmutableSet.Builder<String> strEntities = new ImmutableSet.Builder<String>();
+    Set<Entity> entityObjects = getEntityObjects(text);
+    for (Entity entity : entityObjects) {
+      strEntities.add(entity.getName());
+    }
+    return strEntities.build();
   }
 
   /**
@@ -116,10 +121,9 @@ public class SentimentAnalyzer {
   public ImmutableMap<String, String> getEntitiesWithTypes(String text) {
     ImmutableMap.Builder<String, String> entitiesWithTypes =
         new ImmutableMap.Builder<String, String>();
-    Document doc = makeDocument(text);
-    List<Entity> entities = languageService.analyzeEntitySentiment(doc).getEntitiesList();
+    Set<Entity> entityObjects = getEntityObjects(text);
 
-    for (Entity entity : entities) {
+    for (Entity entity : entityObjects) {
       entitiesWithTypes.put(entity.getName(), entity.getType().toString());
     }
 
@@ -136,15 +140,14 @@ public class SentimentAnalyzer {
   private ImmutableMap<String, Float> getEntitiesWith(String text, String valueProperty) {
     ImmutableMap.Builder<String, Float> entitiesWithProperty =
         new ImmutableMap.Builder<String, Float>();
-    Document doc = makeDocument(text);
-    List<Entity> entities = languageService.analyzeEntitySentiment(doc).getEntitiesList();
+    Set<Entity> entityObjects = getEntityObjects(text);
 
     if (valueProperty.equals(SENTIMENT_PROPERTY)) {
-      for (Entity entity : entities) {
+      for (Entity entity : entityObjects) {
         entitiesWithProperty.put(entity.getName(), entity.getSentiment().getScore());
       }
     } else {
-      for (Entity entity : entities) {
+      for (Entity entity : entityObjects) {
         entitiesWithProperty.put(entity.getName(), entity.getSalience());
       }
     }
@@ -159,5 +162,17 @@ public class SentimentAnalyzer {
    */
   private static Document makeDocument(String text) {
     return Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
+  }
+
+  /**
+   * Get entity objects for a given text 
+   *
+   * @param text: Text to be analyzed
+   * @return ImmutableSet of Entity objects in the text
+   */
+  private ImmutableSet<Entity> getEntityObjects(String text) {
+    Document doc = makeDocument(text);
+    List<Entity> entitiesInDoc = languageService.analyzeEntities(doc).getEntitiesList();
+    return ImmutableSet.copyOf(entitiesInDoc);
   }
 }
