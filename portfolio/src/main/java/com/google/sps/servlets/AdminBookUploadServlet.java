@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 // Initiate upload books into the books datastore
 @WebServlet("/admin-book-upload")
-public class BookUploadServlet extends HttpServlet {
+public class AdminBookUploadServlet extends HttpServlet {
   private final BookUploadUtility bookUploadUtility = new BookUploadUtility();
+  private static final String uploadErrorMessage = "\n Could not upload: ";
   private Map<Integer, Book> bookList;
 
   @Override
@@ -30,22 +31,20 @@ public class BookUploadServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String failedBooks = "\n Could not upload: ";
+    //if not working locally, try deleting local_db.bin folder in appengine generated files
+    String failedBooks;
     int successes = 0;
     for (Book book : bookList.values()) {
       try {
-        System.out.println(book.title());
         bookUploadUtility.mergeUploadBook(book.title(), book);
-        System.out.println(" -- success!");
         successes++;
       } catch (Exception e) {
         failedBooks += "\n\t" + book.title() + " because of " + e + ".";
-        System.out.println(" -- failed because of " + e + ".");
       }
     }
     String proportion = "Uploaded " + successes + " out of " + bookList.values().size() + " books.";
     response.setContentType("application/json");
-    if (failedBooks.equals("Could not upload: ")) {
+    if (failedBooks.equals(uploadErrorMessage)) {
       response.getWriter().println("Data Uploaded!");
     } else {
       response.getWriter().println(proportion + failedBooks);

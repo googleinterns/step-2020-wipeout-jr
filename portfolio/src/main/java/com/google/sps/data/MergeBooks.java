@@ -20,10 +20,7 @@ public class MergeBooks {
     validate(goodReadsBook);
     validateISBN(googleApiBook.isbn());
     
-    String titleMismatchErrorMessage = "The books must be of the same title. Expected [%s] but got [%s]";
-    titleMismatchErrorMessage = String.format(titleMismatchErrorMessage, goodReadsBook.title(), googleApiBook.title());
-    Preconditions.checkArgument(
-        googleApiBook.title().toLowerCase().equals(goodReadsBook.title().toLowerCase()), titleMismatchErrorMessage);
+    checkTitle(googleApiBook.title(),goodReadsBook.title());
 
     // Get API data
     Book.Builder combinedBuilder = googleApiBook.toBuilder();
@@ -35,6 +32,24 @@ public class MergeBooks {
     }
 
     return combinedBuilder.build();
+  }
+
+  private static void checkTitle(String apiTitle, String goodReadsTitle){
+    String longerString;
+    String shorterString;
+    if(apiTitle.length() > goodReadsTitle.length()){
+        longerString = apiTitle.toLowerCase();
+        shorterString = goodReadsTitle.toLowerCase();
+    }else{
+        longerString = goodReadsTitle.toLowerCase();
+        shorterString = apiTitle.toLowerCase();
+    }
+    String titleMismatchErrorMessage = "The books must be of the same title. Expected [%s] but got [%s]";
+    String substringOfLongTitle = longerString.substring(0,shorterString.length());
+    titleMismatchErrorMessage = String.format(titleMismatchErrorMessage, goodReadsTitle, apiTitle);
+    Preconditions.checkArgument(
+    shorterString.equals(substringOfLongTitle), titleMismatchErrorMessage);
+
   }
 
   /**
