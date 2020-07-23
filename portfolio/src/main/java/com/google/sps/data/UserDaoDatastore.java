@@ -83,7 +83,6 @@ public class UserDaoDatastore implements UserDao {
    * @return User user: the entity that is created
    */
   private Entity userToEntity(User user) {
-    // String email = userService.getCurrentUser().getEmail();
     String email = user.email();
     Entity userEntity = new Entity(createKey(email));
 
