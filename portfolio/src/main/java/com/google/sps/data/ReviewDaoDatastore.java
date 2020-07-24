@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Text;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
@@ -37,7 +38,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   /**
    * {@inheritDoc}
    * The userNumber appended to the default email serves
-   * to ensure that reviews are not overwritten by each other. 
+   * to ensure that reviews are not overwritten by each other.
    * This is due to the design restriction of one review per user/book pair
    */
   @Override
@@ -128,8 +129,10 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @return Corresponding Review object that is created
    */
   private Review entityToReview(Entity reviewEntity) {
+    Text contentAsText = (Text) reviewEntity.getProperty(FULLTEXT_PROPERTY);
+    String content = contentAsText.getValue();
     return Review.builder()
-        .fullText((String) reviewEntity.getProperty(FULLTEXT_PROPERTY))
+        .fullText(content)
         .isbn((String) reviewEntity.getProperty(ISBN_PROPERTY))
         .email((String) reviewEntity.getProperty(USEREMAIL_PROPERTY))
         .build();
@@ -145,7 +148,7 @@ public class ReviewDaoDatastore implements ReviewDao {
     String email = review.email();
     Entity reviewEntity = new Entity(createKey(isbn, email));
 
-    reviewEntity.setProperty(FULLTEXT_PROPERTY, review.fullText());
+    reviewEntity.setProperty(FULLTEXT_PROPERTY, new Text(review.fullText()));
     reviewEntity.setProperty(ISBN_PROPERTY, isbn);
     reviewEntity.setProperty(USEREMAIL_PROPERTY, email);
     return reviewEntity;

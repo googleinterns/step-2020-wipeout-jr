@@ -35,7 +35,7 @@ public class BookResponseParser {
   private static final String ISBN = "ISBN_13";
   private static final String INDUSTRTRY_IDS = "industryIdentifiers";
 
-  public static Book parseBook(String jsonResponse){
+  public static Book parseBook(String jsonResponse) {
     validate(jsonResponse);
     JSONObject jsonObject = new JSONObject(jsonResponse);
     return jsonToBook(jsonObject);
@@ -156,15 +156,18 @@ public class BookResponseParser {
     return null;
   }
 
-  private static void validate(String jsonResponse){
-      //checks to see if the input is an validate value
-      //empty string
-      Preconditions.checkNotNull(jsonResponse,"The response was null");
-      Preconditions.checkArgument(!jsonResponse.equals(""),"The response was empty");
-      Preconditions.checkArgument(jsonResponse.charAt(0) =='{',"The response must begin with \"{\"");
-      JSONObject jsonObject = new JSONObject(jsonResponse);
-      //if full api response (contains multiple items)
-      Preconditions.checkArgument(!jsonObject.has("items"), "The response should only contain one book");
-      Preconditions.checkArgument(jsonObject.has(VOLUME_INFO),"The response did not contain the volumeInfo for a book");
+  private static void validate(String jsonResponse) {
+    // checks to see if the input is an validate value
+    // empty string
+    Preconditions.checkNotNull(jsonResponse, "The response was null");
+    Preconditions.checkArgument(!jsonResponse.equals(""), "The response was empty");
+    Preconditions.checkArgument(
+        jsonResponse.charAt(0) == '{', "The response must begin with \"{\"");
+    JSONObject jsonObject = new JSONObject(jsonResponse);
+    // if full api response (contains multiple items)
+    Preconditions.checkArgument(
+        !jsonObject.has("items"), "The response should only contain one book");
+    Preconditions.checkArgument(
+        jsonObject.has(VOLUME_INFO), "The response did not contain the volumeInfo for a book");
   }
 }

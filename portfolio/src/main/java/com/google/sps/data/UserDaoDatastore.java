@@ -40,7 +40,7 @@ public class UserDaoDatastore implements UserDao {
   public Optional<User> get(String email) {
     Entity userEntity;
     try {
-    validateEmail(email);
+      validateEmail(email);
       userEntity = datastore.get(createKey(email));
     } catch (EntityNotFoundException ex) {
       return Optional.empty();
@@ -54,7 +54,7 @@ public class UserDaoDatastore implements UserDao {
    */
   @Override
   public void upload(User user) {
-      validateEmail(user.email());
+    validateEmail(user.email());
     datastore.put(userToEntity(user));
   }
 
@@ -96,12 +96,12 @@ public class UserDaoDatastore implements UserDao {
     return KeyFactory.createKey("User", email);
   }
 
-    /**
-    * Checks to see if the email is valid
-    * @param String email: The email you want to validate
-    */
+  /**
+   * Checks to see if the email is valid
+   * @param String email: The email you want to validate
+   */
   private void validateEmail(String email) {
-      Preconditions.checkNotNull(email, "The email cannot be null");
-      Preconditions.checkArgument(email.contains("@"), "The email must be a valid email");
+    Preconditions.checkNotNull(email, "The email cannot be null");
+    Preconditions.checkArgument(email.contains("@"), "The email must be a valid email");
   }
 }
