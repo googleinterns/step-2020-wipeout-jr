@@ -120,4 +120,3 @@ public final class MergeBooksTest {
     Book mergedBook = MergeBooks.merge(originalBook, diffTitleBook);
   }
 }
-
