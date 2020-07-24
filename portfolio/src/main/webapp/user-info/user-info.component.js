@@ -12,17 +12,11 @@ angular.module('userInfo').component('userInfo', {
     });
 
     vm.isLoggedIn = function() {
-      if (!vm.userInfo.includes('_ah/login')) {
-        if (!vm.userInfo == '') {  // TODO: input validation on nicknames so
-                                   // can't have empty string
-          vm.nicknameSet = true;
+        if (!(vm.userInfo ==="Logged Out")){
+            return true;
         } else {
-          vm.nicknameSet = false;
+            return false;
         }
-        return true;
-      } else {
-        return false;
-      }
     };
   },
   controllerAs: 'userInfoCtrl'

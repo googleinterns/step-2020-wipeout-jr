@@ -1,5 +1,7 @@
 package com.google.sps.data;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -11,6 +13,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.common.base.Preconditions;
 import java.util.Optional;
 
 /**
@@ -37,6 +40,7 @@ public class UserDaoDatastore implements UserDao {
   public Optional<User> get(String email) {
     Entity userEntity;
     try {
+    validateEmail(email);
       userEntity = datastore.get(createKey(email));
     } catch (EntityNotFoundException ex) {
       return Optional.empty();
@@ -50,6 +54,7 @@ public class UserDaoDatastore implements UserDao {
    */
   @Override
   public void upload(User user) {
+      validateEmail(user.email());
     datastore.put(userToEntity(user));
   }
 
@@ -78,10 +83,10 @@ public class UserDaoDatastore implements UserDao {
    * @return User user: the entity that is created
    */
   private Entity userToEntity(User user) {
-    String userEmail = userService.getCurrentUser().getEmail();
-    Entity userEntity = new Entity(createKey(userEmail));
+    String email = user.email();
+    Entity userEntity = new Entity(createKey(email));
 
-    userEntity.setProperty(EMAIL, userEmail);
+    userEntity.setProperty(EMAIL, email);
     userEntity.setProperty(NICKNAME, user.nickname());
 
     return userEntity;
@@ -89,5 +94,14 @@ public class UserDaoDatastore implements UserDao {
 
   private Key createKey(String email) {
     return KeyFactory.createKey("User", email);
+  }
+
+    /**
+    * Checks to see if the email is valid
+    * @param String email: The email you want to validate
+    */
+  private void validateEmail(String email) {
+      Preconditions.checkNotNull(email, "The email cannot be null");
+      Preconditions.checkArgument(email.contains("@"), "The email must be a valid email");
   }
 }

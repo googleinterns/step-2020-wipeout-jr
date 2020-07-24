@@ -2,13 +2,20 @@
 
 <p ng-show='!userInfoCtrl.loading && !userInfoCtrl.isLoggedIn()'>Hello Stranger</a>!</p>
 
-<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && !userInfoCtrl.nicknameSet'>Hello new friend</a>!</p>
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && !userInfoCtrl.userInfo.nickname'>Hello new friend</a>!</p>
 
-<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && userInfoCtrl.nicknameSet'>Hello {{userInfoCtrl.userInfo}}</a>!</p>
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && userInfoCtrl.userInfo.nickname'>Hello {{userInfoCtrl.userInfo.nickname}}</a>!</p>
 
 <div ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn()'>
-    <p ng-show='!userInfoCtrl.nicknameSet'>Set your nickname here to save your data:</p>
-    <p ng-show='userInfoCtrl.nicknameSet'>Update your nickname here:</p>
+    <div ng-show='!userInfoCtrl.userInfo.nickname'>
+        <!-- TODO: create a user profile page where they can edit this info, linked from the email/nickname shown here -->
+        <p>Your email is {{userInfoCtrl.userInfo.email}}</p>
+        <p>Set your nickname here to save your data (your username cannot be empty):</p>
+    </div>
+    <div ng-show='userInfoCtrl.userInfo.nickname'>
+        <p>Your email is {{userInfoCtrl.userInfo.email}}, and your nickname is {{userInfoCtrl.userInfo.nickname}}</p>
+        Update your nickname here:
+    </div>
     <form method="post" action="/user-info">
         <input name='nickname' type='text'/>
         <button>Submit</button>

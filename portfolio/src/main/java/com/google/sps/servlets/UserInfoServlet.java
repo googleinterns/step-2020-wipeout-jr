@@ -36,15 +36,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/user-info")
 public class UserInfoServlet extends HttpServlet {
   private UserDaoDatastore userStorage = new UserDaoDatastore();
+  private Gson gson = new Gson();
 
   @Override
   public void init() {
     UserDaoDatastore userStorage = new UserDaoDatastore();
-  }
-
-  private String toJson(String status) {
-    Gson gson = new Gson();
-    return gson.toJson(status);
   }
 
   @Override
@@ -52,12 +48,17 @@ public class UserInfoServlet extends HttpServlet {
     response.setContentType("application/json");
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-      String nickname = getUserNickname(userService.getCurrentUser().getEmail());
-      response.getWriter().println(toJson(nickname));
+        String email = userService.getCurrentUser().getEmail(); // user email is used as id
+        Optional<User> user = userStorage.get(email);
+        if (user.isPresent()) {
+            response.getWriter().println(gson.toJson(user.get()));
+        } else {
+            User newUser = User.create(email,""); // placeholder user where the nickname is an empty string
+            response.getWriter().println(gson.toJson(newUser));
+        }
 
     } else {
-      String loginUrl = userService.createLoginURL("/auth");
-      response.getWriter().println(toJson(loginUrl));
+      response.getWriter().println(gson.toJson("Logged Out"));
     }
   }
 
@@ -67,6 +68,12 @@ public class UserInfoServlet extends HttpServlet {
 
     String nickname = request.getParameter("nickname");
     String email = userService.getCurrentUser().getEmail(); // user email is used as id
+
+    //check that input is non-empty
+    if (nickname.isEmpty()) {
+        response.sendRedirect("/");
+        return;
+    }
 
     User newUser = User.create(email, nickname);
     userStorage.upload(newUser);
