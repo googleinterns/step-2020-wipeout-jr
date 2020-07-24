@@ -41,4 +41,3 @@ public class BookUploadUtility {
     reviewDao.uploadAll(composite);
   }
 }
-

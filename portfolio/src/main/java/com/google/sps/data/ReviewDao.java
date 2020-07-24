@@ -13,7 +13,7 @@ public interface ReviewDao {
    *
    * @param book: Book object whose reviews are to be uploaded
    */
-  void uploadAll(Book book)throws Exception;
+  void uploadAll(Book book) throws Exception;
 
   /**
    * Takes in a review and uploads to Datastore.
