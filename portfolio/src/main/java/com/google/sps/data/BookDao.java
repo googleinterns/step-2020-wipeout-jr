@@ -8,4 +8,3 @@ public interface BookDao {
   void update(Book book);
   void delete(String isbn);
 }
-

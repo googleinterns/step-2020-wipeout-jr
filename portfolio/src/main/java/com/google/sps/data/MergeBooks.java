@@ -52,4 +52,3 @@ public class MergeBooks {
     Preconditions.checkArgument(isbn.length() == 13, errorMessage);
   }
 }
-

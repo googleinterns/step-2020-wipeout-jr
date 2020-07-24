@@ -37,7 +37,7 @@ public class ReviewDaoDatastore implements ReviewDao {
   /**
    * {@inheritDoc}
    * The userNumber appended to the default email serves
-   * to ensure that reviews are not overwritten by each other. 
+   * to ensure that reviews are not overwritten by each other.
    * This is due to the design restriction of one review per user/book pair
    */
   @Override

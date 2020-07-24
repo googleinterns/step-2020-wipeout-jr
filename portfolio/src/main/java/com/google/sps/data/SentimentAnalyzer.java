@@ -165,7 +165,7 @@ public class SentimentAnalyzer {
   }
 
   /**
-   * Get entity objects for a given text 
+   * Get entity objects for a given text
    *
    * @param text: Text to be analyzed
    * @return ImmutableSet of Entity objects in the text
