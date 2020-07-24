@@ -35,3 +35,4 @@ public final class IsbnReaderTest {
     Assert.assertEquals(HATE_ISBN, isbnMap.get(HATE_TITLE));
   }
 }
+

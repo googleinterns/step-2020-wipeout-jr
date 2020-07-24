@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class IsbnReader {
   private final File file;
-  
+
   public IsbnReader(String path) {
     this.file = new File(path);
   }
@@ -22,12 +22,12 @@ public class IsbnReader {
   public ImmutableMap<String, String> makeIsbnMap() throws IOException {
     ImmutableMap.Builder<String, String> isbnMapBuilder = new Builder<String, String>();
     try (Scanner scanner = new Scanner(file, "utf-8").useDelimiter("\n")) {
-      while(scanner.hasNextLine()){
+      while (scanner.hasNextLine()) {
         String[] content = scanner.nextLine().split(",");
         String title = content[0];
-        String isbn = content[1].replaceAll("\\s+","");
-        if(title != "book_title"){
-            isbnMapBuilder.put(title,isbn);
+        String isbn = content[1].replaceAll("\\s+", "");
+        if (title != "book_title") {
+          isbnMapBuilder.put(title, isbn);
         }
       }
     } catch (Exception ex) {
