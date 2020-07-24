@@ -4,10 +4,14 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
-import com.google.sps.servlets.AuthenticationServlet;
+import com.google.sps.data.User;
+import com.google.sps.data.UserDao;
+import com.google.sps.data.UserDaoDatastore;
+import com.google.sps.servlets.UserInfoServlet;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,15 +24,18 @@ import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
 /**
- * Test class for AuthenticationServlet
+ * Test class for UserInfoServlet
  */
 @RunWith(JUnit4.class)
-public final class AuthenticationServletTest extends Mockito {
-  private final AuthenticationServlet servlet = new AuthenticationServlet();
+public final class UserInfoServletTest extends Mockito {
+  private final UserDaoDatastore userStorage = new UserDaoDatastore();
+  private final UserInfoServlet servlet = new UserInfoServlet();
   private final HttpServletRequest request = mock(HttpServletRequest.class);
   private final HttpServletResponse response = mock(HttpServletResponse.class);
   private static final String EMAIL = "abc@xyz.com";
+  private static final String NICKNAME = "Dan";
   private static final String DOMAIN = "test.com";
+  private static final User USER = User.create(EMAIL, NICKNAME);
 
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalUserServiceTestConfig())
@@ -39,6 +46,7 @@ public final class AuthenticationServletTest extends Mockito {
   @Before
   public void setUp() {
     helper.setUp();
+    userStorage.upload(USER);
   }
 
   @After
@@ -54,7 +62,7 @@ public final class AuthenticationServletTest extends Mockito {
 
     servlet.doGet(request, response);
 
-    verify(response).setContentType("text/html");
+    verify(response).setContentType("application/json");
   }
 
   @Test
@@ -64,11 +72,13 @@ public final class AuthenticationServletTest extends Mockito {
     Mockito.when(response.getWriter()).thenReturn(printWriter);
 
     servlet.doGet(request, response);
-    String logoutUrl = "/_ah/logout?continue=%2F";
+    Optional<User> returnedUser = userStorage.get(EMAIL);
 
-    Assert.assertTrue(stringWriter.toString().startsWith("<p>Hello "
-        + "abc@xyz.com"));
-    Assert.assertTrue(stringWriter.toString().contains(logoutUrl));
+    String expectedEmail = returnedUser.get().email();
+    String expectedNickname = returnedUser.get().nickname();
+
+    Assert.assertTrue(stringWriter.toString().contains(expectedEmail));
+    Assert.assertTrue(stringWriter.toString().contains(expectedNickname));
   }
 
   @Test
@@ -80,9 +90,8 @@ public final class AuthenticationServletTest extends Mockito {
     Mockito.when(response.getWriter()).thenReturn(printWriter);
 
     servlet.doGet(request, response);
-    String loginUrl = "/_ah/login?continue=%2F";
+    String loggedOutMsg = "Logged Out";
 
-    Assert.assertTrue(stringWriter.toString().startsWith("<p>Hello stranger"));
-    Assert.assertTrue(stringWriter.toString().contains(loginUrl));
+    Assert.assertTrue(stringWriter.toString().contains(loggedOutMsg));
   }
 }
