@@ -1,0 +1,19 @@
+<p ng-show='userInfoCtrl.loadingInfo'>Loading...</p> 
+
+<div ng-show='!userInfoCtrl.loadingInfo && userInfoCtrl.isLoggedIn() && userInfoCtrl.userInfo.nickname'>
+
+    <p>Hello {{profileCtrl.userInfo.nickname}}!</p>
+    <p>Your Email: {{profileCtrl.userInfo.email}}</p>
+
+    </div>
+        <p>Update your nickname here:</p>
+        <form method="post" action="/user-info">
+            <input name='nickname' type='text'/>
+            <button>Submit</button>
+        </form>
+    </div>
+
+    <p>ng-show=''
+
+</div>
+

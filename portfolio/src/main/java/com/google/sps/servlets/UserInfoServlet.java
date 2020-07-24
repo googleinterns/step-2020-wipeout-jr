@@ -50,7 +50,7 @@ public class UserInfoServlet extends HttpServlet {
     if (userService.isUserLoggedIn()) {
         String email = userService.getCurrentUser().getEmail(); // user email is used as id
         Optional<User> user = userStorage.get(email);
-        if (user.isPresent()) {
+        if (user.isPresent()) { //if the user has been saved to datastore(has already set a nickname)
             response.getWriter().println(gson.toJson(user.get()));
         } else {
             User newUser = User.create(email,""); // placeholder user where the nickname is an empty string
