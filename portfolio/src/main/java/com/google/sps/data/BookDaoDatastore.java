@@ -11,10 +11,11 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.Text;
 import com.google.common.base.Preconditions;
+import com.google.sps.data.BookEntityParser;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -51,7 +52,8 @@ public class BookDaoDatastore implements BookDao {
   public void create(Book book) {
     validateBook(book);
     if (!entityExists(book.isbn())) {
-      datastore.put(parseEntity(book));
+      Entity bookEntity = BookEntityParser.parseEntity(book, createKey(book.isbn()));
+      datastore.put(bookEntity);
     } else {
       throw new RuntimeException(String.format("Book already exists with ISBN-13=%s", book.isbn()));
     }
@@ -82,7 +84,29 @@ public class BookDaoDatastore implements BookDao {
     } catch (EntityNotFoundException ex) {
       return null;
     }
-    return parseBook(bookEntity);
+    return BookEntityParser.parseBook(bookEntity);
+  }
+
+  /**
+   * Gets the last 20 books uploaded in Datastore
+   * @return bookList: A list of 20 books
+   */
+  @Override
+  public List<Book> getBookList() {
+    Query query = new Query(ENTITY_KIND).addSort(TIME_STAMP, SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+    int numberLoaded = 0;
+
+    ArrayList<Book> bookList = new ArrayList<Book>();
+    for (Entity entity : results.asIterable()) {
+      if (numberLoaded < 20) {
+        bookList.add(BookEntityParser.parseBook(entity));
+        numberLoaded++;
+      } else {
+        break;
+      }
+    }
+    return bookList;
   }
 
   /**
@@ -93,80 +117,9 @@ public class BookDaoDatastore implements BookDao {
   public void update(Book book) {
     validateBook(book);
     if (entityExists(book.isbn())) {
-      datastore.put(parseEntity(book));
+      Entity bookEntity = BookEntityParser.parseEntity(book, createKey(book.isbn()));
+      datastore.put(bookEntity);
     }
-  }
-
-  /**
-   * Parse a book from an entity
-   * @param bookEntity: the entity that you want to create a book from
-   */
-  private Book parseBook(Entity bookEntity) {
-    String title = (String) bookEntity.getProperty(TITLE);
-    String language = (String) bookEntity.getProperty(LANGUAGE);
-    Text descriptionAsText = (Text) bookEntity.getProperty(DESCRIPTION);
-    String description = descriptionAsText.getValue();
-    String infoLink = (String) bookEntity.getProperty(INFO_LINK);
-    String thumbnail = (String) bookEntity.getProperty(THUMBNAIL);
-    String publishedDate = (String) bookEntity.getProperty(PUBLISHED_DATE);
-    String publisher = (String) bookEntity.getProperty(PUBLISHER);
-    String maturityRating = (String) bookEntity.getProperty(MATURITY_RATING);
-    String isbn = (String) bookEntity.getProperty(ISBN);
-    ArrayList<String> categories = (ArrayList<String>) bookEntity.getProperty(CATEGORIES);
-    ArrayList<String> authors = (ArrayList<String>) bookEntity.getProperty(AUTHORS);
-
-    ArrayList<String> genreList = (ArrayList<String>) bookEntity.getProperty(GENRE);
-    Set<String> genre = new HashSet<String>();
-    genre.addAll(genreList);
-
-    Long tempPageCount = (Long) bookEntity.getProperty(PAGE_COUNT);
-    int pageCount = tempPageCount.intValue();
-
-    Book.Builder builder = Book.builder()
-                               .title(title)
-                               .genre(genre)
-                               .categories(categories)
-                               .authors(authors)
-                               .language(language)
-                               .description(description)
-                               .infoLink(infoLink)
-                               .pageCount(pageCount)
-                               .publishedDate(publishedDate)
-                               .publisher(publisher)
-                               .thumbnail(thumbnail)
-                               .maturityRating(maturityRating)
-                               .isbn(isbn);
-
-    Book book = builder.build();
-    return book;
-  }
-
-  /**
-   * Parse an entity from a book
-   * @param bookEntity: the entity that you want to create a book from
-   */
-  private Entity parseEntity(Book book) {
-    // parse entity from book
-    long timeStamp = System.currentTimeMillis();
-
-    Entity bookEntity = new Entity(createKey(book.isbn()));
-
-    bookEntity.setProperty(TIME_STAMP, timeStamp);
-    bookEntity.setProperty(TITLE, book.title());
-    bookEntity.setProperty(GENRE, book.genre());
-    bookEntity.setProperty(CATEGORIES, book.categories());
-    bookEntity.setProperty(AUTHORS, book.authors());
-    bookEntity.setProperty(LANGUAGE, book.language());
-    bookEntity.setProperty(DESCRIPTION, new Text(book.description()));
-    bookEntity.setProperty(INFO_LINK, book.infoLink());
-    bookEntity.setProperty(THUMBNAIL, book.thumbnail());
-    bookEntity.setProperty(PAGE_COUNT, book.pageCount());
-    bookEntity.setProperty(PUBLISHED_DATE, book.publishedDate());
-    bookEntity.setProperty(PUBLISHER, book.publisher());
-    bookEntity.setProperty(MATURITY_RATING, book.maturityRating());
-    bookEntity.setProperty(ISBN, book.isbn());
-
-    return bookEntity;
   }
 
   /**
@@ -206,3 +159,4 @@ public class BookDaoDatastore implements BookDao {
     return getEntity(isbn) != null;
   }
 }
+

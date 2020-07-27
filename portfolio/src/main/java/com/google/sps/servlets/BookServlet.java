@@ -2,42 +2,28 @@ package com.google.sps.servlets;
 
 import com.google.gson.Gson;
 import com.google.sps.data.Book;
-import com.google.sps.data.BookReader;
+import com.google.sps.data.BookDao;
+import com.google.sps.data.BookDaoDatastore;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Returns book titles and reviews as a JSON hashmap, with IDs, e.g. {4:[{"title": Othello,
- * "reviews": {"Nice", "Bad"}}]}
+ * Returns a list of the last 20 book objects uploaded to the Datastore.
+ * Used to get the list of books for the homepage.
  */
-@WebServlet("/book-data")
+@WebServlet("/books")
 public class BookServlet extends HttpServlet {
-  private Map<Integer, Book> books;
-
-  @Override
-  public void init() throws ServletException {
-    try {
-      BookReader reader = new BookReader(getServletContext().getRealPath("/WEB-INF/all_books.csv"));
-      books = reader.makeBookList();
-    } catch (Exception ex) {
-      throw new ServletException("Error reading CSV file", ex);
-    }
-  }
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     Gson gson = new Gson();
-    String json = gson.toJson(books);
+    BookDao bookDao = new BookDaoDatastore();
+    List<Book> bookList = bookDao.getBookList();
+    String json = gson.toJson(bookList);
     response.getWriter().println(json);
   }
 }
+
