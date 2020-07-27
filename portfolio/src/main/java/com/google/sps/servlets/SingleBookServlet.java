@@ -21,7 +21,7 @@ public class SingleBookServlet extends HttpServlet {
     response.setContentType("application/json");
     Gson gson = new Gson();
     BookDao bookDao = new BookDaoDatastore();
-    Book book = bookDao.getEntity(request.getParameter("id"));
+    Book book = bookDao.getEntity(request.getParameter("isbn"));
     String json = gson.toJson(book);
     response.getWriter().println(json);
   }
