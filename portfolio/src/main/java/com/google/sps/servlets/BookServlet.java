@@ -19,23 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Returns book titles and reviews as a JSON hashmap, with IDs, e.g. {4:[{"title": Othello,
- * "reviews": {"Nice", "Bad"}}]}
+ * Returns a list of the last 20 book objects uploaded to the Datastore.
+ * Used to get the list of books for the homepage.
  */
 @WebServlet("/books")
 public class BookServlet extends HttpServlet {
-  private Map<Integer, Book> books;
-
-  @Override
-  public void init() throws ServletException {
-    try {
-      BookReader reader = new BookReader(getServletContext().getRealPath("/WEB-INF/20_books.csv"));
-      books = reader.makeBookList();
-    } catch (Exception ex) {
-      throw new ServletException("Error reading CSV file", ex);
-    }
-  }
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
