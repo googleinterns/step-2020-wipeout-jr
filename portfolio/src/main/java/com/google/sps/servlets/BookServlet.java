@@ -2,11 +2,14 @@ package com.google.sps.servlets;
 
 import com.google.gson.Gson;
 import com.google.sps.data.Book;
+import com.google.sps.data.BookDao;
+import com.google.sps.data.BookDaoDatastore;
 import com.google.sps.data.BookReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import javax.servlet.ServletException;
@@ -26,7 +29,7 @@ public class BookServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     try {
-      BookReader reader = new BookReader(getServletContext().getRealPath("/WEB-INF/all_books.csv"));
+      BookReader reader = new BookReader(getServletContext().getRealPath("/WEB-INF/20_books.csv"));
       books = reader.makeBookList();
     } catch (Exception ex) {
       throw new ServletException("Error reading CSV file", ex);
@@ -37,7 +40,10 @@ public class BookServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     Gson gson = new Gson();
-    String json = gson.toJson(books);
+    BookDao bookDao = new BookDaoDatastore();
+    List<Book> bookList = bookDao.getBookList();
+    String json = gson.toJson(bookList);
     response.getWriter().println(json);
   }
 }
+
