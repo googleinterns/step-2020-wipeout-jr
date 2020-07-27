@@ -1,19 +1,43 @@
-<p ng-show='userInfoCtrl.loadingInfo'>Loading...</p> 
+<p ng-show='profileCtrl.loadingInfo'>Loading...</p> 
 
-<div ng-show='!userInfoCtrl.loadingInfo && userInfoCtrl.isLoggedIn() && userInfoCtrl.userInfo.nickname'>
+<div ng-show='!profileCtrl.loadingInfo'>
 
-    <p>Hello {{profileCtrl.userInfo.nickname}}!</p>
-    <p>Your Email: {{profileCtrl.userInfo.email}}</p>
+    <div ng-show='profileCtrl.isLoggedIn() && profileCtrl.userInfo.nickname'>
+        <p>Hello {{profileCtrl.userInfo.nickname}}!</p>
+        <p>Your Email: {{profileCtrl.userInfo.email}}</p>
+        <p>Your Nickname: {{profileCtrl.userInfo.nickname}}</p>
 
+        <div>
+            <p>Update your nickname here:</p>
+            <form method="post" action="/user-info">
+                <input name='nickname' type='text'/>
+                <button>Submit</button>
+            </form>
+        </div>
+
+        <div>
+            <p>Reviews left by {{profileCtrl.userInfo.nickname}}:</p>
+            {{profileCtrl.userReviews}}
+        </div>
     </div>
-        <p>Update your nickname here:</p>
-        <form method="post" action="/user-info">
-            <input name='nickname' type='text'/>
-            <button>Submit</button>
-        </form>
+
+    <div ng-show='profileCtrl.isLoggedIn() && !profileCtrl.userInfo.nickname'>
+        <p>Hello!</p>
+        <p>Your Email: {{profileCtrl.userInfo.email}}</p>
+
+        <div>
+            <p>Set your nickname here to save your info:</p>
+            <form method="post" action="/user-info">
+                <input name='nickname' type='text'/>
+                <button>Submit</button>
+            </form>
+        </div>
     </div>
 
-    <p>ng-show=''
+    <div ng-show='!profileCtrl.isLoggedIn()'>
+        <p>Hello!</p>
+        <p>You have not logged in yet, log in above to view your data</p> 
+    </div>
 
 </div>
 

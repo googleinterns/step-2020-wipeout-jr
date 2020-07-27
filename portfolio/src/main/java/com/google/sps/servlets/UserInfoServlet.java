@@ -78,7 +78,7 @@ public class UserInfoServlet extends HttpServlet {
     User newUser = User.create(email, nickname);
     userStorage.upload(newUser);
 
-    response.sendRedirect("/");
+    response.sendRedirect("/#!/profile-page");
   }
 
   /**

@@ -11,7 +11,7 @@ angular.module('profilePage').component('profilePage', {
       vm.loadingInfo = false;
     });
 
-    $http.get('user-review').then(function(respose) {
+    $http.get('User-review').then(function(response) {
         vm.userReviews = response.data;
         vm.loadingReviews = false;
     })

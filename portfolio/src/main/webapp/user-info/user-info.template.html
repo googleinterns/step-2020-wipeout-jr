@@ -6,10 +6,17 @@
 
 <p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && userInfoCtrl.userInfo.nickname'>Hello {{userInfoCtrl.userInfo.nickname}}</a>!</p>
 
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn()'><a ng-href='#!/profile-page'>Profile Page</a></p>
+
 <div ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn()'>
     <div ng-show='!userInfoCtrl.userInfo.nickname'>
+        <p>Set your nickname <a ng-href='profile-page'>here</p>
+    </p>
+    <div ng-show='userInfoCtrl.userInfo.nickname'>
+        <p>Update your nickname <a ng-href='profile-page'>here</p>
+    </p>
         <!-- TODO: create a user profile page where they can edit this info, linked from the email/nickname shown here -->
-        <p>Your email is {{userInfoCtrl.userInfo.email}}</p>
+        <!-- <p>Your email is {{userInfoCtrl.userInfo.email}}</p>
         <p>Set your nickname here to save your data (your username cannot be empty):</p>
     </div>
     <div ng-show='userInfoCtrl.userInfo.nickname'>
@@ -19,5 +26,5 @@
     <form method="post" action="/user-info">
         <input name='nickname' type='text'/>
         <button>Submit</button>
-    </form>
+    </form> -->
 </div>
