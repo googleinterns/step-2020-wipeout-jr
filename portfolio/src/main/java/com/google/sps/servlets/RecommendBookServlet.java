@@ -36,8 +36,7 @@ public class RecommendBookServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int bookId = Integer.parseInt(request.getParameter("id"));
     Book book = bookList.get(bookId);
-    List<Book> fullBookList = new ArrayList<>(bookList.values());
-    GenreRecommender rec = new GenreRecommender(fullBookList);
+    GenreRecommender rec = new GenreRecommender(new ArrayList(bookList.values()));
     List<Book> recommendedBooks = rec.getTopNMatches(book, 3);
 
     String jsonBooks = toJSON(recommendedBooks);
