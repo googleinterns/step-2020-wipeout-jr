@@ -31,7 +31,7 @@ public class AdminBookUploadServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //if not working locally, try deleting local_db.bin folder in appengine generated files
+    // if not working locally, try deleting local_db.bin folder in appengine generated files
     String failedBooks = UPLOAD_ERROR_MSG;
     int successes = 0;
     for (Book book : bookList.values()) {
@@ -42,7 +42,8 @@ public class AdminBookUploadServlet extends HttpServlet {
         failedBooks += "\n\t" + book.title() + " because of " + e + ".";
       }
     }
-    String proportionMsg = "Uploaded " + successes + " out of " + bookList.values().size() + " books.";
+    String proportionMsg =
+        "Uploaded " + successes + " out of " + bookList.values().size() + " books.";
     response.setContentType("application/json");
     if (failedBooks.equals(UPLOAD_ERROR_MSG)) {
       response.getWriter().println("Data Uploaded!");
@@ -51,4 +52,3 @@ public class AdminBookUploadServlet extends HttpServlet {
     }
   }
 }
-

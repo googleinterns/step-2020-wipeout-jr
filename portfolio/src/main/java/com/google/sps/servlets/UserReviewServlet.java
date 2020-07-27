@@ -34,9 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-* Servlet gets all of a user's reviews by email
-*/
-@WebServlet("/User-review")
+ * Servlet gets all of a user's reviews by email
+ */
+@WebServlet("/user-review")
 public class UserReviewServlet extends HttpServlet {
   private ReviewDaoDatastore reviewDao = new ReviewDaoDatastore();
   private Gson gson = new Gson();
@@ -46,9 +46,9 @@ public class UserReviewServlet extends HttpServlet {
     response.setContentType("application/json");
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-        String email = userService.getCurrentUser().getEmail(); // user email is used as id
-        ImmutableSet<Review> userReviews = reviewDao.getAllByEmail(email);
-        response.getWriter().println(gson.toJson(userReviews));
+      String email = userService.getCurrentUser().getEmail(); // user email is used as id
+      ImmutableSet<Review> userReviews = reviewDao.getAllByEmail(email);
+      response.getWriter().println(gson.toJson(userReviews));
     }
   }
 }

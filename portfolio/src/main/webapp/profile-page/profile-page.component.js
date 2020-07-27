@@ -11,17 +11,17 @@ angular.module('profilePage').component('profilePage', {
       vm.loadingInfo = false;
     });
 
-    $http.get('User-review').then(function(response) {
-        vm.userReviews = response.data;
-        vm.loadingReviews = false;
+    $http.get('user-review').then(function(response) {
+      vm.userReviews = response.data;
+      vm.loadingReviews = false;
     })
 
     vm.isLoggedIn = function() {
-        if (!(vm.userInfo ==="Logged Out")){
-            return true;
-        } else {
-            return false;
-        }
+      if (!(vm.userInfo === 'Logged Out')) {
+        return true;
+      } else {
+        return false;
+      }
     };
   },
   controllerAs: 'profileCtrl'
