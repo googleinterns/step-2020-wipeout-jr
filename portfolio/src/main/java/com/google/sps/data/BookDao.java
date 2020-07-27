@@ -1,7 +1,7 @@
 package com.google.sps.data;
 import com.google.sps.data.Book;
 import java.util.List;
- 
+
 // Given an instance of Book, persists it in the datastore.
 public interface BookDao {
   void create(Book book);

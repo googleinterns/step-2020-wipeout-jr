@@ -37,151 +37,141 @@ public class BookEntityParser {
     long timeStamp = System.currentTimeMillis();
     Entity bookEntity = new Entity(isbnKey);
 
-    //try {
-      bookEntity.setProperty(TIME_STAMP, timeStamp);
-      bookEntity.setProperty(ISBN, book.isbn());
+    bookEntity.setProperty(TIME_STAMP, timeStamp);
+    bookEntity.setProperty(ISBN, book.isbn());
 
-      if (book.title() != "N/A") {
-        bookEntity.setProperty(TITLE, book.title());
-      }
+    if (book.title() != "N/A") {
+      bookEntity.setProperty(TITLE, book.title());
+    }
 
-      if (book.language() != "N/A") {
-        bookEntity.setProperty(LANGUAGE, book.language());
-      }
+    if (book.language() != "N/A") {
+      bookEntity.setProperty(LANGUAGE, book.language());
+    }
 
-      if (book.description() != "N/A") {
-        bookEntity.setProperty(DESCRIPTION, new Text(book.description()));
-      }
+    if (book.description() != "N/A") {
+      bookEntity.setProperty(DESCRIPTION, new Text(book.description()));
+    }
 
-      if (book.infoLink() != "N/A") {
-        bookEntity.setProperty(INFO_LINK, book.infoLink());
-      }
+    if (book.infoLink() != "N/A") {
+      bookEntity.setProperty(INFO_LINK, book.infoLink());
+    }
 
-      if (book.pageCount() != 0) {
-        bookEntity.setProperty(PAGE_COUNT, book.pageCount());
-      }
+    if (book.pageCount() != 0) {
+      bookEntity.setProperty(PAGE_COUNT, book.pageCount());
+    }
 
-      if (book.publishedDate() != "N/A") {
-        bookEntity.setProperty(PUBLISHED_DATE, book.publishedDate());
-      }
+    if (book.publishedDate() != "N/A") {
+      bookEntity.setProperty(PUBLISHED_DATE, book.publishedDate());
+    }
 
-      if (book.publisher() != "N/A") {
-        bookEntity.setProperty(PUBLISHER, book.publisher());
-      }
+    if (book.publisher() != "N/A") {
+      bookEntity.setProperty(PUBLISHER, book.publisher());
+    }
 
-      if (book.maturityRating() != "N/A") {
-        bookEntity.setProperty(MATURITY_RATING, book.maturityRating());
-      }
+    if (book.maturityRating() != "N/A") {
+      bookEntity.setProperty(MATURITY_RATING, book.maturityRating());
+    }
 
-      if (book.genre() != null) {
-        bookEntity.setProperty(GENRE, book.genre());
-      }
-      
-      if (book.categories() != null) {
-        bookEntity.setProperty(CATEGORIES, book.categories());
-      }
+    if (book.genre() != null) {
+      bookEntity.setProperty(GENRE, book.genre());
+    }
 
-      if (book.authors() != null) {
-        bookEntity.setProperty(AUTHORS, book.authors());
-      }
+    if (book.categories() != null) {
+      bookEntity.setProperty(CATEGORIES, book.categories());
+    }
 
-      if (book.thumbnail() != "N/A") {
-        bookEntity.setProperty(THUMBNAIL, book.thumbnail());
-      }
-    // } catch (Exception e) {
-    //   throw new Exception("There was an error when building the book from the entity", e);
-    // }
+    if (book.authors() != null) {
+      bookEntity.setProperty(AUTHORS, book.authors());
+    }
+
+    if (book.thumbnail() != "N/A") {
+      bookEntity.setProperty(THUMBNAIL, book.thumbnail());
+    }
 
     return bookEntity;
   }
 
   /**
-  * Parse a book from an entity
-  * @param bookEntity: the entity that you want to create a book from
-  */
-  public static Book parseBook(Entity bookEntity){
+   * Parse a book from an entity
+   * @param bookEntity: the entity that you want to create a book from
+   */
+  public static Book parseBook(Entity bookEntity) {
     Book.Builder builder = Book.builder();
 
-    //try {
-      if (bookEntity.hasProperty(ISBN)) {
-        String isbn = (String) bookEntity.getProperty(ISBN);
-        builder.isbn(isbn);
-      }
+    if (bookEntity.hasProperty(ISBN)) {
+      String isbn = (String) bookEntity.getProperty(ISBN);
+      builder.isbn(isbn);
+    }
 
-      if (bookEntity.hasProperty(TITLE)) {
-        String title = (String) bookEntity.getProperty(TITLE);
-        builder.title(title);
-      }
+    if (bookEntity.hasProperty(TITLE)) {
+      String title = (String) bookEntity.getProperty(TITLE);
+      builder.title(title);
+    }
 
-      if (bookEntity.hasProperty(LANGUAGE)) {
-        String lang = (String) bookEntity.getProperty(LANGUAGE);
-        builder.language(lang);
-      }
-      
-      if (bookEntity.hasProperty(DESCRIPTION)) {
-        //check the type and handle differently for strings and text
-        Object bookEntityObj = bookEntity.getProperty(DESCRIPTION);
-        if(bookEntityObj instanceof String){
-            builder.description((String)bookEntityObj);
-        }else{
-            Text descriptionAsText = (Text) bookEntity.getProperty(DESCRIPTION);
-            String description = descriptionAsText.getValue();
-            builder.description(description);
-        }
-      }
-        
+    if (bookEntity.hasProperty(LANGUAGE)) {
+      String lang = (String) bookEntity.getProperty(LANGUAGE);
+      builder.language(lang);
+    }
 
-      if (bookEntity.hasProperty(INFO_LINK)) {
-        String infoLink = (String) bookEntity.getProperty(INFO_LINK);
-        builder.infoLink(infoLink);
+    if (bookEntity.hasProperty(DESCRIPTION)) {
+      // check the type and handle differently for strings and text
+      Object bookEntityObj = bookEntity.getProperty(DESCRIPTION);
+      if (bookEntityObj instanceof String) {
+        builder.description((String) bookEntityObj);
+      } else {
+        Text descriptionAsText = (Text) bookEntity.getProperty(DESCRIPTION);
+        String description = descriptionAsText.getValue();
+        builder.description(description);
       }
+    }
 
-      if (bookEntity.hasProperty(PAGE_COUNT)) {
-        Long tempPageCount = (Long) bookEntity.getProperty(PAGE_COUNT);
-        int pageCount = tempPageCount.intValue();
-        builder.pageCount(pageCount);
-      }
+    if (bookEntity.hasProperty(INFO_LINK)) {
+      String infoLink = (String) bookEntity.getProperty(INFO_LINK);
+      builder.infoLink(infoLink);
+    }
 
-      if (bookEntity.hasProperty(PUBLISHED_DATE)) {
-        String pubDate = (String) bookEntity.getProperty(PUBLISHED_DATE);
-        builder.publishedDate(pubDate);
-      }
+    if (bookEntity.hasProperty(PAGE_COUNT)) {
+      Long tempPageCount = (Long) bookEntity.getProperty(PAGE_COUNT);
+      int pageCount = tempPageCount.intValue();
+      builder.pageCount(pageCount);
+    }
 
-      if (bookEntity.hasProperty(PUBLISHER)) {
-        String publisher = (String) bookEntity.getProperty(PUBLISHER);
-        builder.publisher(publisher);
-      }
+    if (bookEntity.hasProperty(PUBLISHED_DATE)) {
+      String pubDate = (String) bookEntity.getProperty(PUBLISHED_DATE);
+      builder.publishedDate(pubDate);
+    }
 
-      if (bookEntity.hasProperty(MATURITY_RATING)) {
-        String matRate = (String) bookEntity.getProperty(MATURITY_RATING);
-        builder.maturityRating(matRate);
-      }
+    if (bookEntity.hasProperty(PUBLISHER)) {
+      String publisher = (String) bookEntity.getProperty(PUBLISHER);
+      builder.publisher(publisher);
+    }
 
-      if (bookEntity.hasProperty(GENRE)) {
-        Set<String> genre = new HashSet<String>();
-        ArrayList<String> genreList = (ArrayList<String>) bookEntity.getProperty(GENRE);
-        genre.addAll(genreList);
-        builder.genre(genre);
-      }
-      
-      if (bookEntity.hasProperty(CATEGORIES) && bookEntity.getProperty(CATEGORIES) != null) {
-        ArrayList<String> categories = (ArrayList<String>) bookEntity.getProperty(CATEGORIES);
-        builder.categories(categories);
-      }
+    if (bookEntity.hasProperty(MATURITY_RATING)) {
+      String matRate = (String) bookEntity.getProperty(MATURITY_RATING);
+      builder.maturityRating(matRate);
+    }
 
-      if (bookEntity.hasProperty(AUTHORS)) {
-        ArrayList<String> authors = (ArrayList<String>) bookEntity.getProperty(AUTHORS);
-        builder.authors(authors);
-      }
+    if (bookEntity.hasProperty(GENRE)) {
+      Set<String> genre = new HashSet<String>();
+      ArrayList<String> genreList = (ArrayList<String>) bookEntity.getProperty(GENRE);
+      genre.addAll(genreList);
+      builder.genre(genre);
+    }
 
-      // nested in map {}
-      if (bookEntity.hasProperty(THUMBNAIL)) {
-        String thumbnail = (String) bookEntity.getProperty(THUMBNAIL);
-        builder.thumbnail(thumbnail);
-      }
-    // } catch (Exception e) {
-    //   throw new Exception("There was an error when building the book from the entity", e);
-    // }
+    if (bookEntity.hasProperty(CATEGORIES) && bookEntity.getProperty(CATEGORIES) != null) {
+      ArrayList<String> categories = (ArrayList<String>) bookEntity.getProperty(CATEGORIES);
+      builder.categories(categories);
+    }
+
+    if (bookEntity.hasProperty(AUTHORS)) {
+      ArrayList<String> authors = (ArrayList<String>) bookEntity.getProperty(AUTHORS);
+      builder.authors(authors);
+    }
+
+    if (bookEntity.hasProperty(THUMBNAIL)) {
+      String thumbnail = (String) bookEntity.getProperty(THUMBNAIL);
+      builder.thumbnail(thumbnail);
+    }
 
     Book book = builder.build();
     return book;
