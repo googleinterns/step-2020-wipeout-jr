@@ -1,15 +1,16 @@
 <div>
     <h1> The Books </h1>
-    <p>Click on a book below to view more info about it!</p>
+    <p class="subHeads">Click on a book below to view more info about it!</p>
 </div>
 
 <br/><br/>
 
-<ul >
+<ul style="list-style-type:none">
     <li ng-repeat="book in bookListCtrl.bookList">
+    <link href="style.css" rel="stylesheet" />
         <!-- $index tells the page to route to the id of the book -->
-        <a ng-href="#!/book-detail/{{$index}}">{{book.title}}</a> 
-        <p>{{book.genre}}</p>
+        <a ng-href="#!/book-detail/{{$index}}" class="booklst" target="_blank">{{book.title}}</a> 
+        <p class="subHeads">{{book.genre}}</p>
 
     </li>
 </ul>
