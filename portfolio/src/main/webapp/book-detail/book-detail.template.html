@@ -1,6 +1,14 @@
 <div>
+    <link href="style.css" rel="stylesheet" />
     <title>{{bookDetailCtrl.book.title}}</title>
         <h2>{{bookDetailCtrl.book.title}}</h2>
-        <p>Genre(s): {{bookDetailCtrl.book.genre}}</p>
-        <p>Reviews: {{bookDetailCtrl.book.reviews}}</p>
+        <p class="booklst">Genre(s): </p> <p>{{bookDetailCtrl.book.genre}}</p>
+        <p class="booklst">Recommended Books: </p>
+        <p>
+            <li ng-repeat="book in bookDetailCtrl.recbooks">
+                {{book.title}}
+            </li>
+        </p>
+        <p class="booklst">Reviews: </p> <p>{{bookDetailCtrl.book.reviews}}</p>
+
 </div>

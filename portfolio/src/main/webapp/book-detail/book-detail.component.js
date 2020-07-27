@@ -84,6 +84,12 @@ angular.module('bookDetail').component('bookDetail', {
                 '<br>Error Message: ' + errorMessage);
       });
     }
+
+    $http.get('bookRecommendationById', {params: {'id': vm.bookId}})
+    .then(function(response) {
+        vm.recbooks = response.data;
+    })
+
   },
   controllerAs: 'bookDetailCtrl'
 });
