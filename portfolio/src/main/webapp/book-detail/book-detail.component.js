@@ -86,8 +86,8 @@ angular.module('bookDetail').component('bookDetail', {
     }
 
     $http.get('bookRecommendationById', {params: {'id': vm.bookId}})
-    .then(function(response1) {
-        vm.recbooks = response1.data;
+    .then(function(response) {
+        vm.recbooks = response.data;
     })
 
   },

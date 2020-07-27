@@ -27,7 +27,7 @@ public class RecommendBookServlet extends HttpServlet {
       throw new ServletException("Error reading CSV file", ex);
     }
   }
-  private static String toJSON(List<String> books) {
+  private static String toJSON(List<Book> books) {
     Gson gson = new Gson();
     return gson.toJson(books);
   }
@@ -39,13 +39,8 @@ public class RecommendBookServlet extends HttpServlet {
     List<Book> fullBookList = new ArrayList<>(bookList.values());
     GenreRecommender rec = new GenreRecommender(fullBookList);
     List<Book> recommendedBooks = rec.getTopNMatches(book, 3);
-    List<String> recommendedTitles = new ArrayList<String>();
 
-    for (Book recBook: recommendedBooks) {
-        recommendedTitles.add(recBook.title());
-    }
-
-    String jsonBooks = toJSON(recommendedTitles);
+    String jsonBooks = toJSON(recommendedBooks);
     response.setContentType("application/json;");
     response.getWriter().println(jsonBooks);
   }
