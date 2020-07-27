@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserInfoServlet extends HttpServlet {
   private UserDaoDatastore userStorage = new UserDaoDatastore();
   private Gson gson = new Gson();
+  private static final String PROFILE_LINK = "/#!/profile-page";
 
   @Override
   public void init() {
@@ -72,14 +73,14 @@ public class UserInfoServlet extends HttpServlet {
 
     // check that input is non-empty
     if (nickname.isEmpty()) {
-      response.sendRedirect("/#!/profile-page");
+      response.sendRedirect(PROFILE_LINK);
       return;
     }
 
     User newUser = User.create(email, nickname);
     userStorage.upload(newUser);
 
-    response.sendRedirect("/#!/profile-page");
+    response.sendRedirect(PROFILE_LINK);
   }
 
   /**

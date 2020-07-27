@@ -29,12 +29,12 @@ import org.mockito.Mockito;
  */
 @RunWith(JUnit4.class)
 public final class UserReviewServletTest extends Mockito {
-  private ReviewDao reviewDao = new ReviewDaoDatastore();
+  private ReviewDaoDatastore reviewDao = new ReviewDaoDatastore();
   private final HttpServletRequest request = mock(HttpServletRequest.class);
   private final HttpServletResponse response = mock(HttpServletResponse.class);
   private final UserReviewServlet servlet = new UserReviewServlet();
   private static final String EMAIL = "unknown@email.com1";
-  private static final String ISBN = "1111111111112";
+  private static final String ISBN = "1111111111111";
   private static final String REVIEW = "I am sick to death of books like this that are nothing but overblown cash-guzzlers";
   private static final String DOMAIN = "test.com";
 
@@ -72,7 +72,11 @@ public final class UserReviewServletTest extends Mockito {
     Mockito.when(response.getWriter()).thenReturn(printWriter);
 
     Review review = Review.create(REVIEW, ISBN, EMAIL);
-    reviewDao.uploadNew(review);
+    if (reviewDao.reviewExists(ISBN,EMAIL)) {
+        reviewDao.updateReview(review);
+    } else {
+        reviewDao.uploadNew(review);
+    }
     servlet.doGet(request,response);
 
     Assert.assertTrue(stringWriter.toString().contains("cash-guzzlers"));
