@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * Returns book titles and reviews as a JSON hashmap, with IDs, e.g. {4:[{"title": Othello,
  * "reviews": {"Nice", "Bad"}}]}
  */
-@WebServlet("/book-data")
+@WebServlet("/books")
 public class BookServlet extends HttpServlet {
   private Map<Integer, Book> books;
 
