@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * Book detail component calls this servlet and provides
  * a book's ISBN to load on book detail page.
  */
-@WebServlet("/singleBookById")
+@WebServlet("/book")
 public class SingleBookServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
