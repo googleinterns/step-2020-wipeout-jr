@@ -6,8 +6,10 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 import com.google.sps.data.Book;
 import com.google.sps.data.BookDao;
 import com.google.sps.data.BookDaoDatastore;
+import com.google.sps.servlets.AdminBookUploadServlet;
 import com.google.sps.servlets.BookServlet;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
@@ -30,12 +32,18 @@ public final class BookServletTest extends Mockito {
   private BookDao bookDao = new BookDaoDatastore();
   private final HttpServletRequest request = mock(HttpServletRequest.class);
   private final HttpServletResponse response = mock(HttpServletResponse.class);
-  private final BookServlet servlet = new BookServlet();
+  private final AdminBookUploadServlet uploadServlet = new AdminBookUploadServlet();
+  private final BookServlet bookServlet = new BookServlet();
   private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
   @Before
   public void setUp() {
     helper.setUp();
+    try{
+      uploadServlet.doGet(request,response);
+    }catch(IOException e){
+        Assert.fail();
+    }
   }
 
   @After
@@ -49,7 +57,7 @@ public final class BookServletTest extends Mockito {
     PrintWriter printWriter = new PrintWriter(stringWriter);
     when(response.getWriter()).thenReturn(printWriter);
 
-    servlet.doGet(request, response);
+    bookServlet.doGet(request, response);
 
     verify(response).setContentType("application/json");
   }
@@ -60,7 +68,7 @@ public final class BookServletTest extends Mockito {
     PrintWriter printWriter = new PrintWriter(stringWriter);
     Mockito.when(response.getWriter()).thenReturn(printWriter);
 
-    servlet.doGet(request, response);
+    bookServlet.doGet(request, response);
     Assert.assertTrue(stringWriter.toString().contains("A Court of Wings and Ruin"));
   }
 
@@ -76,7 +84,7 @@ public final class BookServletTest extends Mockito {
 //     Review review2 = Review.create(REVIEW_2, ISBN, EMAIL);
 //     reviewDao.updateReview(review2);
 
-//     servlet.doGet(request, response);
+//     bookServlet.doGet(request, response);
 
 //     Assert.assertTrue(stringWriter.toString().contains("Devotion to a cause"));
 //   }
@@ -89,7 +97,7 @@ public final class BookServletTest extends Mockito {
 //     PrintWriter printWriter = new PrintWriter(stringWriter);
 //     Mockito.when(response.getWriter()).thenReturn(printWriter);
 
-//     servlet.doGet(request, response);
+//     bookServlet.doGet(request, response);
 
 //     Assert.assertTrue(stringWriter.toString().isEmpty());
 //   }
