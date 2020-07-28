@@ -1,0 +1,18 @@
+<p ng-show='userInfoCtrl.loading'>Loading...</p> 
+
+<p ng-show='!userInfoCtrl.loading && !userInfoCtrl.isLoggedIn()'>Hello Stranger</a>!</p>
+
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && !userInfoCtrl.userInfo.nickname'>Hello new friend</a>!</p>
+
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn() && userInfoCtrl.userInfo.nickname'>Hello {{userInfoCtrl.userInfo.nickname}}</a>!</p>
+
+<p ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn()'><a ng-href='#!/profile-page'>Profile Page</a></p>
+
+<div ng-show='!userInfoCtrl.loading && userInfoCtrl.isLoggedIn()'>
+    <div ng-show='!userInfoCtrl.userInfo.nickname'>
+        <p>Set your nickname <a ng-href='/#!/profile-page'>here</p>
+    </p>
+    <div ng-show='userInfoCtrl.userInfo.nickname'>
+        <p>Update your nickname <a ng-href='/#!/profile-page'>here</p>
+    </p>
+</div>
