@@ -5,14 +5,8 @@
         <h2>{{bookDetailCtrl.book.title}}</h2>
         <p>Author(s): {{bookDetailCtrl.book.authors}}</p>
         <p>Categories: {{bookDetailCtrl.book.categories}}</p>
-        <p>Language(s): {{bookDetailCtrl.book.language}}
-            <a href = "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">
-                <i>(View language codes here)</i> 
-            </a>
-        </p>
-        <p>Information:  
-            <i><a ng-href = " {{bookDetailCtrl.book.infoLink}}" target="_blank">{{bookDetailCtrl.book.infoLink}}</a></i>
-        </p> 
+        <p>Language(s): {{bookDetailCtrl.book.language}}</p>
+        <p>Information: {{bookDetailCtrl.book.infoLink}}</p>
         <p>Page count: {{bookDetailCtrl.book.pageCount}}</p>
         <p>Published date: {{bookDetailCtrl.book.publishedDate}}</p>
         <p>Publisher(s): {{bookDetailCtrl.book.publisher}}</p>
@@ -28,6 +22,3 @@
         </p>
         <p class="booklst">Reviews: </p> <p>{{bookDetailCtrl.book.reviews}}</p>
 </div>
- 
- 
-

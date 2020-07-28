@@ -1,58 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Better Reads Home</title>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Better Reads</title>
+    <link rel="stylesheet" href="style.css">
 
-        <!-- Bootstrap core CSS -->
-        <link href="bootstrap.css" rel="stylesheet" />
 
-        <style>
-            .bd-placeholder-img {
-                font-size: 1.125rem;
-                text-anchor: middle;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
+    <!-- External Library Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-mocks.js"></script>
 
-            @media (min-width: 768px) {
-                .bd-placeholder-img-lg {
-                    font-size: 3.5rem;
-                }
-            }
-        </style>
-        <!-- Custom styles for this template -->
-        <link href="style.css" rel="stylesheet" />
-    </head>
-    <body class="text-center">
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <h3 class="masthead-brand" href="#!/book-list">Better Reads</h3>
-                    <nav class="nav nav-masthead justify-content-center">
-                        <a class="nav-link active" href="#">Home</a>
-                        <a class="nav-link" href="#">Login</a>
-                        <a class="nav-link" href="books.html">The Books</a>
-                        <a class="nav-link" href="aboutUs.html">About Us</a>
-                    </nav>
-                </div>
-            </header>
+    <!-- AngularJS Components -->
+    <script src="book-list/book-list.module.js"></script>
+    <script src="book-list/book-list.component.js"></script>
+    <script src="book-detail/book-detail.module.js"></script>
+    <script src="book-detail/book-detail.component.js"></script>
+    <script src="user-status/user-status.module.js"></script>
+    <script src="user-status/user-status.component.js"></script>
+    <script src="user-info/user-info.module.js"></script>
+    <script src="user-info/user-info.component.js"></script>
+    <script src="user-auth/user-auth.module.js"></script>
+    <script src="user-auth/user-auth.component.js"></script>
+    <script src="profile-page/profile-page.module.js"></script>
+    <script src="profile-page/profile-page.component.js"></script>
 
-            <main role="main" class="inner cover">
-                <h1 class="cover-heading">Books. Reimagined.</h1>
-                <p class="lead">Your reviews. Our recommendations.</p>
-                <p class="lead">
-                    <a href="books.html" class="btn btn-lg btn-secondary">See the books</a>
-                </p>
-            </main>
+    <script src="app.js"></script>
+    <script src="app.config.js"></script>
+  </head>
+  <body ng-app = "betterReadsApp">
 
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>An open source <a href="https://github.com/googleinterns/step-2020-wipeout-jr/tree/master/portfolio">project</a>, by Team Wipeout Jr.</p>
-                </div>
-            </footer>
-        </div>
-    </body>
+    <a href="#!/book-list"> BetterReads </a>
+    <user-info></user-info>
+    <user-auth></user-auth>
+
+    <!-- <p> You could put something like a toolbar here that would be on every single page! </p>     -->
+    <!-- TODO: someone should totally add a toolbar (with links between pages) here :P -->
+    <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
+    <!-- But for now, I put a link to the book-list which is currently our 'homepage'. -->
+
+    <br/><br/>
+
+    <!-- Whichever AngularJS component is 'active' will show up in the div below this due to the 'ng-view' annotation. -->
+    <!-- See app.config.js for the views / components that various URLs are associated with. -->
+    <div ng-view></div>
+
+    <!-- TODO: this stuff will also appear on every single page until someone gets rid of it! -->
+    <!-- Basically, anything outside of the div with ng-view is stuff that the user will always see. -->
+    <!-- So, generally things like toolbars, footers, etc. that are always at
+        the top / bottom of websites are perfect for putting above/below the ng-view div. -->
+    <div id="content">
+      <p>2020 Team Wipeout Jr.</p>
+      <p>Click here to get a random message:</p>
+    </div>
+  </body>
 </html>
+
