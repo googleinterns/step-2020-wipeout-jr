@@ -173,7 +173,7 @@ public class ReviewDaoDatastore implements ReviewDao {
    * @param email: email of user to be checked
    * @return whether a review exists for this book/user pair
    */
-  public boolean reviewExists(String isbn, String email) {
+  private boolean reviewExists(String isbn, String email) {
     Entity reviewEntity;
     try {
       reviewEntity = datastore.get(createKey(isbn, email));

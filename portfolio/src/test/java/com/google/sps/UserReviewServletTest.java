@@ -2,6 +2,7 @@ package com.google.sps;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.sps.data.Book;
@@ -35,14 +36,17 @@ public final class UserReviewServletTest extends Mockito {
   private final UserReviewServlet servlet = new UserReviewServlet();
   private static final String EMAIL = "unknown@email.com1";
   private static final String ISBN = "1111111111111";
-  private static final String REVIEW = "I am sick to death of books like this that are nothing but overblown cash-guzzlers";
+  private static final String REVIEW_1 =
+      "I am sick to death of books like this that are nothing but overblown cash-guzzlers";
+  private static final String REVIEW_2 =
+      "Devotion to a cause to a vision of the future might ultimately be a crack in the armor of a small town.";
   private static final String DOMAIN = "test.com";
 
-  private final LocalServiceTestHelper helper =
-      new LocalServiceTestHelper(new LocalUserServiceTestConfig())
-          .setEnvIsLoggedIn(true)
-          .setEnvEmail(EMAIL)
-          .setEnvAuthDomain(DOMAIN);
+  private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+      new LocalUserServiceTestConfig(), new LocalDatastoreServiceTestConfig())
+                                                    .setEnvIsLoggedIn(true)
+                                                    .setEnvEmail(EMAIL)
+                                                    .setEnvAuthDomain(DOMAIN);
 
   @Before
   public void setUp() {
@@ -66,20 +70,34 @@ public final class UserReviewServletTest extends Mockito {
   }
 
   @Test
-  public void userLoggedIn() throws Exception {
+  public void uploadNewReview() throws Exception {
     StringWriter stringWriter = new StringWriter();
     PrintWriter printWriter = new PrintWriter(stringWriter);
     Mockito.when(response.getWriter()).thenReturn(printWriter);
 
-    Review review = Review.create(REVIEW, ISBN, EMAIL);
-    if (reviewDao.reviewExists(ISBN,EMAIL)) {
-        reviewDao.updateReview(review);
-    } else {
-        reviewDao.uploadNew(review);
-    }
-    servlet.doGet(request,response);
+    Review review = Review.create(REVIEW_1, ISBN, EMAIL);
+    reviewDao.uploadNew(review);
+
+    servlet.doGet(request, response);
 
     Assert.assertTrue(stringWriter.toString().contains("cash-guzzlers"));
+  }
+
+  @Test
+  public void updateExistingReview() throws Exception {
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
+    Mockito.when(response.getWriter()).thenReturn(printWriter);
+
+    Review review1 = Review.create(REVIEW_1, ISBN, EMAIL);
+    reviewDao.uploadNew(review1);
+
+    Review review2 = Review.create(REVIEW_2, ISBN, EMAIL);
+    reviewDao.updateReview(review2);
+
+    servlet.doGet(request, response);
+
+    Assert.assertTrue(stringWriter.toString().contains("Devotion to a cause"));
   }
 
   @Test

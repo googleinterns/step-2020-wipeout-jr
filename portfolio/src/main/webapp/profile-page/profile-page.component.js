@@ -12,7 +12,7 @@ angular.module('profilePage').component('profilePage', {
     });
 
     $http.get('admin-book-upload').then(function(response) {
-        vm.result = response.data;
+      vm.result = response.data;
     })
 
     $http.get('user-review').then(function(response) {
