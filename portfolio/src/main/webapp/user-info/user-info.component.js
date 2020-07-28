@@ -12,11 +12,11 @@ angular.module('userInfo').component('userInfo', {
     });
 
     vm.isLoggedIn = function() {
-        if (!(vm.userInfo ==="Logged Out")){
-            return true;
-        } else {
-            return false;
-        }
+      if (!(vm.userInfo === 'Logged Out')) {
+        return true;
+      } else {
+        return false;
+      }
     };
   },
   controllerAs: 'userInfoCtrl'

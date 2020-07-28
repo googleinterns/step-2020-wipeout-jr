@@ -4,6 +4,7 @@ angular.module('betterReadsApp').config([
   function config($routeProvider) {
     $routeProvider.when('/book-list', {template: '<book-list></book-list>'})
         .when('/book-detail/:bookId', {template: '<book-detail></book-detail>'})
+        .when('/profile-page', {template: '<profile-page><profile-page>'})
         .otherwise('/book-list');
   }
 ]);

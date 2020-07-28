@@ -14,7 +14,8 @@
 
 // AngularJS App Configuration
 angular.module('betterReadsApp', [
-  'ngRoute', 'bookList', 'bookDetail', 'userStatus', 'userInfo', 'userAuth'
+  'ngRoute', 'bookList', 'bookDetail', 'userStatus', 'userInfo', 'userAuth',
+  'profilePage'
 ]);
 
 /**

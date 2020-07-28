@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserInfoServlet extends HttpServlet {
   private UserDaoDatastore userStorage = new UserDaoDatastore();
   private Gson gson = new Gson();
+  private static final String PROFILE_LINK = "/#!/profile-page";
 
   @Override
   public void init() {
@@ -48,14 +49,15 @@ public class UserInfoServlet extends HttpServlet {
     response.setContentType("application/json");
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-        String email = userService.getCurrentUser().getEmail(); // user email is used as id
-        Optional<User> user = userStorage.get(email);
-        if (user.isPresent()) {
-            response.getWriter().println(gson.toJson(user.get()));
-        } else {
-            User newUser = User.create(email,""); // placeholder user where the nickname is an empty string
-            response.getWriter().println(gson.toJson(newUser));
-        }
+      String email = userService.getCurrentUser().getEmail(); // user email is used as id
+      Optional<User> user = userStorage.get(email);
+      if (user.isPresent()) { // if the user has been saved to datastore(has already set a nickname)
+        response.getWriter().println(gson.toJson(user.get()));
+      } else {
+        User newUser =
+            User.create(email, ""); // placeholder user where the nickname is an empty string
+        response.getWriter().println(gson.toJson(newUser));
+      }
 
     } else {
       response.getWriter().println(gson.toJson("Logged Out"));
@@ -69,16 +71,16 @@ public class UserInfoServlet extends HttpServlet {
     String nickname = request.getParameter("nickname");
     String email = userService.getCurrentUser().getEmail(); // user email is used as id
 
-    //check that input is non-empty
+    // check that input is non-empty
     if (nickname.isEmpty()) {
-        response.sendRedirect("/");
-        return;
+      response.sendRedirect(PROFILE_LINK);
+      return;
     }
 
     User newUser = User.create(email, nickname);
     userStorage.upload(newUser);
 
-    response.sendRedirect("/");
+    response.sendRedirect(PROFILE_LINK);
   }
 
   /**
