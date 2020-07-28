@@ -7,6 +7,11 @@ angular.module('bookDetail').component('bookDetail', {
         .then(function(response) {
           vm.book = response.data;
         })
+    
+    $http.get('/bookRecommendationById', {params: {'isbn': vm.bookIsbn}})
+        .then(function(response) {
+          vm.recommendedBooks = response.data;
+        })
   },
   controllerAs: 'bookDetailCtrl'
 });

@@ -12,12 +12,11 @@
         <p>Publisher(s): {{bookDetailCtrl.book.publisher}}</p>
         <p>Maturity Rating: {{bookDetailCtrl.book.maturityRating}}</p>
         <p>Description: {{bookDetailCtrl.book.description}}</p>
-        <p>Reviews: {{bookDetailCtrl.book.reviews}}</p>
         <p class="booklst">Genre(s): </p> <p>{{bookDetailCtrl.book.genre}}</p>
         <p class="booklst">Recommended Books: </p>
         <p>
-            <li ng-repeat="book in bookDetailCtrl.recbooks">
-                {{book.title}}
+            <li ng-repeat="eachBook in bookDetailCtrl.recommendedBooks">
+                <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
             </li>
         </p>
         <p class="booklst">Reviews: </p> <p>{{bookDetailCtrl.book.reviews}}</p>
