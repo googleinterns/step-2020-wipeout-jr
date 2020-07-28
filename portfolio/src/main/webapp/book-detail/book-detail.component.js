@@ -12,6 +12,11 @@ angular.module('bookDetail').component('bookDetail', {
         .then(function(response) {
           vm.recommendedBooks = response.data;
         })
+    
+    $http.get('/reviews', {params: {'isbn': vm.bookIsbn}})
+        .then(function(response) {
+          vm.reviews = response.data;
+        })
   },
   controllerAs: 'bookDetailCtrl'
 });
