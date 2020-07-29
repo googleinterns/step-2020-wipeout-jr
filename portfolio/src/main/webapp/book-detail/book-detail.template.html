@@ -5,21 +5,27 @@
         <h2>{{bookDetailCtrl.book.title}}</h2>
         <p>Author(s): {{bookDetailCtrl.book.authors}}</p>
         <p>Categories: {{bookDetailCtrl.book.categories}}</p>
-        <p>Language(s): {{bookDetailCtrl.book.language}}</p>
-        <p>Information: {{bookDetailCtrl.book.infoLink}}</p>
+        <p>Language(s): {{bookDetailCtrl.book.language}}
+            <a href = "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">
+                <i>(View language codes here)</i> 
+            </a>
+        </p>
+        <p>Information:  
+            <i><a ng-href = " {{bookDetailCtrl.book.infoLink}}" target="_blank">{{bookDetailCtrl.book.infoLink}}</a></i>
+        </p> 
         <p>Page count: {{bookDetailCtrl.book.pageCount}}</p>
         <p>Published date: {{bookDetailCtrl.book.publishedDate}}</p>
         <p>Publisher(s): {{bookDetailCtrl.book.publisher}}</p>
         <p>Maturity Rating: {{bookDetailCtrl.book.maturityRating}}</p>
         <p>Description: {{bookDetailCtrl.book.description}}</p>
-        <p>Reviews: {{bookDetailCtrl.book.reviews}}</p>
-        <p class="booklst">Genre(s): </p> <p>{{bookDetailCtrl.book.genre}}</p>
+        <p>Genre(s): {{bookDetailCtrl.book.genre}}</p>
         <p class="booklst">Recommended Books: </p>
         <p>
-            <li ng-repeat="book in bookDetailCtrl.recbooks">
-                {{book.title}}
+            <li ng-repeat="eachBook in bookDetailCtrl.recommendedBooks">
+                <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
             </li>
         </p>
+
         <p class="booklst">Reviews: </p> 
         <div>
             <p>Leave a review here:</p>
@@ -31,4 +37,12 @@
         </div>
         
         <p>{{bookDetailCtrl.book.reviews}}</p>
+
+        <p class="booklst">Reviews: </p>
+        <p>
+            <li ng-repeat="review in bookDetailCtrl.reviews">{{review.fullText}}</br></br></li>
+        </p>
 </div>
+ 
+ 
+
