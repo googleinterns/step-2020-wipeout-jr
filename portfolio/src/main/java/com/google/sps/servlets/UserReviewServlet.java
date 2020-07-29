@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
@@ -34,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet gets all of a user's reviews by email
+ * Servlet gets all of a user's reviews by email, and uploads new reviews made by users
  */
 @WebServlet("/user-review")
 public class UserReviewServlet extends HttpServlet {
@@ -50,5 +51,23 @@ public class UserReviewServlet extends HttpServlet {
       ImmutableSet<Review> userReviews = reviewDao.getAllByEmail(email);
       response.getWriter().println(gson.toJson(userReviews));
     }
+  }
+ 
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    
+    String userReviewText = request.getParameter("reviewText");
+    String isbn = request.getParameter("isbn");
+    String email = userService.getCurrentUser().getEmail();
+    
+    Review userReview = Review.create(userReviewText,isbn,email);
+    try {
+        reviewDao.uploadNew(userReview);
+    } catch (Exception ex) {
+        System.out.println(ex + ", Review for this book by the user already exists");
+    }
+    
+    response.sendRedirect("/#!/book-detail/" + isbn);
   }
 }

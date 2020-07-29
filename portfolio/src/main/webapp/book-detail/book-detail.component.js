@@ -6,7 +6,8 @@ angular.module('bookDetail').component('bookDetail', {
     $http.get('book', {params: {'isbn': vm.bookIsbn}})
         .then(function(response) {
           vm.book = response.data;
-        })
+        });
+    $http.get('')
   },
   controllerAs: 'bookDetailCtrl'
 });
