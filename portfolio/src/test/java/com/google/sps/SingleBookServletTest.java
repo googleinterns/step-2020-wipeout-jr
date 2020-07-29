@@ -6,7 +6,7 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 import com.google.sps.data.Book;
 import com.google.sps.data.BookDao;
 import com.google.sps.data.BookDaoDatastore;
-import com.google.sps.servlets.BookServlet;
+import com.google.sps.servlets.SingleBookServlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,14 +26,14 @@ import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
 /**
- * Test class for BookServlet class
+ * Test class for singleBookServlet class
  */
 @RunWith(JUnit4.class)
-public final class BookServletTest extends Mockito {
+public final class SingleBookServletTest extends Mockito {
   private BookDao bookDao = new BookDaoDatastore();
   private final HttpServletRequest request = mock(HttpServletRequest.class);
   private final HttpServletResponse response = mock(HttpServletResponse.class);
-  private final BookServlet bookServlet = new BookServlet();
+  private final SingleBookServlet singlebookServlet = new SingleBookServlet();
   private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final Book DEFAULT_1 = newBook("First Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891234");
   private static final Book DEFAULT_2 = newBook("Second Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891235");
@@ -72,22 +72,35 @@ public final class BookServletTest extends Mockito {
   public void correctContentType() throws Exception {
     StringWriter stringWriter = new StringWriter();
     PrintWriter printWriter = new PrintWriter(stringWriter);
+    Mockito.when(request.getParameter("isbn")).thenReturn(DEFAULT_1.isbn());
     when(response.getWriter()).thenReturn(printWriter);
 
-    bookServlet.doGet(request, response);
+    singlebookServlet.doGet(request, response);
 
     verify(response).setContentType("application/json");
   }
 
   @Test
-  public void getListOfBooks() throws Exception {
+  public void getFirstBook() throws Exception {
     StringWriter stringWriter = new StringWriter();
     PrintWriter printWriter = new PrintWriter(stringWriter);
+    Mockito.when(request.getParameter("isbn")).thenReturn(DEFAULT_1.isbn());
     Mockito.when(response.getWriter()).thenReturn(printWriter);
 
-    bookServlet.doGet(request, response);
+    singlebookServlet.doGet(request, response);
 
     Assert.assertTrue(stringWriter.toString().contains("First Example Book"));
+  }
+
+  @Test
+  public void getSecondBook() throws Exception {
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
+    Mockito.when(request.getParameter("isbn")).thenReturn(DEFAULT_2.isbn());
+    Mockito.when(response.getWriter()).thenReturn(printWriter);
+
+    singlebookServlet.doGet(request, response);
+
     Assert.assertTrue(stringWriter.toString().contains("Second Example Book"));
   }
 }
