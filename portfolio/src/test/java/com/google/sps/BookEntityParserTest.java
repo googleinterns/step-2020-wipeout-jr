@@ -1,7 +1,8 @@
+package com.google.sps;
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.sps.data.Book;
@@ -14,18 +15,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import org.json.JSONException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
-
 
 /**
    This is a test class for BookEntityParserTest.java
@@ -53,17 +53,21 @@ public final class BookEntityParserTest {
   private static final String ISBN = "ISBN_13";
 
   private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-      new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy()); 
-  private static final Book BOOK_1 = newBook("First Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891234");
-  private static final Book BOOK_2 = newBook("Second Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891235");
+      new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy());
+  private static final Book BOOK_1 =
+      newBook("First Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891234");
+  private static final Book BOOK_2 =
+      newBook("Second Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891235");
   private static Entity ENTITY_1;
   private static Entity ENTITY_2;
 
   @Before
   public void setUp() {
     helper.setUp();
-    ENTITY_1 = newEntity("First Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891234");
-    ENTITY_2 = newEntity("Second Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891235");
+    ENTITY_1 =
+        newEntity("First Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891234");
+    ENTITY_2 =
+        newEntity("Second Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891235");
   }
 
   @After
@@ -71,8 +75,8 @@ public final class BookEntityParserTest {
     helper.tearDown();
   }
 
-  private static Book newBook(String title, String category, String author, String genre,
-      String isbn) {
+  private static Book newBook(
+      String title, String category, String author, String genre, String isbn) {
     ArrayList<String> authors = new ArrayList<String>();
     authors.add(author);
     ArrayList<String> categories = new ArrayList<String>();
@@ -89,8 +93,8 @@ public final class BookEntityParserTest {
     return expected;
   }
 
-  private static Entity newEntity(String title, String category, String author, String genre,
-      String isbn) {
+  private static Entity newEntity(
+      String title, String category, String author, String genre, String isbn) {
     ArrayList<String> authors = new ArrayList<String>();
     authors.add(author);
     ArrayList<String> categories = new ArrayList<String>();
@@ -99,11 +103,11 @@ public final class BookEntityParserTest {
     genres.add(genre);
 
     Entity bookEntity = new Entity(KeyFactory.createKey(ENTITY_KIND, isbn));
-    bookEntity.setProperty(TITLE,title);
-    bookEntity.setProperty(GENRE,genres);
-    bookEntity.setProperty(CATEGORIES,categories);
-    bookEntity.setProperty(AUTHORS,authors);
-    bookEntity.setProperty(ISBN,isbn);
+    bookEntity.setProperty(TITLE, title);
+    bookEntity.setProperty(GENRE, genres);
+    bookEntity.setProperty(CATEGORIES, categories);
+    bookEntity.setProperty(AUTHORS, authors);
+    bookEntity.setProperty(ISBN, isbn);
 
     return bookEntity;
   }
@@ -125,14 +129,17 @@ public final class BookEntityParserTest {
   @Test
   public void parseEntity1() {
     Entity expected = ENTITY_1;
-    Entity actual = BookEntityParser.parseEntity(BOOK_1,KeyFactory.createKey(ENTITY_KIND, BOOK_1.isbn()));
+    Entity actual =
+        BookEntityParser.parseEntity(BOOK_1, KeyFactory.createKey(ENTITY_KIND, BOOK_1.isbn()));
     Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void parseEntity2() {
     Entity expected = ENTITY_2;
-    Entity actual = BookEntityParser.parseEntity(BOOK_2,KeyFactory.createKey(ENTITY_KIND, BOOK_2.isbn()));
+    Entity actual =
+        BookEntityParser.parseEntity(BOOK_2, KeyFactory.createKey(ENTITY_KIND, BOOK_2.isbn()));
     Assert.assertEquals(expected, actual);
   }
 }
+

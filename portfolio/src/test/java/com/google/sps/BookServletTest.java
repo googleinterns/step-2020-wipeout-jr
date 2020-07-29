@@ -7,8 +7,6 @@ import com.google.sps.data.Book;
 import com.google.sps.data.BookDao;
 import com.google.sps.data.BookDaoDatastore;
 import com.google.sps.servlets.BookServlet;
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -34,9 +32,12 @@ public final class BookServletTest extends Mockito {
   private final HttpServletRequest request = mock(HttpServletRequest.class);
   private final HttpServletResponse response = mock(HttpServletResponse.class);
   private final BookServlet bookServlet = new BookServlet();
-  private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-  private static final Book DEFAULT_1 = newBook("First Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891234");
-  private static final Book DEFAULT_2 = newBook("Second Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891235");
+  private final LocalServiceTestHelper helper =
+      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+  private static final Book DEFAULT_1 =
+      newBook("First Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891234");
+  private static final Book DEFAULT_2 =
+      newBook("Second Example Book", "Information", "Wipeout Jr.", "Testing", "1234567891235");
 
   @Before
   public void setUp() {
@@ -50,8 +51,8 @@ public final class BookServletTest extends Mockito {
     helper.tearDown();
   }
 
-  private static Book newBook(String title, String category, String author, String genre,
-      String isbn) {
+  private static Book newBook(
+      String title, String category, String author, String genre, String isbn) {
     ArrayList<String> authors = new ArrayList<String>();
     authors.add(author);
     ArrayList<String> categories = new ArrayList<String>();
@@ -91,3 +92,4 @@ public final class BookServletTest extends Mockito {
     Assert.assertTrue(stringWriter.toString().contains("Second Example Book"));
   }
 }
+
