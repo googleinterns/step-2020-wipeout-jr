@@ -31,15 +31,17 @@ public class SentimentRecommenderServlet extends HttpServlet {
       "9781524714703", "9781619634497", "9781681195803");
 
   @Override
+  public void init() {
+    bookDao = new BookDaoDatastore();
+    makeHardCodedMappings();
+  }
+
+  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
     response.setContentType("application/json");
-    bookDao = new BookDaoDatastore();
     List<Book> bookList = bookDao.getBookList();
-    makeHardCodedMappings();
-
     Book book = bookDao.getEntity(request.getParameter("isbn"));
-
     String json = gson.toJson(hardCodedMappings.get(book));
     response.getWriter().println(json);
   }
