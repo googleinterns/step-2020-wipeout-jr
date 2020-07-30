@@ -2,7 +2,34 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Better Reads Home</title>
+        <title>Better Reads: Books</title>
+
+        <!-- External Library Dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-mocks.js"></script>
+
+        <!-- AngularJS Components -->
+        <script src="book-list/book-list.module.js"></script>
+        <script src="book-list/book-list.component.js"></script>
+        <script src="book-detail/book-detail.module.js"></script>
+        <script src="book-detail/book-detail.component.js"></script>
+        <script src="user-status/user-status.module.js"></script>
+        <script src="user-status/user-status.component.js"></script>
+        <script src="user-info/user-info.module.js"></script>
+        <script src="user-info/user-info.component.js"></script>
+        <script src="user-auth/user-auth.module.js"></script>
+        <script src="user-auth/user-auth.component.js"></script>
+        <script src="profile-page/profile-page.module.js"></script>
+        <script src="profile-page/profile-page.component.js"></script>
+        <script src="home-page/home-page.module.js"></script>
+        <script src="home-page/home-page.component.js"></script>
+        <script src="about-us/about-us.module.js"></script>
+        <script src="about-us/about-us.component.js"></script>
+
+        <script src="app.js"></script>
+        <script src="app.config.js"></script>
 
         <!-- Bootstrap core CSS -->
         <link href="bootstrap.css" rel="stylesheet" />
@@ -26,26 +53,23 @@
         <!-- Custom styles for this template -->
         <link href="style.css" rel="stylesheet" />
     </head>
-    <body class="text-center">
+    <body class="text-center" ng-app="betterReadsApp">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
             <header class="masthead mb-auto">
                 <div class="inner">
-                    <h3 class="masthead-brand" href="#!/book-list">Better Reads</h3>
+                    <h3 class="masthead-brand">Better Reads</h3>
                     <nav class="nav nav-masthead justify-content-center">
-                        <a class="nav-link active" href="#">Home</a>
-                        <a class="nav-link" href="#">Login</a>
-                        <a class="nav-link" href="books.html">The Books</a>
-                        <a class="nav-link" href="aboutUs.html">About Us</a>
+                        <a class="nav-link" href="#!/home-page">Home</a>
+                        <a class="nav-link" href="#!/profile-page">Profile</a>
+                        <a class="nav-link" href="#!/book-list">The Books</a>
+                        <a class="nav-link" href="#!/about-us">About Us</a>
+                        <a class="nav-link" href="_ah/login?continue=%2F">Login</a> 
                     </nav>
                 </div>
             </header>
 
             <main role="main" class="inner cover">
-                <h1 class="cover-heading">Books. Reimagined.</h1>
-                <p class="lead">Your reviews. Our recommendations.</p>
-                <p class="lead">
-                    <a href="books.html" class="btn btn-lg btn-secondary">See the books</a>
-                </p>
+                <div ng-view></div>
             </main>
 
             <footer class="mastfoot mt-auto">
