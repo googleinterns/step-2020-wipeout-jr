@@ -33,6 +33,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
 
 /**
  * Servlet gets all of a user's reviews by email, and uploads new reviews made by users
@@ -64,8 +65,10 @@ public class UserReviewServlet extends HttpServlet {
     Review userReview = Review.create(userReviewText,isbn,email);
     try {
         reviewDao.uploadNew(userReview);
+    } catch (ServletException ex) {
+        ex.printStackTrace();
     } catch (Exception ex) {
-        System.out.println(ex + ", Review for this book by the user already exists");
+        ex.printStackTrace();
     }
     
     response.sendRedirect("/#!/book-detail/" + isbn);
