@@ -2,8 +2,12 @@
     <link href="style.css" rel="stylesheet" />
     <title>{{bookDetailCtrl.book.title}}</title>
         <img src="{{bookDetailCtrl.book.thumbnail}}" alt="Cover photo">
-        <h2>{{bookDetailCtrl.book.title}}</h2>
-        <p>Author(s): {{bookDetailCtrl.book.authors}}</p>
+        <h2>
+            <a ng-href = " {{bookDetailCtrl.book.titleURL}}" target="_blank">{{bookDetailCtrl.book.title}}</a>
+        </h2>
+        <p>Author(s): 
+            <a ng-href = " {{bookDetailCtrl.book.authorURL}}" target="_blank">{{bookDetailCtrl.book.authors}}</a>
+        </p>
         <p>Categories: {{bookDetailCtrl.book.categories}}</p>
         <p>Language(s): {{bookDetailCtrl.book.language}}
             <a href = "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">
@@ -15,13 +19,21 @@
         </p> 
         <p>Page count: {{bookDetailCtrl.book.pageCount}}</p>
         <p>Published date: {{bookDetailCtrl.book.publishedDate}}</p>
-        <p>Publisher(s): {{bookDetailCtrl.book.publisher}}</p>
+        <p>Publisher(s): 
+            <a ng-href = " {{bookDetailCtrl.book.publisherURL}}" target="_blank">{{bookDetailCtrl.book.publisher}}</a>
+        </p>
         <p>Maturity Rating: {{bookDetailCtrl.book.maturityRating}}</p>
         <p>Description: {{bookDetailCtrl.book.description}}</p>
         <p>Genre(s): {{bookDetailCtrl.book.genre}}</p>
-        <p class="booklst">Recommended Books: </p>
+        <p class="booklst">Recommended Books by Genre: </p>
         <p>
             <li ng-repeat="eachBook in bookDetailCtrl.recommendedBooks">
+                <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
+            </li>
+        </p>
+        <p class="booklst">Recommended Books by Sentiment: </p>
+        <p>
+            <li ng-repeat="eachBook in bookDetailCtrl.sentimentRecs">
                 <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
             </li>
         </p>
