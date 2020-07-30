@@ -40,10 +40,8 @@ public class SentimentRecommenderServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
     response.setContentType("application/json");
-    List<Book> bookList = bookDao.getBookList();
     Book book = bookDao.getEntity(request.getParameter("isbn"));
-    String json = gson.toJson(hardCodedMappings.get(book));
-    response.getWriter().println(json);
+    response.getWriter().println(gson.toJson(hardCodedMappings.get(book)));
   }
 
   private void makeHardCodedMappings() {
