@@ -25,9 +25,15 @@
         <p>Maturity Rating: {{bookDetailCtrl.book.maturityRating}}</p>
         <p>Description: {{bookDetailCtrl.book.description}}</p>
         <p>Genre(s): {{bookDetailCtrl.book.genre}}</p>
-        <p class="booklst">Recommended Books: </p>
+        <p class="booklst">Recommended Books by Genre: </p>
         <p>
             <li ng-repeat="eachBook in bookDetailCtrl.recommendedBooks">
+                <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
+            </li>
+        </p>
+        <p class="booklst">Recommended Books by Sentiment: </p>
+        <p>
+            <li ng-repeat="eachBook in bookDetailCtrl.sentimentRecs">
                 <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
             </li>
         </p>
