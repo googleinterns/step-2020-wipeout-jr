@@ -9,6 +9,9 @@ angular.module('bookDetail').component('bookDetail', {
           vm.book.categories = formatList(vm.book.categories);
           vm.book.authors = formatList(vm.book.authors);
           vm.book.genre = formatList(vm.book.genre);
+          vm.book.titleURL = searchurl(vm.book.title);
+          vm.book.publisherURL = searchurl(vm.book.publisher);
+          vm.book.authorURL = searchurl(vm.book.authors);
         })
     
     $http.get('/bookRecommendationById', {params: {'isbn': vm.bookIsbn}})
@@ -33,6 +36,16 @@ angular.module('bookDetail').component('bookDetail', {
             formattedList += element;
         }
         return formattedList;
+    }
+
+    function searchurl(str){
+        var words = str.split(" ");
+        var query = "https://www.google.com/search?q=";
+        for (i = 0; i < words.length - 1; i++) {
+            query += words[i] + "+"
+        }
+        query += words[words.length - 1];
+        return query;
     }
   },
   controllerAs: 'bookDetailCtrl'
