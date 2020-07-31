@@ -29,11 +29,11 @@ import com.google.sps.data.ReviewDaoDatastore;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
 
 /**
  * Servlet gets all of a user's reviews by email, and uploads new reviews made by users
@@ -53,24 +53,22 @@ public class UserReviewServlet extends HttpServlet {
       response.getWriter().println(gson.toJson(userReviews));
     }
   }
- 
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    
+
     String userReviewText = request.getParameter("reviewText");
     String isbn = request.getParameter("isbn");
     String email = userService.getCurrentUser().getEmail();
-    
-    Review userReview = Review.create(userReviewText,isbn,email);
+
+    Review userReview = Review.create(userReviewText, isbn, email);
     try {
-        reviewDao.uploadNew(userReview);
-    } catch (ServletException ex) {
-        ex.printStackTrace();
+      reviewDao.uploadNew(userReview);
     } catch (Exception ex) {
-        ex.printStackTrace();
+      ex.printStackTrace();
     }
-    
+
     response.sendRedirect("/#!/book-detail/" + isbn);
   }
 }
