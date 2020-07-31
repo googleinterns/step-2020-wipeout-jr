@@ -16,10 +16,13 @@
                 <button>Submit</button>
             </form>
         </div>
-
+    <br></br>
         <div>
             <p class='booklst'>Reviews left by {{profileCtrl.userInfo.nickname}}:</p>
-            {{profileCtrl.userReviews}}
+            <li  ng-repeat="book in profileCtrl.correspondingBooks">
+                   <a ng-href="#!/book-detail/{{book.isbn}}"/>{{book.title}}</a>
+                    : {{book.userReview}}</br></br>
+            </li>
         </div>
     </div>
 

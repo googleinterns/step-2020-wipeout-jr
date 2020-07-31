@@ -5,7 +5,7 @@ angular.module('profilePage').component('profilePage', {
     var vm = this;
     vm.loadingInfo = true;
     vm.loadingReviews = true;
-    
+
 
     $http.get('user-info').then(function(response) {
       vm.userInfo = response.data;
@@ -14,24 +14,28 @@ angular.module('profilePage').component('profilePage', {
 
     $http.get('user-review').then(function(response) {
       vm.userReviews = response.data;
-      vm.loadingReviews = false; 
-
+      vm.loadingReviews = false;
+      vm.correspondingBooks = getBooks();
     });
 
     function getBooks() {
-        correspondingBooks = [];
+      correspondingBooks = [];
 
-        vm.userReviews.forEach(review => 
-            $http.get('book', {params: {'isbn': review.isbn}})
-            .then(function(response) {
-                console.log(response.data);
-                correspondingBooks.push(response.data);
-            })
-        )
-        return correspondingBooks;
+      vm.userReviews.forEach(
+          review =>
+              $http
+                  .get('book', {
+                    params: {'isbn': parseInt(review.isbn.slice(0, 13), 10)}
+                  })
+                  .then(function(response) {
+                    var newBook = new Object();
+                    newBook.title = response.data.title;
+                    newBook.isbn = response.data.isbn;
+                    newBook.userReview = review.fullText;
+                    correspondingBooks.push(newBook);
+                  }))
+      return correspondingBooks;
     };
-
-    vm.correspondingBooks = getBooks();
 
     vm.isLoggedIn = function() {
       if (!(vm.userInfo === 'Logged Out')) {
