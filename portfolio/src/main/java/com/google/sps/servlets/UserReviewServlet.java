@@ -55,7 +55,7 @@ public class UserReviewServlet extends HttpServlet {
   }
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     UserService userService = UserServiceFactory.getUserService();
 
     String userReviewText = request.getParameter("reviewText");
@@ -66,7 +66,7 @@ public class UserReviewServlet extends HttpServlet {
     try {
       reviewDao.uploadNew(userReview);
     } catch (Exception ex) {
-      ex.printStackTrace();
+      throw new ServletException("Failed to save review because a review already exists",ex);
     }
 
     response.sendRedirect("/#!/book-detail/" + isbn);
