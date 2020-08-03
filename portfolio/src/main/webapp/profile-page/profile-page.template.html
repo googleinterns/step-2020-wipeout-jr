@@ -1,9 +1,11 @@
+<div>
+<link href="style.css" rel="stylesheet" />
 <p ng-show='profileCtrl.loadingInfo'>Loading...</p> 
 
 <div ng-show='!profileCtrl.loadingInfo'>
 
     <div ng-show='profileCtrl.isLoggedIn() && profileCtrl.userInfo.nickname'>
-        <p>Hello {{profileCtrl.userInfo.nickname}}!</p>
+        <p class='booklst'>Hello {{profileCtrl.userInfo.nickname}}!</p>
         <p>Your Email: {{profileCtrl.userInfo.email}}</p>
         <p>Your Nickname: {{profileCtrl.userInfo.nickname}}</p>
 
@@ -14,10 +16,13 @@
                 <button>Submit</button>
             </form>
         </div>
-
+    <br></br>
         <div>
-            <p>Reviews left by {{profileCtrl.userInfo.nickname}}:</p>
-            {{profileCtrl.userReviews}}
+            <p class='booklst'>Reviews left by {{profileCtrl.userInfo.nickname}}:</p>
+            <li  ng-repeat="book in profileCtrl.correspondingBooks">
+                   <a ng-href="#!/book-detail/{{book.isbn}}"/>{{book.title}}</a>
+                    : {{book.userReview}}</br></br>
+            </li>
         </div>
     </div>
 
@@ -40,4 +45,4 @@
     </div>
 
 </div>
-
+</div>

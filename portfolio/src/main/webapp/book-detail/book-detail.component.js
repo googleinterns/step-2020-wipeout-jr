@@ -13,7 +13,7 @@ angular.module('bookDetail').component('bookDetail', {
           vm.book.publisherURL = searchurl(vm.book.publisher);
           vm.book.authorURL = searchurl(vm.book.authors);
         })
-    
+
     $http.get('/bookRecommendationById', {params: {'isbn': vm.bookIsbn}})
         .then(function(response) {
           vm.recommendedBooks = response.data;
@@ -29,18 +29,18 @@ angular.module('bookDetail').component('bookDetail', {
           vm.reviews = response.data;
         })
 
-    function formatList(list){
-        var formattedList = "";
-        var i;
-        for(i =0; i < list.length; i++){
-            if(i == list.length -1){
-                var element = list[i];
-            }else{
-                var element = list[i] + ", ";
-            }
-            formattedList += element;
+    function formatList(list) {
+      var formattedList = '';
+      var i;
+      for (i = 0; i < list.length; i++) {
+        if (i == list.length - 1) {
+          var element = list[i];
+        } else {
+          var element = list[i] + ', ';
         }
-        return formattedList;
+        formattedList += element;
+      }
+      return formattedList;
     }
 
     function searchurl(str){
