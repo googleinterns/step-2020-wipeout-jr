@@ -1,3 +1,5 @@
+<link href="bootstrap.css" rel="stylesheet" />
+<link href="style.css" rel="stylesheet" />
 <div>
     <h1> The Books </h1>
     <p>Click on a book below to view more info about it!</p>
@@ -6,9 +8,15 @@
 <br/><br/>
 
 <ul >
-    <li ng-repeat="book in bookListCtrl.bookList">
-        <!-- $index tells the page to route to the id of the book -->
-        <a ng-href="#!/book-detail/{{book.isbn}}">{{book.title}}</a> 
-        <p>{{book.genre}}</p>
-    </li>
+    <div class="card-columns">
+    <div ng-repeat="book in bookListCtrl.bookList">
+        <div class="card text-white bg-info mb-3">
+            <img class="card-img-top" src="{{book.thumbnail}}" alt="Card image cap" >
+            <div class="card-body">
+                <a ng-href="#!/book-detail/{{book.isbn}}">{{book.title}}</a> 
+                <p class="card-text"><small class="text-muted">{{book.genre}}</small></p>
+            </div>
+        </div>     
+    </div>
+    </div>  
 </ul>
