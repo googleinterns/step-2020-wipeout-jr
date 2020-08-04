@@ -9,6 +9,6 @@
     <li ng-repeat="book in bookListCtrl.bookList">
         <!-- $index tells the page to route to the id of the book -->
         <a ng-href="#!/book-detail/{{book.isbn}}">{{book.title}}</a> 
-        <p>{{book.genre}}</p>
+        <p>{{book.authors}}</p>
     </li>
 </ul>
