@@ -1,1 +1,2 @@
-<a ng-href="auth">{{userStatusCtrl.userStatusAction}}</a>
+<a class="nav-link navbarText nav nav-masthead justify-content-center" ng-show="userStatusCtrl.isLoggedIn" href="_ah/logout?continue=%2F">Logout</a>
+<a class="nav-link navbarText nav nav-masthead justify-content-center" ng-show="!userStatusCtrl.isLoggedIn" href="_ah/login?continue=%2F">Login</a>
