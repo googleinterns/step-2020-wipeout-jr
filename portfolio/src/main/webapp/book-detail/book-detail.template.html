@@ -1,58 +1,67 @@
 <div>
+    <link href="bootstrap.css" rel="stylesheet" />
     <link href="style.css" rel="stylesheet" />
     <title>{{bookDetailCtrl.book.title}}</title>
         <img src="{{bookDetailCtrl.book.thumbnail}}" alt="Cover photo">
+        <div class = "descriptionText">
         <h2>
-            <a ng-href = " {{bookDetailCtrl.book.titleURL}}" target="_blank">{{bookDetailCtrl.book.title}}</a>
+            <a ng-href = " {{bookDetailCtrl.book.titleURL}}" target="_blank"  class = "titleText"><b>{{bookDetailCtrl.book.title}}</b></a>
         </h2>
+        
         <p>Author(s): 
-            <a ng-href = " {{bookDetailCtrl.book.authorURL}}" target="_blank">{{bookDetailCtrl.book.authors}}</a>
+            <a ng-href = " {{bookDetailCtrl.book.authorURL}}" target="_blank" style="color:#28536B">{{bookDetailCtrl.book.authors}}</a>
         </p>
-        <p>Categories: {{bookDetailCtrl.book.categories}}</p>
+        <p>Categories: <span style="color:#28536B">{{bookDetailCtrl.book.categories}}</span></p>
         <p>Language(s): {{bookDetailCtrl.book.language}}
-            <a href = "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">
+            <a href = "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank" style="color:#28536B">
                 <i>(View language codes here)</i> 
             </a>
         </p>
         <p>Information:  
-            <i><a ng-href = " {{bookDetailCtrl.book.infoLink}}" target="_blank">{{bookDetailCtrl.book.infoLink}}</a></i>
+            <i><a ng-href = " {{bookDetailCtrl.book.infoLink}}" target="_blank" style="color:#28536B">Click here to visit the Google Books page</a></i>
         </p> 
-        <p>Page count: {{bookDetailCtrl.book.pageCount}}</p>
-        <p>Published date: {{bookDetailCtrl.book.publishedDate}}</p>
+        <p>Page count: <span style="color:#28536B">{{bookDetailCtrl.book.pageCount}}</span></p>
+        <p>Published date: <span style="color:#28536B">{{bookDetailCtrl.book.publishedDate}}</span></p>
         <p>Publisher(s): 
-            <a ng-href = " {{bookDetailCtrl.book.publisherURL}}" target="_blank">{{bookDetailCtrl.book.publisher}}</a>
+            <a ng-href = " {{bookDetailCtrl.book.publisherURL}}" target="_blank" style="color:#28536B">{{bookDetailCtrl.book.publisher}}</a>
         </p>
-        <p>Maturity Rating: {{bookDetailCtrl.book.maturityRating}}</p>
-        <p>Description: {{bookDetailCtrl.book.description}}</p>
-        <p>Genre(s): {{bookDetailCtrl.book.genre}}</p>
-        <p class="booklst">Recommended Books by Genre: </p>
+        <p>Maturity Rating: <span style="color:#28536B">{{bookDetailCtrl.book.maturityRating}}</span></p>
+        <p>Description: <span style="color:#28536B">{{bookDetailCtrl.book.description}}</span></p>
+        <p>Genre(s): <span style="color:#28536B">{{bookDetailCtrl.book.genre}}</span></p>
+        <p><b> Books by Genre: </b></p>
         <p>
             <li ng-repeat="eachBook in bookDetailCtrl.recommendedBooks">
-                <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
+                <a ng-href="#!/book-detail/{{eachBook.isbn}}" style="color:#C2948A">{{eachBook.title}}</a> 
+            </li>
+        </p>
+        <p><b>Recommended Books by Sentiment: </b></p>
+        <p>
+            <li ng-repeat="eachBook in bookDetailCtrl.sentimentRecs">
+                <a ng-href="#!/book-detail/{{eachBook.isbn}}" style="color:#C2948A">{{eachBook.title}}</a> 
             </li>
         </p>
 
-        <p class="booklst">Reviews: </p> 
+        <p><b>Reviews: </b></p> 
         <div>
             <p>Leave a review here:</p>
             <form method="post" action="/user-review">
                 <input name='reviewText' type='text'/>
                 <input name='isbn' type='hidden' value={{bookDetailCtrl.bookIsbn}}/>
-                <button>Submit</button>
+                <button>Submit</button> <br><br>
             </form>
         </div>
+        
+     <div class="card-columns-2">
+        <div ng-repeat="review in bookDetailCtrl.reviews">
+            <div class="card cardColors mb-3">
+                <div class="card-body">
+                    <p> {{review.fullText}} </p>
+                </div>
+            </div>     
+        </div>
+    </div>  
+    </div>
 
-        <p class="booklst">Recommended Books by Sentiment: </p>
-        <p>
-            <li ng-repeat="eachBook in bookDetailCtrl.sentimentRecs">
-                <a ng-href="#!/book-detail/{{eachBook.isbn}}">{{eachBook.title}}</a> 
-            </li>
-        </p>
-
-        <p class="booklst">Reviews: </p>
-        <p>
-            <li ng-repeat="review in bookDetailCtrl.reviews">{{review.fullText}}</br></br></li>
-        </p>
 </div>
  
  
