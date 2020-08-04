@@ -1,22 +1,22 @@
 <link href="bootstrap.css" rel="stylesheet" />
 <link href="style.css" rel="stylesheet" />
+
+<br></br>
 <div>
-    <h1> The Books </h1>
-    <p>Click on a book below to view more info about it!</p>
+    <h1 class = "titleText"> The Books </h1>
+    <p class = "descriptionText">Click on a book below to view more info about it!</p>
 </div>
 
 <br/><br/>
 
-<ul >
-    <div class="card-columns">
+<div class="card-columns">
     <div ng-repeat="book in bookListCtrl.bookList">
-        <div class="card text-white bg-info mb-3">
+        <div class="card cardColors mb-3">
             <img class="card-img-top" src="{{book.thumbnail}}" alt="Card image cap" >
             <div class="card-body">
                 <a ng-href="#!/book-detail/{{book.isbn}}">{{book.title}}</a> 
-                <p class="card-text"><small class="text-muted">{{book.genre}}</small></p>
+                <p ><small>{{book.authors}}</small></p>
             </div>
         </div>     
     </div>
-    </div>  
-</ul>
+</div>  

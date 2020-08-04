@@ -6,7 +6,7 @@ angular.module('bookList').component('bookList', {
     $http.get('books').then(function(response) {
       vm.bookList = response.data;
       for(i=0;i<vm.bookList.length;i++){
-          vm.bookList[i].genre = formatList(vm.bookList[i].genre);
+          vm.bookList[i].authors = formatList(vm.bookList[i].authors);
       }
     })
 
@@ -23,7 +23,6 @@ angular.module('bookList').component('bookList', {
       }
       return formattedList;
     }
-
   },
   controllerAs: 'bookListCtrl'
 });

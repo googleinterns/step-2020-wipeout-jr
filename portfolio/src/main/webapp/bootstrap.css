@@ -6757,7 +6757,7 @@ button.bg-success:focus {
 }
 
 .bg-info {
-  background-color: #17a2b8 !important;
+  background-color: #BBB193 !important;
 }
 
 a.bg-info:hover, a.bg-info:focus,
@@ -10274,5 +10274,13 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.text-isabelline {
+    color: #F6F0ED;
+}
+
+.background-khaki-web {
+    background-color: #BBB193;
 }
 /*# sourceMappingURL=bootstrap.css.map */
