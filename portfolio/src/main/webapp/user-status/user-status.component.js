@@ -2,14 +2,17 @@ angular.module('userStatus').component('userStatus', {
   templateUrl: 'user-status/user-status.template.html',
   controller: function UserController($http) {
     var vm = this;
-    $http.get('user-status').then(function(response) {
+    $http.get('user-info').then(function(response) {
       vm.userStatus = response.data;
-      if (vm.userStatus == 'Logged In') {
-        vm.userStatusAction = 'Log Out';
+      vm.isLoggedIn;
+      
+      if (vm.userStatus == 'Logged Out') {
+        vm.isLoggedIn = false;
       } else {
-        vm.userStatusAction = 'Log In';
+        vm.isLoggedIn = true;
       };
-    })
+    });
+
   },
   controllerAs: 'userStatusCtrl'
 });
