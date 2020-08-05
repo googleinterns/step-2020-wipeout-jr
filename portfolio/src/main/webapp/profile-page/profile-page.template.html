@@ -5,11 +5,11 @@
 <div ng-show='!profileCtrl.loadingInfo'>
 
     <div ng-show='profileCtrl.isLoggedIn() && profileCtrl.userInfo.nickname'>
-        <p class='booklst'>Hello {{profileCtrl.userInfo.nickname}}!</p>
-        <p>Your Email: {{profileCtrl.userInfo.email}}</p>
-        <p>Your Nickname: {{profileCtrl.userInfo.nickname}}</p>
+        <p class = "descriptionText">Hello {{profileCtrl.userInfo.nickname}}!</p>
+        <p style="color:#28536B">Your Email: {{profileCtrl.userInfo.email}}</p>
+        <p style="color:#28536B">Your Nickname: {{profileCtrl.userInfo.nickname}}</p>
 
-        <div>
+        <div class = "descriptionText" >
             <p>Update your nickname here:</p>
             <form method="post" action="/user-info">
                 <input name='nickname' type='text'/>
@@ -18,10 +18,15 @@
         </div>
     <br></br>
         <div>
-            <p class='booklst'>Reviews left by {{profileCtrl.userInfo.nickname}}:</p>
+            <p class = "descriptionText">Reviews left by {{profileCtrl.userInfo.nickname}}:</p>
             <li  ng-repeat="book in profileCtrl.correspondingBooks">
-                   <a ng-href="#!/book-detail/{{book.isbn}}"/>{{book.title}}</a>
-                    : {{book.userReview}}</br></br>
+                   <a style="color:#28536B" ng-href="#!/book-detail/{{book.isbn}}"/>{{book.title}}</a>
+                    </br></br>
+                    <div class="card cardColors mb-3">
+                        <div class="card-body">
+                            <p> {{book.userReview}}</p>
+                        </div>
+                    </div>    
             </li>
         </div>
     </div>
